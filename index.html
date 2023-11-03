@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-12">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="style.css">
+    
+    <title>CSS clicker</title>
+</head>
+<body>
+    <div>
+        <p class="title">CSS clicker</p>
+    </div>
+    <div>
+        <p class="test" id="box">test</p>
+    </div>
+    <div class="testKnapp" onclick="clicker()">trykk</div>
+    <div><p id="number">0$</p></div>
+    <div class="testKnapp" onclick="enableDisableCss('box')">på/av</div>
+
+    <div class="shop">
+        <div><p>Shop</p></div>
+        <div onclick="kjøpeCss('padding')"><p>padding 10$</p></div>
+        <div onclick="kjøpeCss('colors')"><p>Kule farger 10$</p></div>
+
+    </div>
+
+    <div class="toggle">
+        <div><p>Toggle oppgraderinger</p></div>
+        <div class="padding" onclick="enableDisableCss()"><p>padding</p></div>
+        <div class="colors" onclick="enableDisableCss()"><p>Kule farger</p></div>
+    </div>
+
+</body>
+<script src="script.js"></script>
+</html>

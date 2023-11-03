@@ -1,0 +1,15 @@
+.title {
+    font-size: 2rem;
+}
+
+.on {
+    width: 40px;
+    background-color: red;
+}
+
+.testKnapp {
+    width: 40px;
+    padding: 10px;
+    background-color: blue;
+    margin: 10px;
+}
