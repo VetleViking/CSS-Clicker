@@ -11,7 +11,8 @@ function clicker() {
 }
 
 function kjøpeCss(clas) {
-    var test = document.getElementById("box");
+    var test = document.getElementsByClassName(clas);
+    console.log(test);
 
 }
 
