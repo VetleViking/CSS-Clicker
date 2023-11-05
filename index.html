@@ -6,23 +6,30 @@
     <link rel="stylesheet" href="reset.css">
     <link rel="stylesheet" href="style.css">
     
-    <title>CSS clicker</title>
+    <title>CSS typer</title>
 </head>
 <body>
     <div>
-        <p class="title padding">CSS clicker</p>
+        <p class="title padding">CSS typer</p>
     </div>
     <div>
-        <p class="test padding" id="box">test</p>
+        <p class="test padding">test</p>
     </div>
     <div class="testKnapp" onclick="clicker()">trykk</div>
     <div><p id="number">0$</p></div>
-    <div class="testKnapp" onclick="enableDisableCss('box')">på/av</div>
+    <div class="testKnapp" onclick="enableDisableCss('test')">på/av</div>
+
+    <div>
+        <p id="cssText">Baller</p>
+        <label for="cssBox">Skriv CSSen som står over her:</label>
+        <input type="text" id="cssBox" class="cssBox">
+        <p id="rightOrNot"></p>
+    </div>
 
     <div class="shop">
         <div><p>Shop</p></div>
-        <div onclick="kjøpeCss('padding')"><p>padding 10$</p></div>
-        <div onclick="kjøpeCss('colors')"><p>Kule farger 10$</p></div>
+        <div onclick="kjøpeCss('padding', 10)"><p>padding 10$</p></div>
+        <div onclick="kjøpeCss('colors', 10)"><p>Kule farger 10$</p></div>
 
     </div>
 
@@ -33,5 +40,5 @@
     </div>
 
 </body>
-<script src="script.js"></script>
+<script type="text/javascript" src="script.js"></script>
 </html>

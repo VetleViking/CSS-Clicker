@@ -13,3 +13,11 @@
     background-color: blue;
     margin: 10px;
 }
+
+.padding.test.on{
+    padding: 20px; 
+}
+
+.cssBox {
+    width: 200;
+}
