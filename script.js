@@ -1,81 +1,87 @@
-var numHtml = document.getElementById("number")
-var num = 0;
-var cssBox = document.getElementById('cssBox');
-var cssText = document.getElementById("cssText");
-var rightOrNot = document.getElementById('rightOrNot');
+let numHtml = document.getElementById("number"); 
+let num = 0; 
+let cssBox = document.getElementById('cssBox');
+let cssText = document.getElementById("cssText"); 
+let rightOrNot = document.getElementById('rightOrNot'); 
+let toggleText = document.getElementById('toggleText');
+let kasDum = [];
 
-function clicker() {
-    num += 1;
-    numHtml.innerHTML = num + "$";
-}
 
+// Function to buy CSS
 function kjøpeCss(clas, price) {
-    var test = document.getElementsByClassName(clas);
-    console.log(num, price);
-    if (num >= price) {
-        num -= 10;    
+    let test = document.getElementsByClassName(clas); 
+    let test2 = document.getElementById(clas + "Bought");
+    if (num >= price && !kasDum.includes(clas)) {
+        num -= price;
+        kasDum += clas;
         for (let i = 0; i < test.length; i++) {
-            if(test[i].classList.contains("bought")) {} else {
-                test[i].classList.add("on", "bought");
+            if (test[i].classList.contains("bought")) {} 
+            else {
+                test[i].classList.add("on", "bought"); 
+                
             }
         }
-        numHtml.innerHTML = num + "$";
+        test2.style.display = "initial";
+        toggleText.style.display = "initial";
+        numHtml.innerHTML = num + " linjer"; 
     }
 }
 
-function enableDisableCss(clas) {
-    var test = document.getElementsByClassName(clas);
+
+// Function to enable/disable CSS on specified class
+function toggleCss(clas) {
+    let test = document.getElementsByClassName(clas); 
     for (let i = 0; i < test.length; i++) {
-        if(test[i].classList.contains("on", "bought")) {
-            test[i].classList.remove("on");
-        } else if(test[i].classList.contains("bought")) {
-            test[i].classList.add("on");
+        if (test[i].classList.contains("on", "bought")) {
+            test[i].classList.remove("on"); 
+        } else if (test[i].classList.contains("bought")) {
+            test[i].classList.add("on"); 
         }
     }
 }
 
+// Function that checksd if submitted CSS is right
 function submitCss() {
-    if (cssBox.value == cssText.innerHTML) {
+    if (cssBox.value == cssText.innerHTML) { 
         num += 1;
-        numHtml.innerHTML = num + "$";
-        rightOrNot.innerHTML = "Riktig! :D";
-        
+        numHtml.innerHTML = num + " linjer"; 
+        rightOrNot.innerHTML = "Riktig! :D"; 
         newCssTextBox();
     } else {
-        rightOrNot.innerHTML = "Feil. :(";
+        rightOrNot.innerHTML = "Feil. :("; 
     }
-    
-    cssBox.value = "";
+    cssBox.value = ""; // Clear the input box
 }
 
+// Function to generate new CSS text
 function newCssTextBox() {
-    var chooseNum = Math.floor(Math.random() * numberPropertyTypes.length);
-    var newCssText =  numberPropertyTypes[chooseNum];
-    newCssText = newCssText[Math.floor(Math.random() * newCssText.length)];
+    let chooseNum = Math.floor(Math.random() * numberPropertyTypes.length);
+    let newCssText = numberPropertyTypes[chooseNum]; 
+    newCssText = newCssText[Math.floor(Math.random() * newCssText.length)]; 
 
-    if(chooseNum == 0) {
-        newCssText = newCssText + ": " + wordTypes[Math.floor(Math.random() * wordTypes.length)] + ";";       
+    // Generate CSS text for the different types
+    if (chooseNum == 0) {
+        newCssText = newCssText + ": " + wordTypes[Math.floor(Math.random() * wordTypes.length)] + ";"; 
     } else if (chooseNum == 1) {
-        var chNum1 = Math.floor(Math.random() * 100) + 1;
-        newCssText = newCssText + ": " + chNum1 + numberTypes[Math.floor(Math.random() * numberTypes.length)] + ";";       
+        let chNum1 = Math.floor(Math.random() * 100) + 1;
+        newCssText = newCssText + ": " + chNum1 + numberTypes[Math.floor(Math.random() * numberTypes.length)] + ";"; 
     } else if (chooseNum == 2) {
-        newCssText = newCssText + ": " + Math.floor(Math.random() * 10) / 10 + ";";       
-    } 
-    cssText.innerHTML = newCssText
+        newCssText = newCssText + ": " + Math.floor(Math.random() * 10) / 10 + ";"; 
+    }
+    cssText.innerHTML = newCssText; // Display the generated CSS text
 }
 
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
+// Event listener for Enter key press in the CSS input box
 document.addEventListener("keypress", function(event) {
-    var isFocused = (document.activeElement === cssBox);
+    let isFocused = (document.activeElement === cssBox);
     if (event.key == "Enter" && isFocused) {
-      submitCss();
+        submitCss(); 
     }
 });
 
-var numberTypes = [
+// Arrays with different CSS combinations
+
+const numberTypes = [
     'px',
     'vh',
     'vw',
@@ -83,7 +89,7 @@ var numberTypes = [
     '%'
 ]
 
-var wordTypes = [
+const wordTypes = [
     'center',
     'end',
     'top',
@@ -115,8 +121,8 @@ const keywordValueProperties = [
     'text-align-last',
     'text-justify'
 ];
-  
-var lengthValueProperties = [
+
+const lengthValueProperties = [
     'border-bottom-width',
     'border-left-width',
     'border-right-width',
@@ -143,12 +149,11 @@ var lengthValueProperties = [
     'text-indent',
     'width'
 ];
-  
-var numberPropertyTypes = [
+
+const numberPropertyTypes = [
     keywordValueProperties,
-    lengthValueProperties, 
+    lengthValueProperties,
     numericValueProperties
 ]
-
 
 newCssTextBox();

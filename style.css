@@ -1,23 +1,62 @@
-.title {
-    font-size: 2rem;
-}
 
-.on {
-    width: 40px;
-    background-color: red;
-}
-
-.testKnapp {
-    width: 40px;
-    padding: 10px;
-    background-color: blue;
-    margin: 10px;
-}
-
-.padding.test.on{
+.padding.on{
     padding: 20px; 
 }
 
 .cssBox {
     width: 200;
+}
+
+.toggleItem {
+    display: none;
+}
+
+.toggleText {
+    display: none;
+}
+
+/* .shop {
+    margin-top: 10px;
+}
+
+.toggle {
+    margin-top: 10px;
+} */
+
+.shopText.font-size.on {
+    font-size: 1.5rem;
+}
+
+.toggleText.font-size.on {
+    font-size: 1.5rem;
+}
+
+.title.font-size.on {
+    font-size: 2rem;
+}
+
+.typerText.font-size.on {
+    font-size: 1.5rem;
+}
+
+
+.shopItem {
+    width: fit-content;
+    position:relative;
+    color:#000;
+    text-decoration:none
+}
+
+.shopItem span {
+    display: none 
+}
+
+.shopItem:hover span { 
+    display: block;
+    position: absolute;
+    top: 1.5rem;
+    width: 15rem;
+    z-index: 1;
+    background-color: #fff; 
+    border:1px solid rgb(0, 0, 0);
 }
