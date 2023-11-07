@@ -9,35 +9,39 @@
     <title>CSS typer</title>
 </head>
 <body>
-    <div>
-        <p class="title font-size">CSS typer</p>
-    </div>
+    <div class="grid">
+        <div class="header color">
+            <p class="title font-size">CSS typer</p>
+        </div>
 
-    <div class="cssTyper">
-        <p class="typerText font-size">Typer</p>
-        <p id="cssText"></p>
-        <input type="text" placeholder="Skriv CSSen over her" id="cssBox" class="cssBox">
-        <p id="rightOrNot"></p>
-    </div>
+        <div class="cssTyper color">
+            <p class="typerText font-size">Typer</p>
+            <div class="cssTextBox">
+                <div class="cssTextBox2">
+                    <p id="cssText"></p>
+                    <input type="text" placeholder="Skriv CSSen over her" id="cssBox" class="cssBox">
+                    <p id="rightOrNot"></p>
+                </div>
+                <div class="numberBox"><p id="number">0 linjer</p></div>
+            </div>
+        </div>
 
-    <div><p id="number">0 linjer</p></div>
-
-    <div class="shop">
-        <div><p class="shopText font-size">Shop</p></div>
-        <div class="shopItem" onclick="kjøpeCss('padding', 10)"><p>Grid-system: 10 linjer<span class="tooltip">Adder font-size til tit
-            -+/
-            er og sånt</span></p></div>
-            *        <div class="shopItem" onclick="kjøpeCss('colors', 10)"><p>Kule farger: 10 linjer<span class="tooltip">Adder font-size til titler og sånt</span></p></div>
-        <div class="shopItem" onclick="kjøpeCss('font-size', 1)"><p>Font-size: 1 linje<span class="tooltip">Legger til font-size til titler og sånt</span></p></div>
-
-    </div>
-
-    <div class="toggle">
-        <div class="toggleText font-size" id="toggleText"><p>Toggle oppgraderinger</p></div>
-        <div class="font-sizeBought toggleItem" id="font-sizeBought" onclick="toggleCss('font-size')"><p>Font-size</p></div>
-        <div class="paddingBought toggleItem" id="paddingBought" onclick="toggleCss('padding')"><p>padding</p></div>
-        <div class="colorsBought toggleItem" id="colorsBought" onclick="toggleCss('colors')"><p>Kule farger</p></div>
         
+
+        <div class="shop color">
+            <div><p class="shopText font-size">Shop</p></div>
+            <div class="shopItem" onclick="kjøpeCss('grid', 0)"><p>Grid-system: 10 linjer<span class="tooltip">Adder et grid-system.</span></p></div>
+            <div class="shopItem" onclick="kjøpeCss('color', 0)"><p>Kule farger: 10 linjer<span class="tooltip">Adder kule farger til knapper og bokser og sånne greier.</span></p></div>
+            <div class="shopItem" onclick="kjøpeCss('font-size', 0)"><p>Font-size: 1 linje<span class="tooltip">Legger til font-size til titler og sånt.</span></p></div>
+
+        </div>
+
+        <div class="toggle color">
+            <div class="toggleText font-size" id="toggleText"><p>Toggle oppgraderinger</p></div>
+            <div class="font-sizeBought toggleItem" id="font-sizeBought" onclick="toggleCss('font-size')"><p>Font-size</p></div>
+            <div class="paddingBought toggleItem" id="gridBought" onclick="toggleCss('grid')"><p>Grid-system</p></div>
+            <div class="colorsBought toggleItem" id="colorBought" onclick="toggleCss('colors')"><p>Kule farger</p></div>
+        </div>
     </div>
 </body>
 <script type="text/javascript" src="script.js"></script>

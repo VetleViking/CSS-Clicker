@@ -80,7 +80,6 @@ document.addEventListener("keypress", function(event) {
 });
 
 // Arrays with different CSS combinations
-
 const numberTypes = [
     'px',
     'vh',

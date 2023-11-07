@@ -32,13 +32,95 @@
 }
 
 .title.font-size.on {
-    font-size: 2rem;
+    font-size: 2.5rem;
 }
 
 .typerText.font-size.on {
     font-size: 1.5rem;
 }
 
+.header.color {
+    background-color: #b9b9b9;
+}
+
+.shop.color {
+    background-color: #b9b9b9;
+}
+
+.cssTyper.color {
+    background-color: #b9b9b9;
+}
+
+.toggle.color {
+    background-color: #b9b9b9;
+}
+
+.grid.on{
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 5rem 5rem 10rem;
+    display: grid;
+    grid-template-areas: 
+    'header header header'
+    'shop cssTyper toggle'
+    'shop cssTyper toggle';
+    column-gap: 40px;
+    row-gap: 20px;
+    justify-items: center;
+    align-items: center;
+}
+
+.grid.on .header {
+    height: 100%;
+    width: 100%;
+    grid-area: header;
+    align-self: end;
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid #000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.grid.on .cssTyper {
+    width: 100%;
+    height: 100%;
+    grid-area: cssTyper;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.grid.on .cssTyper .typerText {
+    width: 100%;
+    height: 3rem;
+    border-bottom: 1px solid #000;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.grid.on .cssTyper .cssTextBox {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.grid.on .shop {
+    width: 100%;
+    height: 100%;
+    grid-area: shop;
+}
+
+.grid.on .toggle {
+    width: 100%;
+    height: 100%;
+    grid-area: toggle;
+}
 
 .shopItem {
     width: fit-content;
