@@ -4,7 +4,7 @@
 }
 
 .cssBox {
-    width: 200;
+    width: 200px;
 }
 
 .toggleItem {
@@ -39,19 +39,19 @@
     font-size: 1.5rem;
 }
 
-.header.color {
+.header.color.on {
     background-color: #b9b9b9;
 }
 
-.shop.color {
+.shop.color.on {
     background-color: #b9b9b9;
 }
 
-.cssTyper.color {
+.cssTyper.color.on {
     background-color: #b9b9b9;
 }
 
-.toggle.color {
+.toggle.color.on {
     background-color: #b9b9b9;
 }
 
@@ -83,13 +83,14 @@
 }
 
 .grid.on .cssTyper {
-    width: 100%;
+    width: calc(100% - 2px);
     height: 100%;
     grid-area: cssTyper;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
+    border: 1px solid #000;
 }
 
 .grid.on .cssTyper .typerText {
@@ -110,16 +111,42 @@
     align-items: center;
 }
 
+.grid.on .cssTyper .cssTextBox .cssBox {
+    margin: 5px 0px;
+}
+
 .grid.on .shop {
-    width: 100%;
+    width: calc(100% - 2px);
     height: 100%;
     grid-area: shop;
+    border: 1px solid #000;
+}
+
+.grid.on .shop .shopText {
+    width: 100%;
+    height: 3rem;
+    border-bottom: 1px solid #000;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .grid.on .toggle {
-    width: 100%;
+    width: calc(100% - 2px);
     height: 100%;
     grid-area: toggle;
+    border: 1px solid #000;
+}
+
+.grid.on .toggle .toggleTextP {
+    width: 100%;
+    height: 3rem;
+    border-bottom: 1px solid #000;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .shopItem {

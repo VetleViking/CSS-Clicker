@@ -11,6 +11,7 @@ let kasDum = [];
 function kjøpeCss(clas, price) {
     let test = document.getElementsByClassName(clas); 
     let test2 = document.getElementById(clas + "Bought");
+    let test3 = document.getElementById(clas + "Shop");
     if (num >= price && !kasDum.includes(clas)) {
         num -= price;
         kasDum += clas;
@@ -21,6 +22,7 @@ function kjøpeCss(clas, price) {
                 
             }
         }
+        test3.style.display = "none";
         test2.style.display = "initial";
         toggleText.style.display = "initial";
         numHtml.innerHTML = num + " linjer"; 
