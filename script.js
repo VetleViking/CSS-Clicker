@@ -14,20 +14,16 @@ let kasDum = [];
 
 // Function to sell the website
 function selgeSide() {
-    console.log(num);
     if (num >= 0) {
         console.log("selgeSide");
         num = 0;
         numHtml.innerHTML = num + " linjer";
         
         for (let i = 0; i < kasDum.length; i++) {
-            console.log(kasDum);
-            console.log(kasDum[i]);
             let test = document.getElementsByClassName(kasDum[i]); 
             let test2 = document.getElementById(kasDum[i] + "Shop");
             test2.style.display = "initial";
 
-            console.log(test);
             for (let i = 0; i < test.length; i++) {
                 if (test[i].classList.contains("bought")) {
                     test[i].classList.remove("on", "bought"); 
