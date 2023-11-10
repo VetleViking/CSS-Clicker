@@ -6,6 +6,43 @@ let rightOrNot = document.getElementById('rightOrNot');
 let toggleText = document.getElementById('toggleText');
 let kasDum = [];
 
+// Ideer
+// Dollar for å selge side (minst 50 linjer)
+// Kjøpe oppgraderinger for å få mer linjer
+// Kjøpe ting som stack overflow, w3schools, chatgpt osv for å få linjer automatisk
+// Reinkarnasjon senere
+
+// Function to sell the website
+function selgeSide() {
+    console.log(num);
+    if (num >= 0) {
+        console.log("selgeSide");
+        num = 0;
+        numHtml.innerHTML = num + " linjer";
+        
+        for (let i = 0; i < kasDum.length; i++) {
+            console.log(kasDum);
+            console.log(kasDum[i]);
+            let test = document.getElementsByClassName(kasDum[i]); 
+            let test2 = document.getElementById(kasDum[i] + "Shop");
+            test2.style.display = "initial";
+
+            console.log(test);
+            for (let i = 0; i < test.length; i++) {
+                if (test[i].classList.contains("bought")) {
+                    test[i].classList.remove("on", "bought"); 
+                }
+            }
+        }
+        test3 = document.getElementsByClassName("toggleItem");
+        for (let i = 0; i < test3.length; i++) {     
+            test3[i].style.display = "none";  
+        }
+        toggleText.style.display = "none";
+        rightOrNot.innerHTML = "";
+        kasDum = [];
+    }
+}
 
 // Function to buy CSS
 function kjøpeCss(clas, price) {
@@ -14,12 +51,11 @@ function kjøpeCss(clas, price) {
     let test3 = document.getElementById(clas + "Shop");
     if (num >= price && !kasDum.includes(clas)) {
         num -= price;
-        kasDum += clas;
+        kasDum.push(clas);
         for (let i = 0; i < test.length; i++) {
             if (test[i].classList.contains("bought")) {} 
             else {
                 test[i].classList.add("on", "bought"); 
-                
             }
         }
         test3.style.display = "none";
