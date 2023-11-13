@@ -15,6 +15,31 @@
     display: none;
 }
 
+.dollaridoosBox {
+    display: none;
+}
+
+.shopItem {
+    width: fit-content;
+    position:relative;
+    color:#000;
+    text-decoration:none
+}
+
+.shopItem span {
+    display: none 
+}
+
+.shopItem:hover span { 
+    display: block;
+    position: absolute;
+    top: 1.5rem;
+    width: 15rem;
+    z-index: 1;
+    background-color: #fff; 
+    border:1px solid rgb(0, 0, 0);
+}
+
 /* .shop {
     margin-top: 10px;
 }
@@ -67,105 +92,133 @@
     row-gap: 20px;
     justify-items: center;
     align-items: center;
-}
 
-.grid.on .header {
-    height: 100%;
-    width: 100%;
-    grid-area: header;
-    align-self: end;
-    width: 100%;
-    text-align: center;
-    border-bottom: 1px solid #000;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
+    .header {
+        height: 100%;
+        width: 100%;
+        grid-area: header;
+        align-self: end;
+        width: 100%;
+        text-align: center;
+        border-bottom: 1px solid #000;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
 
-.grid.on .cssTyper {
-    width: calc(100% - 2px);
-    height: 100%;
-    grid-area: cssTyper;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    border: 1px solid #000;
-}
+    .cssTyper {
+        width: calc(100% - 2px);
+        height: 100%;
+        grid-area: cssTyper;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        border: 1px solid #000;
 
-.grid.on .cssTyper .typerText {
-    width: 100%;
-    height: 3rem;
-    border-bottom: 1px solid #000;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
+        .typerText {
+            width: 100%;
+            height: 3rem;
+            border-bottom: 1px solid #000;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
 
-.grid.on .cssTyper .cssTextBox {
-    display: flex;
-    width: 100%;
-    height: 100%;
-    justify-content: space-evenly;
-    align-items: center;
-}
+        .cssTextBox {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            justify-content: space-evenly;
+            align-items: center;
 
-.grid.on .cssTyper .cssTextBox .cssBox {
-    margin: 5px 0px;
-}
+            .cssBox {
+                margin: 5px 0px;
+            }
+        }
+    }
 
-.grid.on .shop {
-    width: calc(100% - 2px);
-    height: 100%;
-    grid-area: shop;
-    border: 1px solid #000;
-}
+    .shop {
+        width: calc(100% - 2px);
+        height: 100%;
+        grid-area: shop;
+        border: 1px solid #000;
+    
+        .shopText {
+            width: 100%;
+            height: 3rem;
+            border-bottom: 1px solid #000;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
 
-.grid.on .shop .shopText {
-    width: 100%;
-    height: 3rem;
-    border-bottom: 1px solid #000;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
+        .shopDiv {
+            display: grid;
+            grid-template-areas: 
+            'numberBox dollaridoosBox'
+            'shopCssText shopDollarText'
+            'shopCss shopDollar';
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: min-content min-content 1fr;   
+            height: calc(100% - 76px);
 
-.grid.on .toggle {
-    width: calc(100% - 2px);
-    height: 100%;
-    grid-area: toggle;
-    border: 1px solid #000;
-}
+            .shopCssText {
+                padding: 5px;
+                grid-area: shopCssText;
+                border-right: 1px solid #000;
+                border-bottom: 1px solid #000;
+            }
 
-.grid.on .toggle .toggleTextP {
-    width: 100%;
-    height: 3rem;
-    border-bottom: 1px solid #000;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
+            .shopCssDiv {
+                padding: 5px;
+                grid-area: shopCss;
+                border-right: 1px solid #000;
+            }
 
-.shopItem {
-    width: fit-content;
-    position:relative;
-    color:#000;
-    text-decoration:none
-}
+            .shopDollarText {
+                padding: 5px;
+                grid-area: shopDollarText;
+                border-bottom: 1px solid #000;
+            }
 
-.shopItem span {
-    display: none 
-}
+            .shopDollarDiv {
+                padding: 5px;
+                grid-area: shopDollar;
+            }
 
-.shopItem:hover span { 
-    display: block;
-    position: absolute;
-    top: 1.5rem;
-    width: 15rem;
-    z-index: 1;
-    background-color: #fff; 
-    border:1px solid rgb(0, 0, 0);
+            .numberBox {
+                grid-area: numberBox;
+                padding: 5px;
+                border-right: 1px solid #000;
+                border-bottom: 1px solid #000;
+            }
+
+            .dollaridoosBox {
+                grid-area: dollaridoosBox;
+                padding: 5px;
+                border-bottom: 1px solid #000;
+            }
+        }
+
+    } 
+
+    .toggle {
+        width: calc(100% - 2px);
+        height: 100%;
+        grid-area: toggle;
+        border: 1px solid #000;
+
+        .toggleTextP {
+            width: 100%;
+            height: 3rem;
+            border-bottom: 1px solid #000;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+    }
 }

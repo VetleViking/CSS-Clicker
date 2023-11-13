@@ -1,5 +1,8 @@
 let numHtml = document.getElementById("number"); 
+let dollaridoosHtml = document.getElementById("dollaridoos"); 
 let num = 0; 
+let numTotal = 0;
+let dollaridoos = 0;
 let cssBox = document.getElementById('cssBox');
 let cssText = document.getElementById("cssText"); 
 let rightOrNot = document.getElementById('rightOrNot'); 
@@ -7,32 +10,36 @@ let toggleText = document.getElementById('toggleText');
 let kasDum = [];
 
 // Ideer
-// Dollar for å selge side (minst 50 linjer)
 // Kjøpe oppgraderinger for å få mer linjer
 // Kjøpe ting som stack overflow, w3schools, chatgpt osv for å få linjer automatisk
 // Reinkarnasjon senere
 
 // Function to sell the website
 function selgeSide() {
-    if (num >= 0) {
+    if (numTotal >= 0) {
         console.log("selgeSide");
+        console.log(dollaridoosHtml);
+        dollaridoos = numTotal / 10;
         num = 0;
+        numTotal = 0;
         numHtml.innerHTML = num + " linjer";
+        dollaridoosHtml.innerHTML = dollaridoos + "$";
+        dollaridoosHtml.style.display = "initial";
         
         for (let i = 0; i < kasDum.length; i++) {
-            let test = document.getElementsByClassName(kasDum[i]); 
-            let test2 = document.getElementById(kasDum[i] + "Shop");
-            test2.style.display = "initial";
+            let classes = document.getElementsByClassName(kasDum[i]); 
+            let shopItemIds = document.getElementById(kasDum[i] + "Shop");
+            shopItemIds.style.display = "initial";
 
-            for (let i = 0; i < test.length; i++) {
-                if (test[i].classList.contains("bought")) {
-                    test[i].classList.remove("on", "bought"); 
+            for (let i = 0; i < classes.length; i++) {
+                if (classes[i].classList.contains("bought")) {
+                    classes[i].classList.remove("on", "bought"); 
                 }
             }
         }
-        test3 = document.getElementsByClassName("toggleItem");
+        toggleItems = document.getElementsByClassName("toggleItem");
         for (let i = 0; i < test3.length; i++) {     
-            test3[i].style.display = "none";  
+            toggleItems[i].style.display = "none";  
         }
         toggleText.style.display = "none";
         rightOrNot.innerHTML = "";
@@ -42,20 +49,20 @@ function selgeSide() {
 
 // Function to buy CSS
 function kjøpeCss(clas, price) {
-    let test = document.getElementsByClassName(clas); 
-    let test2 = document.getElementById(clas + "Bought");
-    let test3 = document.getElementById(clas + "Shop");
+    let classBuyList = document.getElementsByClassName(clas); 
+    let classBoughtItem = document.getElementById(clas + "Bought");
+    let classShopItem = document.getElementById(clas + "Shop");
     if (num >= price && !kasDum.includes(clas)) {
         num -= price;
         kasDum.push(clas);
-        for (let i = 0; i < test.length; i++) {
-            if (test[i].classList.contains("bought")) {} 
+        for (let i = 0; i < classBuyList.length; i++) {
+            if (classBuyList[i].classList.contains("bought")) {} 
             else {
-                test[i].classList.add("on", "bought"); 
+                classBuyList[i].classList.add("on", "bought"); 
             }
         }
-        test3.style.display = "none";
-        test2.style.display = "initial";
+        classShopItem.style.display = "none";
+        classBoughtItem.style.display = "initial";
         toggleText.style.display = "initial";
         numHtml.innerHTML = num + " linjer"; 
     }
@@ -64,12 +71,12 @@ function kjøpeCss(clas, price) {
 
 // Function to enable/disable CSS on specified class
 function toggleCss(clas) {
-    let test = document.getElementsByClassName(clas); 
-    for (let i = 0; i < test.length; i++) {
-        if (test[i].classList.contains("on", "bought")) {
-            test[i].classList.remove("on"); 
-        } else if (test[i].classList.contains("bought")) {
-            test[i].classList.add("on"); 
+    let classToggleList = document.getElementsByClassName(clas); 
+    for (let i = 0; i < classToggleList.length; i++) {
+        if (classToggleList[i].classList.contains("on", "bought")) {
+            classToggleList[i].classList.remove("on"); 
+        } else if (classToggleList[i].classList.contains("bought")) {
+            classToggleList[i].classList.add("on"); 
         }
     }
 }
@@ -78,6 +85,7 @@ function toggleCss(clas) {
 function submitCss() {
     if (cssBox.value == cssText.innerHTML) { 
         num += 1;
+        numTotal += 1;
         numHtml.innerHTML = num + " linjer"; 
         rightOrNot.innerHTML = "Riktig! :D"; 
         newCssTextBox();
