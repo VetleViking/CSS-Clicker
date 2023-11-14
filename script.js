@@ -22,7 +22,7 @@ function selgeSide() {
         if (dollaridoos == 0) {
             shopDiv.classList.add("dollarUnlocked");
         }
-        dollaridoos = cssLinesTotal / 10;
+        dollaridoos = Math.floor(cssLinesTotal / 10);
 
         cssLines = 0;
         cssLinesTotal = 0;

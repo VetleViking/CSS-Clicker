@@ -18,8 +18,8 @@
             <p class="typerText font-size">Typer</p>
             <div class="cssTextBox">
                 <div class="cssTextBox2">
-                    <p id="cssText"></p>
-                    <input type="text" placeholder="Skriv CSSen over her" id="cssBox" class="cssBox">
+                    <p id="cssText" onmousedown='return false;' onselectstart='return false;'></p>
+                    <input type="text" placeholder="Skriv CSSen over her" id="cssBox" class="cssBox" >
                     <p id="rightOrNot"></p>
                 </div>
             </div>
@@ -28,6 +28,9 @@
         <div class="selgSide">
             <div onclick="selgeSide()">selg side</div>
         </div>
+        <div id="btnChangeBg">
+            selg side
+        </div> 
 
         <div class="shop color">
             <div><p class="shopText font-size">Shop</p></div>
@@ -52,11 +55,14 @@
 
         <div class="toggle color">
             <div class="toggleText font-size" id="toggleText"><p class="toggleTextP">Toggle oppgraderinger</p></div>
-            <div class="font-sizeBought toggleItem" id="font-sizeBought" onclick="toggleCss('font-size')"><p>Font-size</p></div>
-            <div class="paddingBought toggleItem" id="gridBought" onclick="toggleCss('grid')"><p>Grid-system</p></div>
-            <div class="colorsBought toggleItem" id="colorBought" onclick="toggleCss('color')"><p>Kule farger</p></div>
+            <div class="toggleBox">
+                <div class="font-sizeBought toggleItem" id="font-sizeBought" onclick="toggleCss('font-size')"><p>Font-size</p></div>
+                <div class="gridBought toggleItem" id="gridBought" onclick="toggleCss('grid')"><p>Grid-system</p></div>
+                <div class="colorsBought toggleItem" id="colorBought" onclick="toggleCss('color')"><p>Kule farger</p></div>
+            </div>
         </div>
     </div>
 </body>
 <script type="text/javascript" src="script.js"></script>
+<script type="text/javascript" src="confirmWindow.js"></script>
 </html>
