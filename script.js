@@ -8,6 +8,7 @@ let cssText = document.getElementById("cssText");
 let rightOrNot = document.getElementById('rightOrNot'); 
 let toggleText = document.getElementById('toggleText');
 let allUpgradesBought = [];
+let shopDiv = document.getElementById("shopDiv");
 
 // Ideer
 // Kjøpe oppgraderinger for å få mer linjer
@@ -16,10 +17,15 @@ let allUpgradesBought = [];
 
 // Function to sell the website
 function selgeSide() {
-    if (numTotal >= 0) {
-        dollaridoos = numTotal / 10;
+    if (cssLinesTotal >= 0) {
+
+        if (dollaridoos == 0) {
+            shopDiv.classList.add("dollarUnlocked");
+        }
+        dollaridoos = cssLinesTotal / 10;
+
         cssLines = 0;
-        numTotal = 0;
+        cssLinesTotal = 0;
         numHtml.innerHTML = cssLines + " linjer";
         dollaridoosHtml.innerHTML = dollaridoos + "$";
         dollaridoosHtml.style.display = "initial";
@@ -44,7 +50,6 @@ function selgeSide() {
         toggleDollarShopText.style.display = "initial";
         toggleDollarShopItems = document.getElementById("shopDollarDiv");
         toggleDollarShopItems.style.display = "initial";
-
 
         toggleText.style.display = "none";
         rightOrNot.innerHTML = "";
@@ -90,7 +95,7 @@ function toggleCss(clas) {
 function submitCss() {
     if (cssBox.value == cssText.innerHTML) { 
         cssLines += 1;
-        numTotal += 1;
+        cssLinesTotal += 1;
         numHtml.innerHTML = cssLines + " linjer"; 
         rightOrNot.innerHTML = "Riktig! :D"; 
         newCssTextBox();

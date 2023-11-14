@@ -169,21 +169,19 @@
             'numberBox dollaridoosBox'
             'shopCssText shopDollarText'
             'shopCss shopDollar';
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr;
             grid-template-rows: min-content min-content 1fr;   
-            height: calc(100% - 76px);
+            height: calc(100% - 49px);
 
             .shopCssText {
                 padding: 5px;
-                grid-area: shopCssText;
-                border-right: 1px solid #000;
+                grid-area: shopCssText;  
                 border-bottom: 1px solid #000;
             }
 
             .shopCssDiv {
                 padding: 5px;
                 grid-area: shopCss;
-                border-right: 1px solid #000;
             }
 
             .shopDollarText {
@@ -200,7 +198,7 @@
             .numberBox {
                 grid-area: numberBox;
                 padding: 5px;
-                border-right: 1px solid #000;
+                
                 border-bottom: 1px solid #000;
             }
 
@@ -211,7 +209,26 @@
             }
         }
 
+        .dollarUnlocked {
+            grid-template-columns: 1fr 1fr;
+    
+            .shopCssText {
+                border-right: 1px solid #000;
+            }
+    
+            .shopCssDiv {
+                border-right: 1px solid #000;
+            }
+    
+            .numberBox {
+                border-right: 1px solid #000;
+            }
+            
+        }
+    
+
     } 
+
 
     .toggle {
         width: calc(100% - 2px);
