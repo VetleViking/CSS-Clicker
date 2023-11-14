@@ -1,13 +1,13 @@
 let numHtml = document.getElementById("number"); 
 let dollaridoosHtml = document.getElementById("dollaridoos"); 
-let num = 0; 
-let numTotal = 0;
+let cssLines = 0; 
+let cssLinesTotal = 0;
 let dollaridoos = 0;
 let cssBox = document.getElementById('cssBox');
 let cssText = document.getElementById("cssText"); 
 let rightOrNot = document.getElementById('rightOrNot'); 
 let toggleText = document.getElementById('toggleText');
-let kasDum = [];
+let allUpgradesBought = [];
 
 // Ideer
 // Kjøpe oppgraderinger for å få mer linjer
@@ -17,18 +17,16 @@ let kasDum = [];
 // Function to sell the website
 function selgeSide() {
     if (numTotal >= 0) {
-        console.log("selgeSide");
-        console.log(dollaridoosHtml);
         dollaridoos = numTotal / 10;
-        num = 0;
+        cssLines = 0;
         numTotal = 0;
-        numHtml.innerHTML = num + " linjer";
+        numHtml.innerHTML = cssLines + " linjer";
         dollaridoosHtml.innerHTML = dollaridoos + "$";
         dollaridoosHtml.style.display = "initial";
         
-        for (let i = 0; i < kasDum.length; i++) {
-            let classes = document.getElementsByClassName(kasDum[i]); 
-            let shopItemIds = document.getElementById(kasDum[i] + "Shop");
+        for (let i = 0; i < allUpgradesBought.length; i++) {
+            let classes = document.getElementsByClassName(allUpgradesBought[i]); 
+            let shopItemIds = document.getElementById(allUpgradesBought[i] + "Shop");
             shopItemIds.style.display = "initial";
 
             for (let i = 0; i < classes.length; i++) {
@@ -38,12 +36,19 @@ function selgeSide() {
             }
         }
         toggleItems = document.getElementsByClassName("toggleItem");
-        for (let i = 0; i < test3.length; i++) {     
+        for (let i = 0; i < toggleItems.length; i++) {     
             toggleItems[i].style.display = "none";  
         }
+
+        toggleDollarShopText = document.getElementById("shopDollarText");
+        toggleDollarShopText.style.display = "initial";
+        toggleDollarShopItems = document.getElementById("shopDollarDiv");
+        toggleDollarShopItems.style.display = "initial";
+
+
         toggleText.style.display = "none";
         rightOrNot.innerHTML = "";
-        kasDum = [];
+        allUpgradesBought = [];
     }
 }
 
@@ -52,9 +57,9 @@ function kjøpeCss(clas, price) {
     let classBuyList = document.getElementsByClassName(clas); 
     let classBoughtItem = document.getElementById(clas + "Bought");
     let classShopItem = document.getElementById(clas + "Shop");
-    if (num >= price && !kasDum.includes(clas)) {
-        num -= price;
-        kasDum.push(clas);
+    if (cssLines >= price && !allUpgradesBought.includes(clas)) {
+        cssLines -= price;
+        allUpgradesBought.push(clas);
         for (let i = 0; i < classBuyList.length; i++) {
             if (classBuyList[i].classList.contains("bought")) {} 
             else {
@@ -64,7 +69,7 @@ function kjøpeCss(clas, price) {
         classShopItem.style.display = "none";
         classBoughtItem.style.display = "initial";
         toggleText.style.display = "initial";
-        numHtml.innerHTML = num + " linjer"; 
+        numHtml.innerHTML = cssLines + " linjer"; 
     }
 }
 
@@ -84,9 +89,9 @@ function toggleCss(clas) {
 // Function that checksd if submitted CSS is right
 function submitCss() {
     if (cssBox.value == cssText.innerHTML) { 
-        num += 1;
+        cssLines += 1;
         numTotal += 1;
-        numHtml.innerHTML = num + " linjer"; 
+        numHtml.innerHTML = cssLines + " linjer"; 
         rightOrNot.innerHTML = "Riktig! :D"; 
         newCssTextBox();
     } else {
