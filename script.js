@@ -31,13 +31,16 @@ function selgeSide() {
         dollaridoosHtml.style.display = "initial";
         
         for (let i = 0; i < allUpgradesBought.length; i++) {
-            let classes = document.getElementsByClassName(allUpgradesBought[i]); 
-            let shopItemIds = document.getElementById(allUpgradesBought[i] + "Shop");
+            let currentClass = allUpgradesBought[i];
+            let classes = document.getElementsByClassName(currentClass + "Bought"); 
+            let shopItemIds = document.getElementById(currentClass + "Shop");
+            console.log(currentClass);
+            console.log(shopItemIds);
             shopItemIds.style.display = "initial";
 
             for (let i = 0; i < classes.length; i++) {
-                if (classes[i].classList.contains("bought")) {
-                    classes[i].classList.remove("on", "bought"); 
+                if (classes[i].classList.contains(currentClass + "Bought")) {
+                    classes[i].classList.remove(currentClass + "On", currentClass + "Bought"); 
                 }
             }
         }
@@ -60,19 +63,19 @@ function selgeSide() {
 // Function to buy CSS
 function kjøpeCss(clas, price) {
     let classBuyList = document.getElementsByClassName(clas); 
-    let classBoughtItem = document.getElementById(clas + "Bought");
+    let classToggleItem = document.getElementById(clas + "Toggle");
     let classShopItem = document.getElementById(clas + "Shop");
     if (cssLines >= price && !allUpgradesBought.includes(clas)) {
         cssLines -= price;
         allUpgradesBought.push(clas);
         for (let i = 0; i < classBuyList.length; i++) {
-            if (classBuyList[i].classList.contains("bought")) {} 
+            if (classBuyList[i].classList.contains(clas + "Bought")) {} 
             else {
-                classBuyList[i].classList.add("on", "bought"); 
+                classBuyList[i].classList.add(clas + "On", clas + "Bought"); 
             }
         }
         classShopItem.style.display = "none";
-        classBoughtItem.style.display = "initial";
+        classToggleItem.style.display = "initial";
         toggleText.style.display = "initial";
         numHtml.innerHTML = cssLines + " linjer"; 
     }
@@ -83,10 +86,10 @@ function kjøpeCss(clas, price) {
 function toggleCss(clas) {
     let classToggleList = document.getElementsByClassName(clas); 
     for (let i = 0; i < classToggleList.length; i++) {
-        if (classToggleList[i].classList.contains("on", "bought")) {
-            classToggleList[i].classList.remove("on"); 
-        } else if (classToggleList[i].classList.contains("bought")) {
-            classToggleList[i].classList.add("on"); 
+        if (classToggleList[i].classList.contains(clas + "On", clas + "Bought")) {
+            classToggleList[i].classList.remove(clas + "On"); 
+        } else if (classToggleList[i].classList.contains(clas + "Bought")) {
+            classToggleList[i].classList.add(clas + "On"); 
         }
     }
 }

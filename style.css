@@ -48,47 +48,44 @@
     border:1px solid rgb(0, 0, 0);
 }
 
-/* .shop {
-    margin-top: 10px;
+.font-sizeOn {
+
+    .title {
+        font-size: 2.5rem;
+    }
+
+    .typerText {
+        font-size: 1.5rem;
+    }
+
+    .shopText {
+        font-size: 1.5rem;
+    }
+
+    .toggleTextP {
+        font-size: 1.5rem;
+    }
 }
 
-.toggle {
-    margin-top: 10px;
-} */
+.colorOn{
+    .header {
+        background-color: #b9b9b9;
+    }
 
-.shopText.font-size.on {
-    font-size: 1.5rem;
+    .cssTyper {
+        background-color: #b9b9b9;
+    }
+
+    .shop {
+        background-color: #b9b9b9;
+    }
+
+    .toggle {
+        background-color: #b9b9b9;
+    }
 }
 
-.toggleText.font-size.on {
-    font-size: 1.5rem;
-}
-
-.title.font-size.on {
-    font-size: 2.5rem;
-}
-
-.typerText.font-size.on {
-    font-size: 1.5rem;
-}
-
-.header.color.on {
-    background-color: #b9b9b9;
-}
-
-.shop.color.on {
-    background-color: #b9b9b9;
-}
-
-.cssTyper.color.on {
-    background-color: #b9b9b9;
-}
-
-.toggle.color.on {
-    background-color: #b9b9b9;
-}
-
-.grid.on{
+.gridOn{
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 5rem 15rem 5rem;
     display: grid;
@@ -174,37 +171,30 @@
             height: calc(100% - 49px);
 
             .shopCssText {
-                padding: 5px;
                 grid-area: shopCssText;  
                 border-bottom: 1px solid #000;
             }
 
             .shopCssDiv {
-                padding: 5px;
                 grid-area: shopCss;
             }
 
             .shopDollarText {
-                padding: 5px;
                 grid-area: shopDollarText;
                 border-bottom: 1px solid #000;
             }
 
             .shopDollarDiv {
-                padding: 5px;
                 grid-area: shopDollar;
             }
 
             .numberBox {
                 grid-area: numberBox;
-                padding: 5px;
-                
                 border-bottom: 1px solid #000;
             }
 
             .dollaridoosBox {
                 grid-area: dollaridoosBox;
-                padding: 5px;
                 border-bottom: 1px solid #000;
             }
         }
@@ -245,18 +235,52 @@
             flex-direction: column;
             justify-content: center;
         }
-
-        .toggleBox{
-            padding: 5px;
-        }
     }
 
     .selgSide {
-        padding: 10px;
         grid-area: selgSide;
         border: 1px solid #000;
     }
 }
+
+.paddingOn {
+    .selgSide {
+        padding: 10px;
+    }
+
+    .toggleBox {
+        padding: 5px;
+    }
+
+    .dollaridoosBox {
+        padding: 5px;
+    }
+
+    .numberBox {
+        padding: 5px;
+    }
+
+    .shopCssText {
+        padding: 5px;
+    }
+
+    .shopCssDiv {
+        padding: 5px;
+    }
+
+    .shopDollarText {
+        padding: 5px;
+    }
+
+    .shopDollarDiv {
+        padding: 5px;
+    }
+}
+
+
+
+
+
 
 
 .confirm {
@@ -323,6 +347,7 @@
     height: 20px; 
     border: 1px solid #000;
     text-align: center;
+    margin: 1px;
 }
 
 .confirmButtonNo {
@@ -333,4 +358,5 @@
     height: 20px; 
     border: 1px solid #000;
     text-align: center;
+    margin: 1px;
 }

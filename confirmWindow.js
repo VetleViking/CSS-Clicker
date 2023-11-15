@@ -1,10 +1,10 @@
-document.getElementById('btnChangeBg').addEventListener('click', () => {
+document.getElementById('btnSelgeSide').addEventListener('click', () => {
     open({
         title: 'Selge siden?',
         message: 'Er du sikker på at du vil selge siden din? Du vil få 1 dollar per 10. linje du har skrevet. nåværende antall dollar du ville fått: ' + Math.floor(cssLinesTotal / 10) + '$',
         //Trenger å få tak i cssLinesTotal på en eller annen måte :/
         onOk: () => {
-            document.body.style.backgroundColor = 'blue';
+            selgeSide();
         }
     })
 });
