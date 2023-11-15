@@ -1,10 +1,34 @@
-
-.padding.on{
-    padding: 20px; 
-}
+/* Få ting til å ikke se helt mongo ut i starten*/
 
 .cssBox {
     width: 200px;
+}
+
+.cssText {
+    cursor: default;
+}
+
+.shopItem {
+    cursor: pointer;
+}
+
+.shopDollarItem {
+    cursor: pointer;
+}
+
+.toggleItem {
+    cursor: pointer;
+}
+
+.selgSide {
+    width: max-content;
+    cursor: pointer;
+}
+
+/* Skru av display på ting som ikke er unlocka */
+
+.toggle {
+    display: none;
 }
 
 .toggleItem {
@@ -27,261 +51,33 @@
     display: none;
 }
 
+/* .selgSide {
+    display: none;
+} */
+
+/* Infoboks */
+
 .infoBox {
-    width: fit-content;
     position:relative;
     color:#000;
-    text-decoration:none
+    text-decoration: none;
 }
 
 .infoBox span {
-    display: none 
+    display: none;
 }
 
 .infoBox:hover span { 
     display: block;
     position: absolute;
     top: 1.5rem;
-    width: 15rem;
+    max-width: 15rem;
     z-index: 1;
     background-color: #fff; 
     border:1px solid rgb(0, 0, 0);
 }
 
-.font-sizeOn {
-
-    .title {
-        font-size: 2.5rem;
-    }
-
-    .typerText {
-        font-size: 1.5rem;
-    }
-
-    .shopText {
-        font-size: 1.5rem;
-    }
-
-    .toggleTextP {
-        font-size: 1.5rem;
-    }
-}
-
-.colorOn{
-    .header {
-        background-color: #b9b9b9;
-    }
-
-    .cssTyper {
-        background-color: #b9b9b9;
-    }
-
-    .shop {
-        background-color: #b9b9b9;
-    }
-
-    .toggle {
-        background-color: #b9b9b9;
-    }
-}
-
-.gridOn{
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 5rem 15rem 5rem;
-    display: grid;
-    grid-template-areas: 
-    'header header header'
-    'shop cssTyper toggle'
-    '. selgSide .';
-    column-gap: 40px;
-    row-gap: 20px;
-    justify-items: center;
-    align-items: center;
-
-    .header {
-        height: 100%;
-        width: 100%;
-        grid-area: header;
-        align-self: end;
-        width: 100%;
-        text-align: center;
-        border-bottom: 1px solid #000;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
-
-    .cssTyper {
-        width: calc(100% - 2px);
-        height: 100%;
-        grid-area: cssTyper;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-between;
-        border: 1px solid #000;
-
-        .typerText {
-            width: 100%;
-            height: 3rem;
-            border-bottom: 1px solid #000;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .cssTextBox {
-            display: flex;
-            width: 100%;
-            height: 100%;
-            justify-content: space-evenly;
-            align-items: center;
-
-            .cssBox {
-                margin: 5px 0px;
-            }
-        }
-    }
-
-    .shop {
-        width: calc(100% - 2px);
-        height: 100%;
-        grid-area: shop;
-        border: 1px solid #000;
-    
-        .shopText {
-            width: 100%;
-            height: 3rem;
-            border-bottom: 1px solid #000;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .shopDiv {
-            display: grid;
-            grid-template-areas: 
-            'numberBox dollaridoosBox'
-            'shopCssText shopDollarText'
-            'shopCss shopDollar';
-            grid-template-columns: 1fr;
-            grid-template-rows: min-content min-content 1fr;   
-            height: calc(100% - 49px);
-
-            .shopCssText {
-                grid-area: shopCssText;  
-                border-bottom: 1px solid #000;
-            }
-
-            .shopCssDiv {
-                grid-area: shopCss;
-            }
-
-            .shopDollarText {
-                grid-area: shopDollarText;
-                border-bottom: 1px solid #000;
-            }
-
-            .shopDollarDiv {
-                grid-area: shopDollar;
-            }
-
-            .numberBox {
-                grid-area: numberBox;
-                border-bottom: 1px solid #000;
-            }
-
-            .dollaridoosBox {
-                grid-area: dollaridoosBox;
-                border-bottom: 1px solid #000;
-            }
-        }
-
-        .dollarUnlocked {
-            grid-template-columns: 1fr 1fr;
-    
-            .shopCssText {
-                border-right: 1px solid #000;
-            }
-    
-            .shopCssDiv {
-                border-right: 1px solid #000;
-            }
-    
-            .numberBox {
-                border-right: 1px solid #000;
-            }
-            
-        }
-    
-
-    } 
-
-
-    .toggle {
-        width: calc(100% - 2px);
-        height: 100%;
-        grid-area: toggle;
-        border: 1px solid #000;
-
-        .toggleTextP {
-            width: 100%;
-            height: 3rem;
-            border-bottom: 1px solid #000;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-    }
-
-    .selgSide {
-        grid-area: selgSide;
-        border: 1px solid #000;
-    }
-}
-
-.paddingOn {
-    .selgSide {
-        padding: 10px;
-    }
-
-    .toggleBox {
-        padding: 5px;
-    }
-
-    .dollaridoosBox {
-        padding: 5px;
-    }
-
-    .numberBox {
-        padding: 5px;
-    }
-
-    .shopCssText {
-        padding: 5px;
-    }
-
-    .shopCssDiv {
-        padding: 5px;
-    }
-
-    .shopDollarText {
-        padding: 5px;
-    }
-
-    .shopDollarDiv {
-        padding: 5px;
-    }
-}
-
-
-
-
-
-
+/* confirmation vindu */
 
 .confirm {
     position: fixed;
@@ -294,7 +90,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    
 }
 
 .confirmWindow{
@@ -304,6 +99,7 @@
 }
 
 .confirmClose {
+    margin: 1px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -314,16 +110,7 @@
 
 .confirmTitlebar {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-}
-
-.confirmTitle {
-    padding: 5px;
-}
-
-.confirmContent {
-    padding: 10px 5px;
 }
 
 .confirmClose:hover {

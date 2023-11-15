@@ -6,9 +6,11 @@ let dollaridoos = 0;
 let cssBox = document.getElementById('cssBox');
 let cssText = document.getElementById("cssText"); 
 let rightOrNot = document.getElementById('rightOrNot'); 
+let toggleBox = document.getElementById("toggle");
 let toggleText = document.getElementById('toggleText');
-let allUpgradesBought = [];
+let allCssUpgradesBought = [];
 let shopDiv = document.getElementById("shopDiv");
+let selgeSideBtn = document.getElementById("btnSelgeSide");
 
 // Ideer
 // Kjøpe oppgraderinger for å få mer linjer
@@ -28,19 +30,17 @@ function selgeSide() {
         cssLinesTotal = 0;
         numHtml.innerHTML = cssLines + " linjer";
         dollaridoosHtml.innerHTML = dollaridoos + "$";
-        dollaridoosHtml.style.display = "initial";
+        dollaridoosHtml.style.display = "block";
         
-        for (let i = 0; i < allUpgradesBought.length; i++) {
-            let currentClass = allUpgradesBought[i];
-            let classes = document.getElementsByClassName(currentClass + "Bought"); 
-            let shopItemIds = document.getElementById(currentClass + "Shop");
-            console.log(currentClass);
-            console.log(shopItemIds);
-            shopItemIds.style.display = "initial";
+        for (let i = 0; i < allCssUpgradesBought.length; i++) {
+            let currentCssUpgrade = allCssUpgradesBought[i];
+            let classes = document.getElementsByClassName(currentCssUpgrade + "Bought"); 
+            let shopItemIds = document.getElementById(currentCssUpgrade + "Shop");
+            shopItemIds.style.display = "block";
 
             for (let i = 0; i < classes.length; i++) {
-                if (classes[i].classList.contains(currentClass + "Bought")) {
-                    classes[i].classList.remove(currentClass + "On", currentClass + "Bought"); 
+                if (classes[i].classList.contains(currentCssUpgrade + "Bought")) {
+                    classes[i].classList.remove(currentCssUpgrade + "On", currentCssUpgrade + "Bought"); 
                 }
             }
         }
@@ -49,14 +49,16 @@ function selgeSide() {
             toggleItems[i].style.display = "none";  
         }
 
-        toggleDollarShopText = document.getElementById("shopDollarText");
-        toggleDollarShopText.style.display = "initial";
-        toggleDollarShopItems = document.getElementById("shopDollarDiv");
-        toggleDollarShopItems.style.display = "initial";
+        let dollarShopDiv = document.getElementById("shopDollarDiv");
+        let dollarShopText = document.getElementById("shopDollarText");
+        dollarShopText.style.display = "block";
+        dollarShopDiv.style.display = "block";
 
         toggleText.style.display = "none";
         rightOrNot.innerHTML = "";
-        allUpgradesBought = [];
+        allCssUpgradesBought = [];
+
+        selgeSideBtn.style.display = "none";
     }
 }
 
@@ -65,9 +67,14 @@ function kjøpeCss(clas, price) {
     let classBuyList = document.getElementsByClassName(clas); 
     let classToggleItem = document.getElementById(clas + "Toggle");
     let classShopItem = document.getElementById(clas + "Shop");
-    if (cssLines >= price && !allUpgradesBought.includes(clas)) {
+
+    if (allCssUpgradesBought.length == 0) {
+        toggleBox.style.display = "block";
+    }
+
+    if (cssLines >= price && !allCssUpgradesBought.includes(clas)) {
         cssLines -= price;
-        allUpgradesBought.push(clas);
+        allCssUpgradesBought.push(clas);
         for (let i = 0; i < classBuyList.length; i++) {
             if (classBuyList[i].classList.contains(clas + "Bought")) {} 
             else {
@@ -75,8 +82,8 @@ function kjøpeCss(clas, price) {
             }
         }
         classShopItem.style.display = "none";
-        classToggleItem.style.display = "initial";
-        toggleText.style.display = "initial";
+        classToggleItem.style.display = "block";
+        toggleText.style.display = "block";
         numHtml.innerHTML = cssLines + " linjer"; 
     }
 }
@@ -96,7 +103,11 @@ function toggleCss(clas) {
 
 // Function that checksd if submitted CSS is right
 function submitCss() {
-    if (cssBox.value == cssText.innerHTML) { 
+    if (cssBox.value == cssText.innerHTML) {
+        if (cssLinesTotal == 0) {
+            btnSelgeSide.style.display = "block";
+        }
+
         cssLines += 1;
         cssLinesTotal += 1;
         numHtml.innerHTML = cssLines + " linjer"; 

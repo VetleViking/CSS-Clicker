@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="reset.css">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="upgrades.css">
     
     <title>CSS typer</title>
 </head>
@@ -18,31 +19,29 @@
             <p class="typerText">Typer</p>
             <div class="cssTextBox">
                 <div class="cssTextBox2">
-                    <p id="cssText" onmousedown='return false;' onselectstart='return false;'></p>
+                    <p class="cssText" id="cssText" onmousedown='return false;' onselectstart='return false;'></p>
                     <input type="text" placeholder="Skriv CSSen over her" id="cssBox" class="cssBox" >
                     <p id="rightOrNot"></p>
                 </div>
             </div>
         </div>
 
-        <div class="selgSide" id="btnSelgeSide">
-            selg side
-        </div> 
-
         <div class="shop">
             <div><p class="shopText">Shop</p></div>                   
             <div class="shopDiv" id="shopDiv">
-                <div class="numberBox"><p id="number">0 linjer</p></div>
-                <div class="dollaridoosBox" id="dollaridoos"><p>0$</p></div>
+                
+                
                 <div class="shopCssText"><p>Linje-shop</p></div>
+                <div class="numberBox"><p id="number">0 linjer</p></div>
                 <div class="shopCssDiv">
                     <div class="shopItem infoBox" id="gridShop" onclick="kjøpeCss('grid', 0)"><p>Grid-system: 10 linjer<span class="tooltip">Adder et grid-system.</span></p></div>
-                    <div class="shopItem infoBox" id="paddingShop" onclick="kjøpeCss('padding', 0)"><p>Padding: 10 linjer<span class="tooltip">Legger til padding så ting ikke blir sååå skvist.</span></p></div>
+                    <div class="shopItem infoBox" id="paddingShop" onclick="kjøpeCss('padding', 0)"><p>Padding: 10 linjer<span class="tooltip">Legger til padding så ting ikke blir så skvist.</span></p></div>
                     <div class="shopItem infoBox" id="borderShop" onclick="kjøpeCss('border', 0)"><p>Bordere: 10 linjer<span class="tooltip">Adder bordere til elementene så det er tydeligere skiller på ting.</span></p></div>
-                    <div class="shopItem infoBox" id="colorShop" onclick="kjøpeCss('color', 0)"><p>Farger: 10 linjer<span class="tooltip">Adder noen basic farger til knapper og bokser og sånne greier.</span></p></div>
+                    <div class="shopItem infoBox" id="colorShop" onclick="kjøpeCss('color', 0)"><p>Farger: 10 linjer<span class="tooltip">Adder noen basic farger til knapper og bokser og sånne greier. <br> Tips: ser bedre ut når kombinert med Grid-system oppgraderingen.</span></p></div>
                     <div class="shopItem infoBox" id="font-sizeShop" onclick="kjøpeCss('font-size', 0)"><p>Font-size: 1 linje<span class="tooltip">Legger til font-size til titler og sånt.</span></p></div>
                 </div>
                 <div class="shopDollarText" id="shopDollarText"><p>Dollar-shop</p></div>
+                <div class="dollaridoosBox" id="dollaridoos"><p>0$</p></div>
                 <div class="shopDollarDiv" id="shopDollarDiv">
                     <div class="shopDollarItem infoBox" id="gridDollarShop" onclick="kjøpeDollar('grid', 0)"><p>Grid-system: 10 linjer<span class="tooltip">Adder et grid-system.</span></p></div>
                     <div class="shopDollarItem infoBox" id="colorDollarShop" onclick="kjøpeDollar('color', 0)"><p>Kule farger: 10 linjer<span class="tooltip">Adder kule farger til knapper og bokser og sånne greier.</span></p></div>
@@ -51,7 +50,7 @@
             </div>
         </div>
 
-        <div class="toggle">
+        <div class="toggle" id="toggle">
             <div class="toggleText" id="toggleText"><p class="toggleTextP">Toggle oppgraderinger</p></div>
             <div class="toggleBox">
                 <div class="font-sizeToggle toggleItem" id="font-sizeToggle" onclick="toggleCss('font-size')"><p>Font-size</p></div>
@@ -61,6 +60,10 @@
                 <div class="colorToggle toggleItem" id="colorToggle" onclick="toggleCss('color')"><p>Kule farger</p></div>
             </div>
         </div>
+      
+        <div class="selgSide" id="btnSelgeSide">
+            <p>selg side</p>
+        </div> 
     </div>
 </body>
 <script type="text/javascript" src="script.js"></script>
