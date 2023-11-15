@@ -8,7 +8,24 @@
     cursor: default;
 }
 
+.header {
+    width: fit-content;
+}
+
+.cssTyper {
+    width: fit-content;
+}
+
+.shop {
+    width: fit-content;
+}
+
+.toggle {
+    width: fit-content;
+}
+
 .shopItem {
+    width: fit-content;
     cursor: pointer;
 }
 
@@ -17,11 +34,12 @@
 }
 
 .toggleItem {
+    width: fit-content;
     cursor: pointer;
 }
 
 .selgSide {
-    width: max-content;
+    width: fit-content;
     cursor: pointer;
 }
 
