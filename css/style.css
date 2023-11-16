@@ -11,37 +11,35 @@
 .header,
 .cssTyper,
 .shop,
-.toggle,
+.upgradesBought,
 .shopItem,
-.toggleItem,
+.upgradesBoughtItem,
 .selgSide {
     width: fit-content;
 }
 
 .shopItem,
 .shopDollarItem,
-.toggleItem,
 .selgSide {
     cursor: pointer;
 }
 
 /* Skru av display på ting som ikke er unlocka */
 
-.toggle,
-.toggleItem,
-.toggleText,
+.upgradesBought,
+.upgradesBoughtItem,
+.upgradesBoughtText,
+.upgradesBoughtCssText,
+.upgradesBoughtDollarText,
 .shopCssText,
 .shopDollarText,
 .dollaridoosBox,
-.shopDollarDiv/*, .selgSide */ {
+.shopDollarDiv,
+.selgSide {
     display: none;
 }
 
-.chatgptOnTest {
-    display: none;
-}
-
-.keyboardOnTest {
+.onTestItem {
     display: none;
 }
 

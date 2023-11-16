@@ -6,25 +6,44 @@ let dollaridoos = 0;
 let cssBox = document.getElementById("cssBox");
 let cssText = document.getElementById("cssText");
 let rightOrNot = document.getElementById("rightOrNot");
-let toggleBox = document.getElementById("toggle");
-let toggleText = document.getElementById("toggleText");
+let upgradesBoughtBox = document.getElementById("upgradesBought");
+let upgradesBoughtText = document.getElementById("upgradesBoughtText");
+let upgradesBoughtItems = document.getElementsByClassName("upgradesBoughtItem");
 let allCssUpgradesBought = [];
 let allDollaridoosUpgradesBought = [];
 let shopDiv = document.getElementById("shopDiv");
 let selgeSideBtn = document.getElementById("btnSelgeSide");
 let cssShopText = document.getElementById("shopCssText");
 let totalMultiplier = 1;
+let shopCssItems = document.getElementsByClassName("shopItem");
+let shopDollarItems = document.getElementsByClassName("shopDollarItem");
+let upgradesBoughtCssText = document.getElementById("upgradesBoughtCssText");
+let upgradesBoughtDollarText = document.getElementById("upgradesBoughtDollarText");
+let cssUpgradesBoughtBox = document.getElementById("cssUpgradesBoughtBox");
+let dollaridoosUnlockedHtml = document.getElementsByClassName("dollaridoos");
+let dollarUnlocked = false;
 
 // Ideer
 // Kjøpe oppgraderinger for å få mer linjer
 // Kjøpe ting som stack overflow, w3schools, chatgpt osv for å få linjer automatisk
 // Reinkarnasjon senere
 
+start(shopCssItems);
+start(shopDollarItems);
+
+function start(items) {
+    for (let i = 3; i < items.length; i++) {
+        items[i].style.display = "none";
+    }
+}
+
 // Function to sell the website
 function selgeSide() {
     if (cssLinesTotal >= 0) {
-        if (dollaridoos == 0) {
-            shopDiv.classList.add("dollarUnlocked");
+        if (dollarUnlocked == false) {
+            for (let i = 0; i < dollaridoosUnlockedHtml.length; i++) {
+                dollaridoosUnlockedHtml[i].classList.add("dollarUnlocked");
+            }
         }
         dollaridoos = Math.floor(cssLinesTotal / 10);
 
@@ -46,9 +65,9 @@ function selgeSide() {
                 }
             }
         }
-        toggleItems = document.getElementsByClassName("toggleItem");
-        for (let i = 0; i < toggleItems.length; i++) {
-            toggleItems[i].style.display = "none";
+
+        for (let i = 0; i < upgradesBoughtItems.length; i++) {
+            upgradesBoughtItems[i].style.display = "none";
         }
 
         let dollarShopDiv = document.getElementById("shopDollarDiv");
@@ -57,37 +76,41 @@ function selgeSide() {
         cssShopText.style.display = "block";
         dollarShopDiv.style.display = "block";
 
-        toggleText.style.display = "none";
+        upgradesBoughtText.style.display = "none";
         rightOrNot.innerHTML = "";
         allCssUpgradesBought = [];
 
         selgeSideBtn.style.display = "none";
+
+        dollarUnlocked = true;
+
+        start(shopCssItems);
+        start(shopDollarItems);
     }
 }
 
 // Function to buy CSS
 function kjøpeCss(clas, price) {
-    let classBuyList = document.getElementsByClassName(clas);
-    let classToggleItem = document.getElementById(clas + "Toggle");
-    let classShopItem = document.getElementById(clas + "Shop");
-
-    if (dollaridoos >= price && !allDollaridoosUpgradesBought.includes(clas)) {
-        if (allCssUpgradesBought.length == 0) {
-            toggleBox.style.display = "block";
-        }
-
+    if (cssLines >= price && !allDollaridoosUpgradesBought.includes(clas)) {
         cssLines -= price;
-        allCssUpgradesBought.push(clas);
+        numHtml.innerHTML = cssLines + " linjer";
+
+        let classBuyList = document.getElementsByClassName(clas);
+        let buyCssShopItem = document.getElementById(clas + "Shop");
+
         for (let i = 0; i < classBuyList.length; i++) {
             if (classBuyList[i].classList.contains(clas + "Bought")) {
             } else {
                 classBuyList[i].classList.add(clas + "On", clas + "Bought");
             }
         }
-        classShopItem.style.display = "none";
-        classToggleItem.style.display = "block";
-        toggleText.style.display = "block";
-        numHtml.innerHTML = cssLines + " linjer";
+
+        allCssUpgradesBought.push(clas);
+
+        buyCssShopItem.style.display = "none";
+
+        addNextShopItem(shopCssItems);
+        addUpgBought(clas);
     }
 }
 
@@ -96,10 +119,8 @@ function kjøpeDollar(type, clas, amount, price) {
     if (cssLines >= price && !allCssUpgradesBought.includes(clas)) {
         dollaridoos -= price;
         dollaridoosHtml.innerHTML = dollaridoos + "$";
-        let buyToggleItem = document.getElementById(clas + "OnTest");
-        let buyDollarShopItem = document.getElementById(clas + "DollarShop");
 
-        console.log(buyDollarShopItem);
+        let buyDollarShopItem = document.getElementById(clas + "DollarShop");
 
         if (type == "multiplier") {
             totalMultiplier *= amount;
@@ -113,10 +134,49 @@ function kjøpeDollar(type, clas, amount, price) {
             }, amount * 1000);
         }
 
+        if (allDollaridoosUpgradesBought.length == 0) {
+            upgradesBoughtBox.style.display = "block";
+        }
+
         allDollaridoosUpgradesBought.push(clas);
-        buyToggleItem.style.display = "block";
         buyDollarShopItem.style.display = "none";
+
+        addNextShopItem(shopDollarItems);
+        addUpgBought(clas);
     }
+}
+
+// Function to add new shop items
+
+function addNextShopItem(shopType) {
+    let upgradesBought = [];
+    if (shopType == shopCssItems) {
+        upgradesBought = allCssUpgradesBought;
+    } else if (shopType == shopDollarItems) {
+        upgradesBought = allDollaridoosUpgradesBought;
+    }
+
+    if (shopType[upgradesBought.length + 2] != undefined) {
+        shopType[upgradesBought.length + 2].style.display = "block";
+    }
+}
+
+// Function to add bought upgrades to the upgrades bought box
+
+function addUpgBought(clas) {
+    let buyUpgradesBoughtItem = document.getElementById(clas + "UpgradesBought");
+
+    if (allCssUpgradesBought.length <= 1 && allDollaridoosUpgradesBought.length <= 1) {
+        upgradesBoughtBox.style.display = "block";
+        upgradesBoughtText.style.display = "block";
+    }
+    if (allDollaridoosUpgradesBought.length >= 1 && allCssUpgradesBought.length >= 1) {
+        upgradesBoughtCssText.style.display = "block";
+        upgradesBoughtDollarText.style.display = "block";
+        upgradesBoughtCssText.style.borderRight = "1px solid black";
+        cssUpgradesBoughtBox.style.borderRight = "1px solid black";
+    }
+    buyUpgradesBoughtItem.style.display = "block";
 }
 
 // Function to enable/disable CSS on specified class
@@ -134,14 +194,15 @@ function toggleCss(clas) {
 // Function that checksd if submitted CSS is right
 function submitCss() {
     if (cssBox.value == cssText.innerHTML) {
-        if (cssLinesTotal == 0) {
-            btnSelgeSide.style.display = "block";
-        }
-
         cssLines += 1 * totalMultiplier;
         cssLinesTotal += 1 * totalMultiplier;
         numHtml.innerHTML = cssLines + " linjer";
         rightOrNot.innerHTML = "Riktig! :D";
+
+        if (cssLinesTotal >= 30) {
+            selgeSideBtn.style.display = "block";
+        }
+
         newCssTextBox();
     } else {
         rightOrNot.innerHTML = "Feil. :(";

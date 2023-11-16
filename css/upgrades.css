@@ -13,7 +13,7 @@
         font-size: 1.5rem;
     }
 
-    .toggleTextP {
+    .upgradesBoughtTextP {
         font-size: 1.5rem;
     }
 }
@@ -33,7 +33,7 @@
         background-color: #b9b9b9;
     }
 
-    .toggle {
+    .upgradesBought {
         background-color: #b9b9b9;
     }
 
@@ -50,7 +50,7 @@
     display: grid;
     grid-template-areas:
         "header header header"
-        "shop cssTyper toggle"
+        "shop cssTyper upgradesBought"
         ". selgSide .";
     column-gap: 40px;
     row-gap: 20px;
@@ -78,100 +78,128 @@
         flex-direction: column;
         align-items: center;
         justify-content: space-between;
+    }
 
-        .typerTextBox {
-            width: 100%;
-        }
+    .typerTextBox {
+        width: 100%;
+    }
 
-        .typerText {
-            width: 100%;
-            height: 3rem;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
+    .typerText {
+        width: 100%;
+        height: 3rem;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
 
-        .cssTextBox {
-            display: flex;
-            width: 100%;
-            height: 100%;
-            justify-content: space-evenly;
-            align-items: center;
-
-            .cssBox {
-                margin: 5px 0px;
-            }
-        }
+    .cssTextBox {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+    .cssBox {
+        margin: 5px 0px;
     }
 
     .shop {
         width: calc(100% - 2px);
         height: 100%;
         grid-area: shop;
-
-        .shopText {
-            width: 100%;
-            height: 3rem;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .shopDiv {
-            display: grid;
-            grid-template-areas:
-                "numberBox dollaridoosBox"
-                "shopCssText shopDollarText"
-                "shopCss shopDollar";
-            grid-template-columns: 1fr;
-            grid-template-rows: min-content min-content 1fr;
-            height: calc(100% - 49px);
-
-            .shopCssText {
-                grid-area: shopCssText;
-            }
-
-            .shopCssDiv {
-                grid-area: shopCss;
-            }
-
-            .shopDollarText {
-                grid-area: shopDollarText;
-            }
-
-            .shopDollarDiv {
-                grid-area: shopDollar;
-            }
-
-            .numberBox {
-                grid-area: numberBox;
-            }
-
-            .dollaridoosBox {
-                grid-area: dollaridoosBox;
-            }
-        }
-
-        .dollarUnlocked {
-            grid-template-columns: 1fr 1fr;
-        }
+    }
+    .shopText {
+        width: 100%;
+        height: 3rem;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
 
-    .toggle {
+    .shopDiv {
+        display: grid;
+        grid-template-areas:
+            "numberBox dollaridoosBox"
+            "shopCssText shopDollarText"
+            "shopCss shopDollar";
+        grid-template-columns: 1fr;
+        grid-template-rows: min-content min-content 1fr;
+        height: calc(100% - 49px);
+    }
+
+    .dollarUnlocked .shopDiv {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .shopCssText {
+        grid-area: shopCssText;
+    }
+
+    .shopCssDiv {
+        grid-area: shopCss;
+    }
+
+    .shopDollarText {
+        grid-area: shopDollarText;
+    }
+
+    .shopDollarDiv {
+        grid-area: shopDollar;
+    }
+
+    .numberBox {
+        grid-area: numberBox;
+    }
+
+    .dollaridoosBox {
+        grid-area: dollaridoosBox;
+    }
+
+    .upgradesBought {
         width: calc(100% - 2px);
         height: 100%;
-        grid-area: toggle;
+        grid-area: upgradesBought;
+    }
 
-        .toggleTextP {
-            width: 100%;
-            height: 3rem;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
+    .upgradesBoughtBox {
+        height: calc(100% - 49px);
+        display: grid;
+        grid-template-areas:
+            "cssTitle dollaridoosTitle"
+            "shopCssBox shopDollarBox";
+        grid-template-columns: 1fr;
+        grid-template-rows: min-content 1fr;
+    }
+
+    .dollarUnlocked .upgradesBoughtBox {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .upgradesBoughtCssText {
+        grid-area: cssTitle;
+    }
+
+    .cssUpgradesBoughtBox {
+        grid-area: shopCssBox;
+    }
+
+    .upgradesBoughtDollarText {
+        grid-area: dollaridoosTitle;
+    }
+
+    .dollarUpgradesBoughtBox {
+        grid-area: shopDollarBox;
+    }
+
+    .upgradesBoughtTextP {
+        width: 100%;
+        height: 3rem;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
 
     .selgSide {
@@ -186,7 +214,7 @@
         padding: 10px;
     }
 
-    .toggleBox,
+    .cssUpgradesBoughtBox,
     .dollaridoosBox,
     .numberBox,
     .shopCssText,
@@ -196,6 +224,9 @@
     .confirmTitle,
     .infoBox span,
     .grid,
+    .upgradesBoughtCssText,
+    .dollarUpgradesBoughtBox,
+    .upgradesBoughtDollarText,
     .cssTextBox2 {
         padding: 5px;
     }
@@ -210,7 +241,7 @@
 
     .typerText,
     .shopText,
-    .toggleTextP {
+    .upgradesBoughtTextP {
         padding-bottom: 5px;
     }
 
@@ -218,7 +249,7 @@
         padding: 0;
 
         .typerText,
-        .toggleTextP,
+        .upgradesBoughtTextP,
         .shopText {
             padding-bottom: 0;
         }
@@ -238,19 +269,19 @@
 
     .shopCssDiv,
     .shopDollarDiv,
-    .toggleBox,
+    .upgradesBoughtBox,
     .shopDollarItem {
         margin-top: 10px;
     }
 
-    .toggleItem,
+    .upgradesBoughtItem,
     .shopItem {
         margin-bottom: 5px;
     }
 
     .cssTyper,
     .shop,
-    .toggle,
+    .upgradesBought,
     .selgSide {
         margin-top: 15px;
     }
@@ -262,8 +293,8 @@
         .shop,
         .shopCssDiv,
         .shopDollarDiv,
-        .toggle,
-        .toggleBox,
+        .upgradesBought,
+        .upgradesBoughtBox,
         .selgSide {
             margin-top: 0;
         }
@@ -273,59 +304,60 @@
 /* Border-oppgradering */
 
 .borderOn {
-    .grid {
-        .header {
+    .header {
+        border-bottom: 1px solid #000;
+    }
+
+    .cssTyper {
+        border: 1px solid #000;
+    }
+    .typerText {
+        border-bottom: 1px solid #000;
+    }
+
+    .shop {
+        border: 1px solid #000;
+    }
+    .shopText {
+        border-bottom: 1px solid #000;
+    }
+
+    .shopCssText,
+    .numberBox,
+    .dollaridoosBox {
+        border-bottom: 1px solid #000;
+    }
+
+    .shopDollarText {
+        border-top: 1px solid #000;
+        border-bottom: 1px solid #000;
+    }
+
+    .upgradesBought {
+        border: 1px solid #000;
+
+        .upgradesBoughtTextP {
             border-bottom: 1px solid #000;
-        }
-
-        .cssTyper {
-            border: 1px solid #000;
-
-            .typerText {
-                border-bottom: 1px solid #000;
-            }
-        }
-
-        .shop {
-            border: 1px solid #000;
-
-            .shopText {
-                border-bottom: 1px solid #000;
-            }
-
-            .shopDiv {
-                .shopCssText,
-                .numberBox,
-                .dollaridoosBox {
-                    border-bottom: 1px solid #000;
-                }
-
-                .shopDollarText {
-                    border-top: 1px solid #000;
-                    border-bottom: 1px solid #000;
-                }
-            }
-        }
-
-        .toggle {
-            border: 1px solid #000;
-
-            .toggleTextP {
-                border-bottom: 1px solid #000;
-            }
-        }
-
-        .selgSide {
-            border: 1px solid #000;
         }
     }
 
-    .gridOn {
-        .dollarUnlocked {
-            .shopDollarText {
-                border-top: none !important;
-            }
+    .upgradesBoughtCssText,
+    .upgradesBoughtDollarText {
+        border-top: 1px solid #000;
+        border-bottom: 1px solid #000;
+    }
 
+    .selgSide {
+        border: 1px solid #000;
+    }
+
+    .gridOn {
+        .upgradesBoughtCssText,
+        .upgradesBoughtDollarText,
+        .shopDollarText {
+            border-top: none;
+        }
+        .dollarUnlocked {
             .shopCssText,
             .shopCssDiv,
             .numberBox {
@@ -335,4 +367,4 @@
     }
 }
 
-/* LEGG TIL MARGIN OPPGRADERING, FJERN TING SOM SKAL PÅ MARGIN FRA PADDING */
+/* Fiks paddinger på kjøpte oppgraderinger */
