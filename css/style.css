@@ -8,76 +8,48 @@
     cursor: default;
 }
 
-.header {
-    width: fit-content;
-}
-
-.cssTyper {
-    width: fit-content;
-}
-
-.shop {
-    width: fit-content;
-}
-
-.toggle {
-    width: fit-content;
-}
-
-.shopItem {
-    width: fit-content;
-    cursor: pointer;
-}
-
-.shopDollarItem {
-    cursor: pointer;
-}
-
-.toggleItem {
-    width: fit-content;
-    cursor: pointer;
-}
-
+.header,
+.cssTyper,
+.shop,
+.toggle,
+.shopItem,
+.toggleItem,
 .selgSide {
     width: fit-content;
+}
+
+.shopItem,
+.shopDollarItem,
+.toggleItem,
+.selgSide {
     cursor: pointer;
 }
 
 /* Skru av display på ting som ikke er unlocka */
 
-.toggle {
+.toggle,
+.toggleItem,
+.toggleText,
+.shopCssText,
+.shopDollarText,
+.dollaridoosBox,
+.shopDollarDiv/*, .selgSide */ {
     display: none;
 }
 
-.toggleItem {
+.chatgptOnTest {
     display: none;
 }
 
-.toggleText {
+.keyboardOnTest {
     display: none;
 }
-
-.dollaridoosBox {
-    display: none;
-}
-
-.shopDollarText {
-    display: none;
-}
-
-.shopDollarDiv {
-    display: none;
-}
-
-/* .selgSide {
-    display: none;
-} */
 
 /* Infoboks */
 
 .infoBox {
-    position:relative;
-    color:#000;
+    position: relative;
+    color: #000;
     text-decoration: none;
 }
 
@@ -85,14 +57,15 @@
     display: none;
 }
 
-.infoBox:hover span { 
+.infoBox:hover span {
     display: block;
     position: absolute;
     top: 1.5rem;
+    width: max-content;
     max-width: 15rem;
     z-index: 1;
-    background-color: #fff; 
-    border:1px solid rgb(0, 0, 0);
+    background-color: #fff;
+    border: 1px solid rgb(0, 0, 0);
 }
 
 /* confirmation vindu */
@@ -110,7 +83,7 @@
     justify-content: center;
 }
 
-.confirmWindow{
+.confirmWindow {
     border: 1px solid #000;
     background-color: #fff;
     max-width: 500px;
@@ -131,7 +104,9 @@
     justify-content: space-between;
 }
 
-.confirmClose:hover {
+.confirmClose:hover,
+.confirmButtonYe:hover,
+.confirmButtonNo:hover {
     cursor: pointer;
 }
 
@@ -140,27 +115,13 @@
     justify-content: flex-end;
 }
 
-.confirmButton {
-    cursor: pointer;
-}
-
-.confirmButtonYe {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 30px;
-    height: 20px; 
-    border: 1px solid #000;
-    text-align: center;
-    margin: 1px;
-}
-
+.confirmButtonYe,
 .confirmButtonNo {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 30px;
-    height: 20px; 
+    height: 20px;
     border: 1px solid #000;
     text-align: center;
     margin: 1px;
