@@ -31,10 +31,12 @@
 .upgradesBoughtText,
 .upgradesBoughtCssText,
 .upgradesBoughtDollarText,
+.upgradesBoughtDollarItem,
 .shopCssText,
 .shopDollarText,
 .dollaridoosBox,
 .shopDollarDiv,
+.timer, 
 .selgSide {
     display: none;
 }
