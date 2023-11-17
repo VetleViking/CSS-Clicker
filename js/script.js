@@ -22,11 +22,15 @@ let upgradesBoughtDollarText = document.getElementById("upgradesBoughtDollarText
 let cssUpgradesBoughtBox = document.getElementById("cssUpgradesBoughtBox");
 let dollaridoosUnlockedHtml = document.getElementsByClassName("dollaridoos");
 let dollarUnlocked = false;
+let timerHtml = document.getElementById("timer");
 
 // Ideer
 // Kjøpe oppgraderinger for å få mer linjer
 // Kjøpe ting som stack overflow, w3schools, chatgpt osv for å få linjer automatisk
 // Reinkarnasjon senere
+
+// fikse
+// fiks synlighet på upgradesBoughtDollarBox etter selging
 
 start(shopCssItems);
 start(shopDollarItems);
@@ -201,8 +205,14 @@ function toggleCss(clas) {
 // Function that checksd if submitted CSS is right
 function submitCss() {
     if (cssBox.value == cssText.innerHTML) {
-        cssLines += 1 * totalMultiplier;
-        cssLinesTotal += 1 * totalMultiplier;
+        if (cssText.style.backgroundColor == "gold") {
+            cssLines += 10 * totalMultiplier;
+            cssLinesTotal += 10 * totalMultiplier;
+        } else {
+            cssLines += 1 * totalMultiplier;
+            cssLinesTotal += 1 * totalMultiplier;
+        }
+
         numHtml.innerHTML = cssLines + " linjer";
         rightOrNot.innerHTML = "Riktig! :D";
 
@@ -231,6 +241,23 @@ function newCssTextBox() {
         newCssText = newCssText + ": " + chNum1 + numberTypes[Math.floor(Math.random() * numberTypes.length)] + ";";
     } else if (chooseNum == 2) {
         newCssText = newCssText + ": " + Math.floor(Math.random() * 10) / 10 + ";";
+    }
+    let goldenLine = Math.floor(Math.random() * 50);
+    if (goldenLine == 1) {
+        let timer = 10;
+        timerHtml.innerHTML = timer;
+        cssText.style.backgroundColor = "gold";
+        timerHtml.style.display = "block";
+
+        const interval = setInterval(function () {
+            timer -= 1;
+            timerHtml.innerHTML = timer;
+            if (timer == 0) {
+                cssText.style.backgroundColor = "white";
+                timerHtml.style.display = "none";
+                clearInterval(interval);
+            }
+        }, 1000);
     }
     cssText.innerHTML = newCssText; // Display the generated CSS text
 }
