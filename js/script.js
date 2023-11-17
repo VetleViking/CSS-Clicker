@@ -45,7 +45,7 @@ function selgeSide() {
                 dollaridoosUnlockedHtml[i].classList.add("dollarUnlocked");
             }
         }
-        dollaridoos = Math.floor(cssLinesTotal / 10);
+        dollaridoos += Math.floor(cssLinesTotal / 10);
 
         cssLines = 0;
         cssLinesTotal = 0;
@@ -79,6 +79,11 @@ function selgeSide() {
         upgradesBoughtText.style.display = "none";
         rightOrNot.innerHTML = "";
         allCssUpgradesBought = [];
+
+        upgradesBoughtCssText.style.display = "none";
+        upgradesBoughtDollarText.style.display = "none";
+        upgradesBoughtCssText.style.borderRight = "none";
+        cssUpgradesBoughtBox.style.borderRight = "none";
 
         selgeSideBtn.style.display = "none";
 
@@ -116,7 +121,7 @@ function kjøpeCss(clas, price) {
 
 // Function to buy stuff with dollaridoos
 function kjøpeDollar(type, clas, amount, price) {
-    if (cssLines >= price && !allCssUpgradesBought.includes(clas)) {
+    if (dollaridoos >= price && !allCssUpgradesBought.includes(clas)) {
         dollaridoos -= price;
         dollaridoosHtml.innerHTML = dollaridoos + "$";
 
@@ -173,8 +178,10 @@ function addUpgBought(clas) {
     if (allDollaridoosUpgradesBought.length >= 1 && allCssUpgradesBought.length >= 1) {
         upgradesBoughtCssText.style.display = "block";
         upgradesBoughtDollarText.style.display = "block";
-        upgradesBoughtCssText.style.borderRight = "1px solid black";
-        cssUpgradesBoughtBox.style.borderRight = "1px solid black";
+        if (allCssUpgradesBought.includes("border") && allCssUpgradesBought.includes("grid")) {
+            upgradesBoughtCssText.style.borderRight = "1px solid black";
+            cssUpgradesBoughtBox.style.borderRight = "1px solid black";
+        }
     }
     buyUpgradesBoughtItem.style.display = "block";
 }
