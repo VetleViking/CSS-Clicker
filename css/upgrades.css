@@ -269,13 +269,13 @@
 
     .shopCssDiv,
     .shopDollarDiv,
-    .upgradesBoughtBox,
-    .shopDollarItem {
+    .upgradesBoughtBox {
         margin-top: 10px;
     }
 
     .upgradesBoughtItem,
-    .shopItem {
+    .shopItem,
+    .shopDollarItem {
         margin-bottom: 5px;
     }
 
