@@ -85,7 +85,7 @@ function selgeSide() {
         upgradesBoughtCssText.style.borderRight = "none";
         cssUpgradesBoughtBox.style.borderRight = "none";
 
-        selgeSideBtn.style.display = "none";
+        //selgeSideBtn.style.display = "none";
 
         dollarUnlocked = true;
 

@@ -34,8 +34,8 @@
 .shopCssText,
 .shopDollarText,
 .dollaridoosBox,
-.shopDollarDiv,
-.selgSide {
+.shopDollarDiv
+/*, .selgSide*/ {
     display: none;
 }
 
