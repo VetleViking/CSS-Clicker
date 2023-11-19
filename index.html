@@ -35,41 +35,66 @@
                     <div class="shopCssText" id="shopCssText"><p>Linje-shop</p></div>
                     <div class="numberBox"><p id="number">0 linjer</p></div>
                     <div class="shopCssDiv">
-                        <div class="shopItem infoBox" id="font-sizeShop" onclick="kjøpeCss('font-size', 3)">
-                            <p>Font-size: 3 linjer<span class="tooltip">Legger til font-size til titler og sånt.</span></p>
-                        </div>
-                        <div class="shopItem infoBox" id="marginShop" onclick="kjøpeCss('margin', 5)">
-                            <p>Margin: 5 linjer<span class="tooltip">Legger til margin så ting får pusterom.</span></p>
-                        </div>
-                        <div class="shopItem infoBox" id="paddingShop" onclick="kjøpeCss('padding', 10)">
-                            <p>Padding: 10 linjer<span class="tooltip">Legger til padding så tekst og sånt ikke blir så skvist.</span></p>
-                        </div>
-
-                        <div class="shopItem infoBox" id="colorShop" onclick="kjøpeCss('color', 15)">
+                        <div class="shopItem infoBox" id="font-sizeShop" onclick="kjøpeCss('font-size', 5, 1)">
                             <p>
-                                Farger: 15 linjer<span class="tooltip"
-                                    >Adder noen basic farger til knapper og bokser og sånne greier. <br />
-                                    Tips: ser bedre ut når kombinert med Grid-system oppgraderingen.</span
+                                Font-size: 5 linjer<span class="tooltip"
+                                    >Legger til font-size til titler og sånt. <br />
+                                    Gir en ekstra linje hver gang du skriver.</span
                                 >
                             </p>
                         </div>
-                        <div class="shopItem infoBox" id="borderShop" onclick="kjøpeCss('border', 20)">
-                            <p>Bordere: 20 linjer<span class="tooltip">Adder bordere til elementene så det er tydeligere skiller på ting.</span></p>
+                        <div class="shopItem infoBox" id="marginShop" onclick="kjøpeCss('margin', 15, 1)">
+                            <p>
+                                Margin: 10 linjer<span class="tooltip"
+                                    >Legger til margin så ting får pusterom. <br />
+                                    Gir en ekstra linje hver gang du skriver.</span
+                                >
+                            </p>
+                        </div>
+                        <div class="shopItem infoBox" id="paddingShop" onclick="kjøpeCss('padding', 30, 1)">
+                            <p>
+                                Padding: 30 linjer<span class="tooltip"
+                                    >Legger til padding så tekst og sånt ikke blir så skvist. <br />
+                                    Gir en ekstra linje hver gang du skriver.</span
+                                >
+                            </p>
                         </div>
 
-                        <div class="shopItem infoBox" id="gridShop" onclick="kjøpeCss('grid', 40)">
-                            <p>Grid-system: 40 linjer<span class="tooltip">Adder et grid-system.</span></p>
+                        <div class="shopItem infoBox" id="colorShop" onclick="kjøpeCss('color', 50, 1)">
+                            <p>
+                                Farger: 50 linjer<span class="tooltip"
+                                    >Adder noen basic farger til knapper og bokser og sånne greier. <br />
+                                    Gir en ekstra linje hver gang du skriver.</span
+                                >
+                            </p>
+                        </div>
+                        <div class="shopItem infoBox" id="borderShop" onclick="kjøpeCss('border', 100, 2)">
+                            <p>
+                                Bordere: 100 linjer<span class="tooltip"
+                                    >Adder bordere til elementene så det er tydeligere skiller på ting. <br />
+                                    Gir to ekstra linje hver gang du skriver.</span
+                                >
+                            </p>
+                        </div>
+
+                        <div class="shopItem infoBox" id="gridShop" onclick="kjøpeCss('grid', 200, 5)">
+                            <p>
+                                Grid-system: 200 linjer<span class="tooltip"
+                                    >Adder et grid-system. <br />
+                                    Gir fem ekstra linjer hver gang du skriver.</span
+                                >
+                            </p>
                         </div>
                     </div>
                     <div class="shopDollarText" id="shopDollarText"><p>Dollar-shop</p></div>
                     <div class="dollaridoosBox" id="dollaridoos"><p>0$</p></div>
                     <div class="shopDollarDiv" id="shopDollarDiv">
-                        <div class="shopDollarItem infoBox" id="mouseDollarShop" onclick="kjøpeDollar('multiplier', 'mouse', 2, 3)">
+                        <div class="shopDollarItem infoBox" id="mouseDollarShop" onclick="kjøpeDollar('multiplier', 'mouse', 2, 10)">
                             <p>
                                 RGB mus: 3$<span class="tooltip">Med en fancy RGB mus kan du skrive css enda fortere! (det gir mening trust)<br />Dobler mengden linjer du får når du skriver</span>
                             </p>
                         </div>
-                        <div class="shopDollarItem infoBox" id="stackoverflowDollarShop" onclick="kjøpeDollar('auto', 'stackoverflow', 10, 5)">
+                        <div class="shopDollarItem infoBox" id="stackoverflowDollarShop" onclick="kjøpeDollar('auto', 'stackoverflow', 10, 50)">
                             <p>
                                 Stack Overflow: 5$<span class="tooltip"
                                     >Spør de kule karene på Stack Overflow om hjelp med CSSen din! Bare vær klar over at de mobber deg for å stille spørsmål mer enn de faktisk hjelper.<br />
@@ -77,12 +102,12 @@
                                 >
                             </p>
                         </div>
-                        <div class="shopDollarItem infoBox" id="keyboardDollarShop" onclick="kjøpeDollar('multiplier', 'keyboard', 2, 15)">
+                        <div class="shopDollarItem infoBox" id="keyboardDollarShop" onclick="kjøpeDollar('multiplier', 'keyboard', 2, 100)">
                             <p>
                                 RGB keyboard: 15$<span class="tooltip">Med et fancy RGB keyboard suser linjene forbi!<br />Dobler mengden linjer du får når du skriver</span>
                             </p>
                         </div>
-                        <div class="shopDollarItem infoBox" id="chatgptDollarShop" onclick="kjøpeDollar('auto', 'chatgpt' , 1, 30)">
+                        <div class="shopDollarItem infoBox" id="chatgptDollarShop" onclick="kjøpeDollar('auto', 'chatgpt' , 1, 150)">
                             <p>
                                 ChatGPT: 30$<span class="tooltip"
                                     >La ChatGPT skrive CSSen for deg, mens du sitter og chiller! <br />
@@ -90,7 +115,7 @@
                                 >
                             </p>
                         </div>
-                        <div class="shopDollarItem infoBox" id="screenDollarShop" onclick="kjøpeDollar('multiplier', 'screen', 4, 50)">
+                        <div class="shopDollarItem infoBox" id="screenDollarShop" onclick="kjøpeDollar('multiplier', 'screen', 4, 300)">
                             <p>
                                 4K 240hz skjerm: 50$<span class="tooltip">Med denne skjermen kan du se all CSSen utrolig bra!<br />Firedobler mengden linjer du får når du skriver</span>
                             </p>
