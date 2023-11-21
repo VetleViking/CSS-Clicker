@@ -25,13 +25,15 @@ let dollaridoosUnlockedHtml = document.getElementsByClassName("dollaridoos");
 let dollarUnlocked = false;
 let timerHtml = document.getElementById("timer");
 let isGolden = false; // lets isGolden to be false
-let goldenLineTimer; // lets goldenLineTimer
-var img
-var imageBase64
-var text
-var backgroundColor
+let newCssTextContent; 
+var img; 
+var imageBase64; 
+var text;
+var backgroundColor;
 var font = "16px Times New Roman";
 var textColor = "#000000";
+let timer = 0;
+let goldenLineInterval;
 
 // Ideer:
 // Reinkarnasjon senere
@@ -47,7 +49,7 @@ function start(items) {
 
 // Function to sell the website
 function selgeSide() {
-    if (cssLinesTotal >= 30) {
+    if (cssLinesTotal >= 100) {
         if (dollarUnlocked == false) {
             for (let i = 0; i < dollaridoosUnlockedHtml.length; i++) {
                 dollaridoosUnlockedHtml[i].classList.add("dollarUnlocked");
@@ -145,7 +147,6 @@ function kjøpeDollar(type, clas, amount, price) {
 
         if (type == "multiplier") {
             totalMultiplier *= amount;
-            console.log(totalMultiplier);
             dollaridoosHtml.innerHTML = dollaridoos + "$";
         } else if (type == "auto") {
             setInterval(function () {
@@ -190,11 +191,6 @@ function addNextShopItem(shopType) {
 function addUpgBought(clas) {
     let buyUpgradesBoughtItem = document.getElementById(clas + "UpgradesBought");
 
-    console.log(allCssUpgradesBought.length);
-    console.log(allDollaridoosUpgradesBought.length);
-    console.log(allCssUpgradesBought);
-    console.log(allDollaridoosUpgradesBought);
-
     if (allCssUpgradesBought.length <= 1 && allDollaridoosUpgradesBought.length <= 1) {
         upgradesBoughtBox.style.display = "block";
         upgradesBoughtText.style.display = "block";
@@ -224,7 +220,7 @@ function toggleCss(clas) {
 
 // Function that checks if submitted CSS is right
 function submitCss() {
-    if (cssBox.value == cssText.innerHTML) {
+    if (cssBox.value == newCssTextContent) {
         if (isGolden == true) {
             // If the line is golden, add 10 lines instead of 1
             cssLines += (10 + totalPlus) * totalMultiplier;
@@ -257,51 +253,55 @@ function submitCss() {
 // Function to generate new CSS text
 function newCssText() {
     let chooseNum = Math.floor(Math.random() * numberPropertyTypes.length);
-    let newCssText = numberPropertyTypes[chooseNum];
-    newCssText = newCssText[Math.floor(Math.random() * newCssText.length)];
+    newCssTextContent = numberPropertyTypes[chooseNum];
+    newCssTextContent = newCssTextContent[Math.floor(Math.random() * newCssTextContent.length)];
 
-    if (goldenLineTimer) {
-        clearInterval(goldenLineTimer);
-        cssText.style.backgroundColor = "";
-        timerHtml.style.display = "none";
-        isGolden = false;
+    if (isGolden == true) {
+        stopGoldenLineInterval();
     }
 
     // Generate CSS text for the different types
     if (chooseNum == 0) {
-        newCssText = newCssText + ": " + wordTypes[Math.floor(Math.random() * wordTypes.length)] + ";";
+        newCssTextContent = newCssTextContent + ": " + wordTypes[Math.floor(Math.random() * wordTypes.length)] + ";";
     } else if (chooseNum == 1) {
         let chNum1 = Math.floor(Math.random() * 100) + 1;
-        newCssText = newCssText + ": " + chNum1 + numberTypes[Math.floor(Math.random() * numberTypes.length)] + ";";
+        newCssTextContent = newCssTextContent + ": " + chNum1 + numberTypes[Math.floor(Math.random() * numberTypes.length)] + ";";
     } else if (chooseNum == 2) {
-        newCssText = newCssText + ": " + Math.floor(Math.random() * 10) / 10 + ";";
+        newCssTextContent = newCssTextContent + ": " + Math.floor(Math.random() * 10) / 10 + ";";
     }
-    let goldenLine = Math.floor(Math.random() * 26);
+
+    let goldenLine = Math.floor(Math.random() * 2);
     if (goldenLine == 1) {
-        let timer = 10;
+        let timer = 100;
         timerHtml.innerHTML = timer;
         cssText.style.backgroundColor = "gold";
         timerHtml.style.display = "block";
         isGolden = true;
 
-        const interval = setInterval(function () {
+        goldenLineInterval = setInterval(function () {
             
             timer -= 1;
             timerHtml.innerHTML = timer;
             if (timer == 0) {
-                cssText.style.backgroundColor = "";
-                timerHtml.style.display = "none";
-                clearInterval(interval);
-                isGolden = false;
-                convertToImage(newCssText, isGolden);
+                
+                stopGoldenLineInterval();
+                convertToImage(newCssTextContent, isGolden);  
             }
         }, 1000);
     }
-    convertToImage(newCssText, isGolden);
+    convertToImage(newCssTextContent, isGolden);
+}
+
+// Function to stop the golden line
+function stopGoldenLineInterval() {
+    clearInterval(goldenLineInterval);
+    cssText.style.backgroundColor = "";
+    timerHtml.style.display = "none";
+    isGolden = false;
 }
 
 // Function to convert the CSS text to an image
-function convertToImage(newCssText, isGolden) {
+function convertToImage(newCssTextContent, isGolden) {
     cssText.innerHTML = "";
     if (isGolden == true) {
         backgroundColor = "gold";
@@ -310,7 +310,7 @@ function convertToImage(newCssText, isGolden) {
     }
 
     text = "Balle";
-    imageBase64 = textToImage(newCssText, font, textColor, backgroundColor);
+    imageBase64 = textToImage(newCssTextContent, font, textColor, backgroundColor);
     img.src = imageBase64;
     cssText.appendChild(img);
 }
