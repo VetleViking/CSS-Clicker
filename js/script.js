@@ -26,6 +26,12 @@ let dollarUnlocked = false;
 let timerHtml = document.getElementById("timer");
 let isGolden = false; // lets isGolden to be false
 let goldenLineTimer; // lets goldenLineTimer
+var img
+var imageBase64
+var text
+var backgroundColor
+var font = "16px Times New Roman";
+var textColor = "#000000";
 
 // Ideer:
 // Reinkarnasjon senere
@@ -216,7 +222,7 @@ function toggleCss(clas) {
     }
 }
 
-// Function that checksd if submitted CSS is right
+// Function that checks if submitted CSS is right
 function submitCss() {
     if (cssBox.value == cssText.innerHTML) {
         if (isGolden == true) {
@@ -239,7 +245,9 @@ function submitCss() {
             selgeSideBtn.style.display = "block";
         }
 
-        newCssTextBox();
+        rightOrNot.innerHTML = "Riktig! :)"; // Riktig! :)
+
+        newCssText();
     } else {
         rightOrNot.innerHTML = "Feil. :("; // Feil. :(
     }
@@ -247,7 +255,7 @@ function submitCss() {
 }
 
 // Function to generate new CSS text
-function newCssTextBox() {
+function newCssText() {
     let chooseNum = Math.floor(Math.random() * numberPropertyTypes.length);
     let newCssText = numberPropertyTypes[chooseNum];
     newCssText = newCssText[Math.floor(Math.random() * newCssText.length)];
@@ -268,15 +276,16 @@ function newCssTextBox() {
     } else if (chooseNum == 2) {
         newCssText = newCssText + ": " + Math.floor(Math.random() * 10) / 10 + ";";
     }
-    let goldenLine = Math.floor(Math.random() * 26);
+    let goldenLine = Math.floor(Math.random() * 2);
     if (goldenLine == 1) {
         let timer = 10;
         timerHtml.innerHTML = timer;
         cssText.style.backgroundColor = "gold";
         timerHtml.style.display = "block";
+        isGolden = true;
 
-        goldenLineTimer = setInterval(function () {
-            isGolden = true;
+        const interval = setInterval(function () {
+            
             timer -= 1;
             timerHtml.innerHTML = timer;
             if (timer == 0) {
@@ -284,11 +293,50 @@ function newCssTextBox() {
                 timerHtml.style.display = "none";
                 clearInterval(interval);
                 isGolden = false;
+                convertToImage(newCssText, isGolden);
             }
         }, 1000);
     }
-    cssText.innerHTML = newCssText; // Display the generated CSS text
+    convertToImage(newCssText, isGolden);
 }
+
+// Function to convert the CSS text to an image
+function convertToImage(newCssText, isGolden) {
+    cssText.innerHTML = "";
+    if (isGolden == true) {
+        backgroundColor = "gold";
+    } else {
+        backgroundColor = "#ffffff";
+    }
+
+    text = "Balle";
+    imageBase64 = textToImage(newCssText, font, textColor, backgroundColor);
+    img.src = imageBase64;
+    cssText.appendChild(img);
+}
+
+// Function to convert text to image
+function textToImage(text, font, textColor, backgroundColor) {
+
+    var canvas = document.createElement("canvas");
+    var context = canvas.getContext("2d");
+    context.font = font;
+    var textWidth = context.measureText(text).width;
+
+    canvas.width = textWidth;
+    canvas.height = parseInt(font, 14); 
+
+    context.font = font;
+    context.fillStyle = backgroundColor;
+    context.fillRect(0, 0, canvas.width, canvas.height);
+    context.fillStyle = textColor;
+    context.fillText(text, 0, parseInt(font, 10));
+    img = document.createElement("img");
+
+    return canvas.toDataURL("image/png");
+}
+
+
 
 // Event listener for Enter key press in the CSS input box
 document.addEventListener("keypress", function (event) {
@@ -349,4 +397,4 @@ const lengthValueProperties = [
 
 const numberPropertyTypes = [keywordValueProperties, lengthValueProperties, numericValueProperties];
 
-newCssTextBox();
+newCssText();
