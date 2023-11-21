@@ -15,6 +15,7 @@ let shopDiv = document.getElementById("shopDiv");
 let selgeSideBtn = document.getElementById("btnSelgeSide");
 let cssShopText = document.getElementById("shopCssText");
 let totalMultiplier = 1;
+let totalPlus = 0;
 let shopCssItems = document.getElementsByClassName("shopItem");
 let shopDollarItems = document.getElementsByClassName("shopDollarItem");
 let upgradesBoughtCssText = document.getElementById("upgradesBoughtCssText");
@@ -24,10 +25,10 @@ let dollaridoosUnlockedHtml = document.getElementsByClassName("dollaridoos");
 let dollarUnlocked = false;
 let timerHtml = document.getElementById("timer");
 let isGolden = false; // lets isGolden to be false
+let goldenLineTimer; // lets goldenLineTimer
 
 // Ideer:
 // Reinkarnasjon senere
-
 
 start(shopCssItems);
 start(shopDollarItems);
@@ -41,7 +42,6 @@ function start(items) {
 // Function to sell the website
 function selgeSide() {
     if (cssLinesTotal >= 30) {
-        
         if (dollarUnlocked == false) {
             for (let i = 0; i < dollaridoosUnlockedHtml.length; i++) {
                 dollaridoosUnlockedHtml[i].classList.add("dollarUnlocked");
@@ -54,7 +54,6 @@ function selgeSide() {
         numHtml.innerHTML = cssLines + " linjer";
         dollaridoosHtml.innerHTML = dollaridoos + "$";
         dollaridoosHtml.style.display = "block";
-        
 
         for (let i = 0; i < allCssUpgradesBought.length; i++) {
             let currentCssUpgrade = allCssUpgradesBought[i];
@@ -71,7 +70,6 @@ function selgeSide() {
 
         for (let i = 0; i < upgradesBoughtItems.length; i++) {
             upgradesBoughtItems[i].style.display = "none";
-            
         }
 
         let dollarShopDiv = document.getElementById("shopDollarDiv");
@@ -80,7 +78,6 @@ function selgeSide() {
         cssShopText.style.display = "block";
         dollarShopDiv.style.display = "block";
 
-        
         rightOrNot.innerHTML = "";
         allCssUpgradesBought = [];
 
@@ -96,18 +93,17 @@ function selgeSide() {
         selgeSideBtn.style.display = "none";
 
         dollarUnlocked = true;
-        
+
         start(shopCssItems);
         if (dollarUnlocked == false) {
             start(shopDollarItems);
         } else {
         }
-        
     }
 }
 
 // Function to buy CSS
-function kjøpeCss(clas, price) {
+function kjøpeCss(clas, price, amount) {
     if (cssLines >= price && !allCssUpgradesBought.includes(clas)) {
         cssLines -= price;
         numHtml.innerHTML = cssLines + " linjer";
@@ -121,6 +117,8 @@ function kjøpeCss(clas, price) {
                 classBuyList[i].classList.add(clas + "On", clas + "Bought");
             }
         }
+
+        totalPlus += amount;
 
         allCssUpgradesBought.push(clas);
 
@@ -223,18 +221,21 @@ function submitCss() {
     if (cssBox.value == cssText.innerHTML) {
         if (isGolden == true) {
             // If the line is golden, add 10 lines instead of 1
-            cssLines += 10 * totalMultiplier;
-            cssLinesTotal += 10 * totalMultiplier;
+            cssLines += (10 + totalPlus) * totalMultiplier;
+            cssLinesTotal += (10 + totalPlus) * totalMultiplier;
         } else {
             // else add 1 line
-            cssLines += 1 * totalMultiplier;
-            cssLinesTotal += 1 * totalMultiplier;
+            cssLines += (1 + totalPlus) * totalMultiplier;
+            cssLinesTotal += (1 + totalPlus) * totalMultiplier;
         }
 
-        numHtml.innerHTML = cssLines + " linjer";
-        rightOrNot.innerHTML = "Riktig! :D"; // Riktig! :D
+        if (cssLines == 1) {
+            numHtml.innerHTML = cssLines + " linje";
+        } else {
+            numHtml.innerHTML = cssLines + " linjer";
+        }
 
-        if (cssLinesTotal >= 30) {
+        if (cssLinesTotal >= 100) {
             selgeSideBtn.style.display = "block";
         }
 
@@ -251,7 +252,8 @@ function newCssTextBox() {
     let newCssText = numberPropertyTypes[chooseNum];
     newCssText = newCssText[Math.floor(Math.random() * newCssText.length)];
 
-    if (isGolden == true) {
+    if (goldenLineTimer) {
+        clearInterval(goldenLineTimer);
         cssText.style.backgroundColor = "";
         timerHtml.style.display = "none";
         isGolden = false;
@@ -266,14 +268,14 @@ function newCssTextBox() {
     } else if (chooseNum == 2) {
         newCssText = newCssText + ": " + Math.floor(Math.random() * 10) / 10 + ";";
     }
-    let goldenLine = Math.floor(Math.random() * 2);
+    let goldenLine = Math.floor(Math.random() * 26);
     if (goldenLine == 1) {
         let timer = 10;
         timerHtml.innerHTML = timer;
         cssText.style.backgroundColor = "gold";
         timerHtml.style.display = "block";
 
-        const interval = setInterval(function () {
+        goldenLineTimer = setInterval(function () {
             isGolden = true;
             timer -= 1;
             timerHtml.innerHTML = timer;
