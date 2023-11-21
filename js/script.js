@@ -276,7 +276,7 @@ function newCssText() {
     } else if (chooseNum == 2) {
         newCssText = newCssText + ": " + Math.floor(Math.random() * 10) / 10 + ";";
     }
-    let goldenLine = Math.floor(Math.random() * 2);
+    let goldenLine = Math.floor(Math.random() * 26);
     if (goldenLine == 1) {
         let timer = 10;
         timerHtml.innerHTML = timer;
