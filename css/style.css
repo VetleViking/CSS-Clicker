@@ -6,6 +6,7 @@
 
 .cssText {
     cursor: default;
+    height: 20px;
 }
 
 .header,
