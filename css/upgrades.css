@@ -364,6 +364,9 @@
                 border-right: 1px solid #000;
             }
         }
+        .cssTyper {
+            min-width: 207px;
+        }
     }
 }
 

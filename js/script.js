@@ -9,6 +9,7 @@ let rightOrNot = document.getElementById("rightOrNot");
 let upgradesBoughtBox = document.getElementById("upgradesBought");
 let upgradesBoughtText = document.getElementById("upgradesBoughtText");
 let upgradesBoughtItems = document.getElementsByClassName("upgradesBoughtItem");
+let upgradesBoughtDollarItems = document.getElementsByClassName("upgradesBoughtDollarItem");
 let allCssUpgradesBought = [];
 let allDollaridoosUpgradesBought = [];
 let shopDiv = document.getElementById("shopDiv");
@@ -18,6 +19,8 @@ let totalMultiplier = 1;
 let totalPlus = 0;
 let shopCssItems = document.getElementsByClassName("shopItem");
 let shopDollarItems = document.getElementsByClassName("shopDollarItem");
+let dollarShopDiv = document.getElementById("shopDollarDiv");
+let dollarShopText = document.getElementById("shopDollarText");
 let upgradesBoughtCssText = document.getElementById("upgradesBoughtCssText");
 let upgradesBoughtDollarText = document.getElementById("upgradesBoughtDollarText");
 let cssUpgradesBoughtBox = document.getElementById("cssUpgradesBoughtBox");
@@ -25,15 +28,15 @@ let dollaridoosUnlockedHtml = document.getElementsByClassName("dollaridoos");
 let dollarUnlocked = false;
 let timerHtml = document.getElementById("timer");
 let isGolden = false; // lets isGolden to be false
-let newCssTextContent; 
-var img; 
-var imageBase64; 
-var text;
+let newCssTextContent;
+var img;
+var imageBase64;
 var backgroundColor;
 var font = "16px Times New Roman";
 var textColor = "#000000";
 let timer = 0;
 let goldenLineInterval;
+let autoInterval;
 
 // Ideer:
 // Reinkarnasjon senere
@@ -47,9 +50,41 @@ function start(items) {
     }
 }
 
+// Reincarnation function
+function reincarnation() {
+    if (cssLinesTotal >= 0) {
+        selgeSide();
+        allDollaridoosUpgradesBought = [];
+        totalMultiplier = 1;
+        dollaridoos = 0;
+        upgradesBoughtBox.style.display = "none";
+        dollaridoosHtml.style.display = "none";
+        dollarShopText.style.display = "none";
+        dollarShopDiv.style.display = "none";
+        cssShopText.style.display = "none";
+
+        for (let i = 0; i < upgradesBoughtDollarItems.length; i++) {
+            upgradesBoughtDollarItems[i].style.display = "none";
+        }
+
+        for (let i = 0; i <= 2; i++) {
+            shopDollarItems[i].style.display = "initial";
+        }
+
+        clearInterval(autoInterval);
+        start(shopDollarItems);
+
+        for (let i = 0; i < allDollaridoosUpgradesBought.length; i++) {
+            let currentDollarUpgrade = allDollaridoosUpgradesBought[i];
+            let shopItemIds = document.getElementById(currentDollarUpgrade + "DollarShop");
+            shopItemIds.style.display = "block";
+        }
+    }
+}
+
 // Function to sell the website
 function selgeSide() {
-    if (cssLinesTotal >= 100) {
+    if (cssLinesTotal >= 0) {
         if (dollarUnlocked == false) {
             for (let i = 0; i < dollaridoosUnlockedHtml.length; i++) {
                 dollaridoosUnlockedHtml[i].classList.add("dollarUnlocked");
@@ -58,6 +93,7 @@ function selgeSide() {
         dollaridoos += Math.floor(cssLinesTotal / 10);
 
         cssLines = 0;
+        totalPlus = 0;
         cssLinesTotal = 0;
         numHtml.innerHTML = cssLines + " linjer";
         dollaridoosHtml.innerHTML = dollaridoos + "$";
@@ -80,8 +116,6 @@ function selgeSide() {
             upgradesBoughtItems[i].style.display = "none";
         }
 
-        let dollarShopDiv = document.getElementById("shopDollarDiv");
-        let dollarShopText = document.getElementById("shopDollarText");
         dollarShopText.style.display = "block";
         cssShopText.style.display = "block";
         dollarShopDiv.style.display = "block";
@@ -98,15 +132,15 @@ function selgeSide() {
         upgradesBoughtCssText.style.borderRight = "none";
         cssUpgradesBoughtBox.style.borderRight = "none";
 
-        selgeSideBtn.style.display = "none";
-
-        dollarUnlocked = true;
+        //selgeSideBtn.style.display = "none";
 
         start(shopCssItems);
         if (dollarUnlocked == false) {
             start(shopDollarItems);
         } else {
         }
+
+        dollarUnlocked = true;
     }
 }
 
@@ -149,7 +183,7 @@ function kjøpeDollar(type, clas, amount, price) {
             totalMultiplier *= amount;
             dollaridoosHtml.innerHTML = dollaridoos + "$";
         } else if (type == "auto") {
-            setInterval(function () {
+            autoInterval = setInterval(function () {
                 cssLines += 1;
                 cssLinesTotal += 1;
                 numHtml.innerHTML = cssLines + " linjer";
@@ -279,13 +313,11 @@ function newCssText() {
         isGolden = true;
 
         goldenLineInterval = setInterval(function () {
-            
             timer -= 1;
             timerHtml.innerHTML = timer;
             if (timer == 0) {
-                
                 stopGoldenLineInterval();
-                convertToImage(newCssTextContent, isGolden);  
+                convertToImage(newCssTextContent, isGolden);
             }
         }, 1000);
     }
@@ -308,8 +340,6 @@ function convertToImage(newCssTextContent, isGolden) {
     } else {
         backgroundColor = "#ffffff";
     }
-
-    text = "Balle";
     imageBase64 = textToImage(newCssTextContent, font, textColor, backgroundColor);
     img.src = imageBase64;
     cssText.appendChild(img);
@@ -317,14 +347,20 @@ function convertToImage(newCssTextContent, isGolden) {
 
 // Function to convert text to image
 function textToImage(text, font, textColor, backgroundColor) {
+    var canvas = document.createElement("canvas");
+    var context = canvas.getContext("2d");
 
     var canvas = document.createElement("canvas");
     var context = canvas.getContext("2d");
+    console.log(context);
     context.font = font;
-    var textWidth = context.measureText(text).width;
 
-    canvas.width = textWidth;
-    canvas.height = parseInt(font, 14); 
+    canvas.width = 207;
+    canvas.height = 20;
+
+    canvas.width *= 10;
+    canvas.height *= 10;
+    context.scale(10, 10);
 
     context.font = font;
     context.fillStyle = backgroundColor;
@@ -335,8 +371,6 @@ function textToImage(text, font, textColor, backgroundColor) {
 
     return canvas.toDataURL("image/png");
 }
-
-
 
 // Event listener for Enter key press in the CSS input box
 document.addEventListener("keypress", function (event) {
