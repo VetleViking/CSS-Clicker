@@ -79,6 +79,7 @@ function reincarnation() {
             let shopItemIds = document.getElementById(currentDollarUpgrade + "DollarShop");
             shopItemIds.style.display = "block";
         }
+        window.location.replace("reinkarnasjon.html");
     }
 }
 
@@ -355,12 +356,9 @@ function textToImage(text, font, textColor, backgroundColor) {
     console.log(context);
     context.font = font;
 
-    canvas.width = 207;
-    canvas.height = 20;
+    canvas.width = context.measureText(text).width;
+    canvas.height = parseInt(font, 10) * 1.5;
 
-    canvas.width *= 10;
-    canvas.height *= 10;
-    context.scale(10, 10);
 
     context.font = font;
     context.fillStyle = backgroundColor;
