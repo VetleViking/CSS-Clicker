@@ -270,9 +270,9 @@ function newCssText() {
         newCssTextContent = newCssTextContent + ": " + Math.floor(Math.random() * 10) / 10 + ";";
     }
 
-    let goldenLine = Math.floor(Math.random() * 2);
+    let goldenLine = Math.floor(Math.random() * 26);
     if (goldenLine == 1) {
-        let timer = 100;
+        let timer = 10;
         timerHtml.innerHTML = timer;
         cssText.style.backgroundColor = "gold";
         timerHtml.style.display = "block";
