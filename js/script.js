@@ -58,6 +58,7 @@ function selgeSide() {
         dollaridoos += Math.floor(cssLinesTotal / 10);
 
         cssLines = 0;
+        totalPlus = 0;
         cssLinesTotal = 0;
         numHtml.innerHTML = cssLines + " linjer";
         dollaridoosHtml.innerHTML = dollaridoos + "$";
