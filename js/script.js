@@ -279,12 +279,10 @@ function newCssText() {
         timerHtml.style.display = "block";
         isGolden = true;
 
-        goldenLineInterval = setInterval(function () {
-            
+        goldenLineInterval = setInterval(function () {            
             timer -= 1;
             timerHtml.innerHTML = timer;
-            if (timer == 0) {
-                
+            if (timer == 0) {   
                 stopGoldenLineInterval();
                 convertToImage(newCssTextContent, isGolden);  
             }
@@ -310,7 +308,6 @@ function convertToImage(newCssTextContent, isGolden) {
         backgroundColor = "#ffffff";
     }
 
-    text = "Balle";
     imageBase64 = textToImage(newCssTextContent, font, textColor, backgroundColor);
     img.src = imageBase64;
     cssText.appendChild(img);
