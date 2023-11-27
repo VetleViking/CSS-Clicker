@@ -100,9 +100,6 @@
         justify-content: space-evenly;
         align-items: center;
     }
-    .cssBox {
-        margin: 5px 0px;
-    }
 
     .shop {
         width: calc(100% - 2px);
@@ -265,6 +262,14 @@
 .marginOn {
     .grid {
         margin: 5px;
+    }
+
+    .cssBox {
+        margin: 5px 0px;
+    }
+
+    .numberLines {
+        margin-bottom: 5px;
     }
 
     .shopCssDiv,
