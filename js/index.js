@@ -373,11 +373,11 @@ function textToImage(text, font, textColor, backgroundColor) {
     context.font = font;
 
     canvas.width = context.measureText(text).width;
-    canvas.height = 24;
+    canvas.height = parseInt(font) * 1.5;
 
-    var pixelRatio = 10;
-    canvas.width *= 10;
-    canvas.height *= 10;
+    var pixelRatio = window.devicePixelRatio * 2;
+    canvas.width *= 2;
+    canvas.height *= 2;
     context.scale(pixelRatio, pixelRatio);
 
     context.font = font;
