@@ -372,7 +372,7 @@ function textToImage(text, font, textColor, backgroundColor) {
     var context = canvas.getContext("2d");
     context.font = font;
 
-    canvas.width = context.measureText(text).width;
+    canvas.width = 200;
     canvas.height = parseInt(font) * 1.5;
 
     var pixelRatio = window.devicePixelRatio * 2;
