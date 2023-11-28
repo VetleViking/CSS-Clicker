@@ -54,7 +54,13 @@ function start(items) {
 // Reincarnation function
 function reincarnation() {
     if (cssLinesTotal >= 0) {
-        reincarnationPoints += Math.floor(cssLinesTotal / 10000);
+        if (localStorage.getItem("reincarnationPoints") == null) {
+            localStorage.setItem("reincarnationPoints", 0);
+        } else {
+            reincarnationPoints = parseInt(localStorage.getItem("reincarnationPoints"));
+            reincarnationPoints += Math.floor(cssLinesTotal / 10000);
+            localStorage.setItem("reincarnationPoints", reincarnationPoints);
+        }
         selgeSide();
         allDollaridoosUpgradesBought = [];
         totalMultiplier = 1;
@@ -268,8 +274,8 @@ function submitCss() {
     if (cssBox.value == newCssTextContent) {
         if (isGolden == true) {
             // If the line is golden, add 10 lines instead of 1
-            cssLines += ((1 + totalPlus) * totalMultiplier) * 10;
-            cssLinesTotal += ((1 + totalPlus) * totalMultiplier) * 10;
+            cssLines += (1 + totalPlus) * totalMultiplier * 10;
+            cssLinesTotal += (1 + totalPlus) * totalMultiplier * 10;
         } else {
             // else add 1 line
             cssLines += (1 + totalPlus) * totalMultiplier;
@@ -367,8 +373,12 @@ function textToImage(text, font, textColor, backgroundColor) {
     context.font = font;
 
     canvas.width = context.measureText(text).width;
-    canvas.height = 20;
+    canvas.height = 24;
 
+    var pixelRatio = 10;
+    canvas.width *= 10;
+    canvas.height *= 10;
+    context.scale(pixelRatio, pixelRatio);
 
     context.font = font;
     context.fillStyle = backgroundColor;
