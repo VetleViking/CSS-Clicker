@@ -9,6 +9,9 @@
     height: 20px;
 }
 
+.cssText img {
+    height: 24px;
+}
 
 .header,
 .cssTyper,
@@ -128,3 +131,5 @@
     text-align: center;
     margin: 1px;
 }
+
+/* Reinkarnasjon */

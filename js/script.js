@@ -1,1 +1,0 @@
-let reincarnationPoints = 0;
