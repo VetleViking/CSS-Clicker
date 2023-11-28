@@ -22,7 +22,7 @@
     grid-template-rows: repeat(11, 1fr);
 }
 
-.boks {
+.upgTreeBox {
     width: calc(100% - 2px);
     height: calc(100% - 2px);
     border: 1px solid #000;
@@ -103,6 +103,6 @@
 }
 
 .boks7 {
-    grid-column: 6;
+    grid-column: 2;
     grid-row: 2;
 }
