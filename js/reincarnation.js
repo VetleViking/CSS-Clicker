@@ -1,11 +1,11 @@
 let reincarnationPointsDiv = document.getElementById("reincarnationPoints");
 localStorage.setItem("firstUpgX", "6");
 localStorage.setItem("firstUpgY", "6");
-let occupiedUpgCoords = [];
+let occupiedUpgCoords = [[6, 6]];
 let allDirections = ["Y", "X", "-Y", "-X"];
 let gridColumn = 0;
 let gridRow = 0;
-
+let direction;
 
 window.addEventListener("load", () => reincarnateOpen());
 
@@ -14,27 +14,51 @@ function reincarnateOpen() {
 }
 
 setupUpgTree({
-    title: "Reinkarnasjons-poeng",
-    name: "reincarnationPoints",
-    direction: "Y",
-    infoBoxContent: "Du får reinkarnasjons-poeng ved å reinkarnere. Disse kan brukes til å kjøpe oppgraderinger.",
+    title: "testUpg1",
+    name: "testUpg1",
+    direction: "X",
+    infoBoxContent: "Dette er en test.",
     previousUpg: "firstUpg",
 });
 
 setupUpgTree({
-    title: "Reinkarnasjons-poeng per sekund",
-    name: "reincarnationPointsPerSec",
-    direction: "Y",
-    infoBoxContent: "Du får reinkarnasjons-poeng per sekund. Dette er basert på hvor mange reinkarnasjons-poeng du har.",
-    previousUpg: "reincarnationPoints",
+    title: "testUpg2",
+    name: "testUpg2",
+    direction: "X",
+    infoBoxContent: "Dette er en test.",
+    previousUpg: "testUpg1",
 });
 
 setupUpgTree({
-    title: "Reinkarnasjons-poeng per klikk",
-    name: "reincarnationPointsPerClick",
+    title: "testUpg3",
+    name: "testUpg3",
+    direction: "X",
+    infoBoxContent: "Dette er en test.",
+    previousUpg: "testUpg2",
+});
+
+setupUpgTree({
+    title: "testUpg4",
+    name: "testUpg4",
+    direction: "X",
+    infoBoxContent: "Dette er en test.",
+    previousUpg: "testUpg3",
+});
+
+setupUpgTree({
+    title: "testUpg5",
+    name: "testUpg5",
+    direction: "X",
+    infoBoxContent: "Dette er en test.",
+    previousUpg: "testUpg4",
+});
+
+setupUpgTree({
+    title: "testUpg6",
+    name: "testUpg6",
     direction: "Y",
-    infoBoxContent: "Du får reinkarnasjons-poeng per klikk. Dette er basert på hvor mange reinkarnasjons-poeng du har.",
-    previousUpg: "reincarnationPoints",
+    infoBoxContent: "Dette er en test.",
+    previousUpg: "firstUpg",
 });
 
 function setupUpgTree(options) {
@@ -50,16 +74,15 @@ function setupUpgTree(options) {
         options
     );
 
-    
-
     let X = parseInt(localStorage.getItem(options.previousUpg + "X"));
     let Y = parseInt(localStorage.getItem(options.previousUpg + "Y"));
-    
-    console.log(X, Y);
 
-    gridColumn, gridRow = checkCoords(options.direction, X, Y);
+    direction = checkCoords(options.direction, X, Y, 2);
 
-    console.log(gridColumn, gridRow);
+    if (gridColumn < 1 || gridRow < 1 || gridColumn > 11 || gridRow > 11) {
+        console.log("Woopsie UwU, ikke pwass til " + options.name + " OwO");
+        return;
+    }
 
     let upgPlacement = "grid-column: " + gridColumn + "; grid-row: " + gridRow + ";";
 
@@ -71,46 +94,60 @@ function setupUpgTree(options) {
             </p>     
         </div>  
     `;
-    upgTree.innerHTML += upgTreeHTML;
-    localStorage.setItem(options.name + "X", gridColumn);
-    localStorage.setItem(options.name + "Y", gridRow);
 
+    upgTreeHTML += placeLine(X, Y, direction);
+
+    upgTree.innerHTML += upgTreeHTML;
+
+    localStorage.setItem(options.name + "X", gridColumn);
+    localStorage.setItem(options.name + "Y", gridRow); 
     occupiedUpgCoords.push([gridColumn, gridRow]);
-    console.log(occupiedUpgCoords);
 }
 
+function placeLine(X, Y, direction) {
+    let linjeX = X;
+    let linjeY = Y;
 
-
-function checkCoords(direction, X, Y) {
-
-    if (direction == "Y") {
-        console.log("Y");
-        gridColumn = X;
-        gridRow = Y - 2;
+    if (direction == "Y") { 
+        linjeY = Y - 1;
     } else if (direction == "X") {
-        console.log("X");
-        gridColumn = X + 2;
-        gridRow = Y;
+        linjeX = X + 1;      
     } else if (direction == "-Y") {
-        gridColumn = X;
-        gridRow = Y + 2;
+        linjeY = Y + 1;
     } else if (direction == "-X") {
-        gridColumn = X - 2;
-        gridRow = Y;
+        linjeX = X - 1;        
     }
 
-    console.log(occupiedUpgCoords[1] == ([gridColumn, gridRow].toString()))
+    let linjeClass = "linje" + direction.split("-").pop();
 
-    occupiedUpgCoords.forEach((element) => {
-        if (element == ([gridColumn, gridRow].toString())) {
-            console.log("Occupied");
-            gridColumn = X;
-            gridRow = Y;
-            let newDirection = allDirections[allDirections.indexOf(direction) + 1];
-            checkCoords(newDirection, X, Y);
+    let linePlacement = "grid-column: " + linjeX + "; grid-row: " + linjeY + ";";
+
+    return `<div class="${linjeClass}" style="${linePlacement}"></div>`;
+}
+
+function checkCoords(direction, X, Y) {
+    gridColumn = X;
+    gridRow = Y;
+
+    if (direction == "Y") { 
+        gridRow = Y - 2;
+    } else if (direction == "X") {
+        gridColumn = X + 2;     
+    } else if (direction == "-Y") {
+        gridRow = Y + 2; 
+    } else if (direction == "-X") {
+        gridColumn = X - 2;        
+    }
+
+    for (let i = 0; i < occupiedUpgCoords.length; i++) {
+        if (occupiedUpgCoords[i] == ([gridColumn, gridRow].toString())) {
+            direction = allDirections[allDirections.indexOf(direction) + 1];
+            if (direction == undefined) {
+                direction = allDirections[0];
+            }
+            return checkCoords(direction, X, Y, 2);
         }
-    });
-    
+    }
 
-    return gridColumn, gridRow;
+    return direction;
 }
