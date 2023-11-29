@@ -9,6 +9,10 @@
     height: 20px;
 }
 
+.cssText img {
+    height: 24px;
+}
+
 .header,
 .cssTyper,
 .shop,
@@ -37,8 +41,8 @@
 .shopDollarText,
 .dollaridoosBox,
 .shopDollarDiv,
-.timer, 
-.selgSide {
+.timer
+/*, .selgSide  */ {
     display: none;
 }
 
@@ -127,3 +131,5 @@
     text-align: center;
     margin: 1px;
 }
+
+/* Reinkarnasjon */

@@ -1,17 +1,3 @@
-document.getElementById("btnSelgeSide").addEventListener("click", () => {
-    open({
-        title: "Selge siden?",
-        message:
-            "Er du sikker på at du vil selge siden din? Du vil få 1 dollar per 10. linje du har skrevet, og miste alle linjene og oppgraderingene hittil. Antall dollar du vil få nå: " +
-            Math.floor(cssLinesTotal / 10) +
-            "$.",
-        message2: "Noter: du mister ikke dollar når du selger siden din.",
-        onOk: () => {
-            selgeSide();
-        },
-    });
-});
-
 function open(options) {
     options = Object.assign(
         {},

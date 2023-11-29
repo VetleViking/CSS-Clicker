@@ -100,9 +100,6 @@
         justify-content: space-evenly;
         align-items: center;
     }
-    .cssBox {
-        margin: 5px 0px;
-    }
 
     .shop {
         width: calc(100% - 2px);
@@ -267,6 +264,14 @@
         margin: 5px;
     }
 
+    .cssBox {
+        margin: 5px 0px;
+    }
+
+    .numberLines {
+        margin-bottom: 5px;
+    }
+
     .shopCssDiv,
     .shopDollarDiv,
     .upgradesBoughtBox {
@@ -363,6 +368,9 @@
             .numberBox {
                 border-right: 1px solid #000;
             }
+        }
+        .cssTyper {
+            min-width: 207px;
         }
     }
 }
