@@ -74,7 +74,7 @@ function setupUpgTree(options) {
     let Y = parseInt(localStorage.getItem(options.previousUpg + "Y"));
 
     if (!Number.isInteger(Y) || !Number.isInteger(X)) {
-        console.log("Woopsie dwoopsie, fowige upgwade eksistewew ikke (baaaka) Fåw ikke plassert " + options.name + " Gomenasai userchan UwU");
+        console.log("Woopsie dwoopsie, fowige upgwade eksistewew ikke (baaaka) Fåw ikke plassert " + options.name + " gomenasai userchan UwU");
         return;
     }
 
