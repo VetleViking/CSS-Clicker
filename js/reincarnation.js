@@ -78,7 +78,7 @@ function setupUpgTree(options) {
         return;
     }
 
-    direction = checkCoords(options.direction, X, Y, 2);
+    direction = checkCoords(options.direction, X, Y);
 
     if (gridColumn < 1 || gridRow < 1 || gridColumn > 11 || gridRow > 11) {
         console.log("Woopsie UwU, ikke pwass til " + options.name + " OwO");
@@ -96,7 +96,7 @@ function setupUpgTree(options) {
         </div>  
     `;
 
-    upgTreeHTML += placeLine(X, Y, direction);
+    upgTreeHTML += placeLine(X, Y, direction, options.previousUpg);
 
     upgTree.innerHTML += upgTreeHTML;
 
@@ -105,7 +105,7 @@ function setupUpgTree(options) {
     occupiedUpgCoords.push([gridColumn, gridRow]);
 }
 
-function placeLine(X, Y, direction) {
+function placeLine(X, Y, direction, previousUpg) {
     let linjeX = X;
     let linjeY = Y;
 
@@ -123,7 +123,7 @@ function placeLine(X, Y, direction) {
 
     let linePlacement = "grid-column: " + linjeX + "; grid-row: " + linjeY + ";";
 
-    return `<div class="${linjeClass}" style="${linePlacement}"></div>`;
+    return `<div class="${linjeClass} ${previousUpg + "Line"}" style="${linePlacement}"></div>`;
 }
 
 function checkCoords(direction, X, Y) {
@@ -166,6 +166,60 @@ const firstUpg = Object.assign(
     }
 );
 
+const testUpg1 = Object.assign(
+    {},
+    {
+        name: "testUpg1",
+        price: 0,
+        test2: 1,
+    }
+);
+
+const testUpg2 = Object.assign(
+    {},
+    {
+        name: "testUpg2",
+        price: 0,
+        test2: 1,
+    }
+);
+
+const testUpg3 = Object.assign(
+    {},
+    {
+        name: "testUpg3",
+        price: 0,
+        test2: 1,
+    }
+);
+
+const testUpg4 = Object.assign(
+    {},
+    {
+        name: "testUpg4",
+        price: 0,
+        test2: 1,
+    }
+);
+
+const testUpg5 = Object.assign(
+    {},
+    {
+        name: "testUpg5",
+        price: 0,
+        test2: 1,
+    }
+);
+
+const testUpg6 = Object.assign(
+    {},
+    {
+        name: "testUpg6",
+        price: 0,
+        function: test,
+    }
+);
+
 function kjøpeReincarnationUpg(upg) {
     console.log(upg.price);
     console.log(upg);
@@ -186,7 +240,16 @@ function kjøpeReincarnationUpg(upg) {
     let currentUpgHTML = document.getElementById(upg.name);
     currentUpgHTML.style.opacity = 0.3;
 
-    // add opacity on connected lines
+    let connectedLines = document.getElementsByClassName(upg.name + "Line");
+    for (let i = 0; i < connectedLines.length; i++) {
+        connectedLines[i].style.opacity = 0.3;
+    }
+
+    upg.function();
 
     reincarnateOpen();
+}
+
+function test() {
+    console.log("test");
 }
