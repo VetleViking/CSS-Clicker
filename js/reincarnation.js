@@ -89,7 +89,7 @@ function setupUpgTree(options) {
 
     let upgTree = document.getElementById("upgTree");
     let upgTreeHTML = `
-        <div class="upgTreeBox infoBox" onclick="kjøpeReincarnationUpg(${options.name})" style="${upgPlacement}">           
+        <div class="upgTreeBox infoBox" Id="${options.name}" onclick="kjøpeReincarnationUpg(${options.name})" style="${upgPlacement}">           
             <p>
                 ${options.title}<span class="tooltip">${options.infoBoxContent}</span>
             </p>     
@@ -155,4 +155,38 @@ function checkCoords(direction, X, Y) {
 
 function reincarnateOpen() {
     reincarnationPointsDiv.innerHTML = localStorage.getItem("reincarnationPoints") + " Reinkarnasjons-poeng.";
+}
+
+const firstUpg = Object.assign(
+    {},
+    {
+        name: "firstUpg",
+        price: 0,
+        test2: 1,
+    }
+);
+
+function kjøpeReincarnationUpg(upg) {
+    console.log(upg.price);
+    console.log(upg);
+
+    // if (localStorage.getItem(upg.name) == "bought") {
+    //     console.log("Du har allerede kjøpt denne oppgraderingen.");
+    //     return;
+    // }
+
+    if (localStorage.getItem("reincarnationPoints") < upg.price) {
+        console.log("Du har ikke nok reinkarnasjons-poeng.");
+        return;
+    }
+
+    localStorage.setItem("reincarnationPoints", localStorage.getItem("reincarnationPoints") - upg.price);
+    localStorage.setItem(upg.name, "bought");
+
+    let currentUpgHTML = document.getElementById(upg.name);
+    currentUpgHTML.style.opacity = 0.3;
+
+    // add opacity on connected lines
+
+    reincarnateOpen();
 }
