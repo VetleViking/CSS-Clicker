@@ -9,10 +9,6 @@ let direction;
 
 window.addEventListener("load", () => reincarnateOpen());
 
-function reincarnateOpen() {
-    reincarnationPointsDiv.innerHTML = localStorage.getItem("reincarnationPoints") + " Reinkarnasjons-poeng.";
-}
-
 setupUpgTree({
     title: "testUpg1",
     name: "testUpg1",
@@ -77,6 +73,11 @@ function setupUpgTree(options) {
     let X = parseInt(localStorage.getItem(options.previousUpg + "X"));
     let Y = parseInt(localStorage.getItem(options.previousUpg + "Y"));
 
+    if (!Number.isInteger(Y) || !Number.isInteger(X)) {
+        console.log("Woopsie dwoopsie, fowige upgwade eksistewew ikke (baaaka) Fåw ikke plassert " + options.name + " Gomenasai userchan UwU");
+        return;
+    }
+
     direction = checkCoords(options.direction, X, Y, 2);
 
     if (gridColumn < 1 || gridRow < 1 || gridColumn > 11 || gridRow > 11) {
@@ -100,7 +101,7 @@ function setupUpgTree(options) {
     upgTree.innerHTML += upgTreeHTML;
 
     localStorage.setItem(options.name + "X", gridColumn);
-    localStorage.setItem(options.name + "Y", gridRow); 
+    localStorage.setItem(options.name + "Y", gridRow);
     occupiedUpgCoords.push([gridColumn, gridRow]);
 }
 
@@ -108,14 +109,14 @@ function placeLine(X, Y, direction) {
     let linjeX = X;
     let linjeY = Y;
 
-    if (direction == "Y") { 
+    if (direction == "Y") {
         linjeY = Y - 1;
     } else if (direction == "X") {
-        linjeX = X + 1;      
+        linjeX = X + 1;
     } else if (direction == "-Y") {
         linjeY = Y + 1;
     } else if (direction == "-X") {
-        linjeX = X - 1;        
+        linjeX = X - 1;
     }
 
     let linjeClass = "linje" + direction.split("-").pop();
@@ -129,18 +130,18 @@ function checkCoords(direction, X, Y) {
     gridColumn = X;
     gridRow = Y;
 
-    if (direction == "Y") { 
+    if (direction == "Y") {
         gridRow = Y - 2;
     } else if (direction == "X") {
-        gridColumn = X + 2;     
+        gridColumn = X + 2;
     } else if (direction == "-Y") {
-        gridRow = Y + 2; 
+        gridRow = Y + 2;
     } else if (direction == "-X") {
-        gridColumn = X - 2;        
+        gridColumn = X - 2;
     }
 
     for (let i = 0; i < occupiedUpgCoords.length; i++) {
-        if (occupiedUpgCoords[i] == ([gridColumn, gridRow].toString())) {
+        if (occupiedUpgCoords[i] == [gridColumn, gridRow].toString()) {
             direction = allDirections[allDirections.indexOf(direction) + 1];
             if (direction == undefined) {
                 direction = allDirections[0];
@@ -150,4 +151,8 @@ function checkCoords(direction, X, Y) {
     }
 
     return direction;
+}
+
+function reincarnateOpen() {
+    reincarnationPointsDiv.innerHTML = localStorage.getItem("reincarnationPoints") + " Reinkarnasjons-poeng.";
 }
