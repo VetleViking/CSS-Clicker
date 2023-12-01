@@ -9,9 +9,12 @@ let checkedDirections = [];
 let placements = {};
 placements["firstUpgX"] = "6";
 placements["firstUpgY"] = "6";
+let upgObjects = {};
 
 window.addEventListener("load", () => reincarnateOpen());
 
+
+//Example upgrade tree item
 setupUpgTree({
     title: "testUpg0",
     name: "testUpg0",
@@ -20,37 +23,60 @@ setupUpgTree({
     previousUpg: "firstUpg",
 });
 
-const firstUpg = Object.assign(
-    {},
-    {
-        name: "firstUpg",
-        price: 0,
-        function: test,
-    }
-);
+//example upgrade object
+
+upgObjects["testUpg0"] = {
+    name: "testUpg0",
+    previousUpg: "firstUpg",
+    price: 0,
+    function: test,
+};
+
+upgObjects["firstUpg"] = {
+    name: "firstUpg",
+    previousUpg: "none",
+    price: 0,
+    function: test,
+};
+
+
+//Unit tests
+// for (let i = 1; i <= 100; i++) {
+//     let previousUpg = allUpgradesPlaced[Math.floor(Math.random() * allUpgradesPlaced.length)];
+//     setupUpgTree({
+//         title: `testUpg${i}`,
+//         name: `testUpg${i}`,
+//         direction: allDirections[Math.floor(Math.random() * 4)],
+//         infoBoxContent: `Dette er en test ${i}.`,
+//         previousUpg: previousUpg,
+//     });
+    
+//     upgObjects["testUpg" + i] = {
+//         name: "testUpg" + i,
+//         previousUpg: previousUpg,
+//         price: 0,
+//         function: test,
+//     };
+// }
 
 for (let i = 1; i <= 23; i++) {
     setupUpgTree({
         title: `testUpg${i}`,
         name: `testUpg${i}`,
+        previousUpg: "testUpg" + (i - 1),
         direction: allDirections[Math.floor(Math.random() * 4)],
         infoBoxContent: `Dette er en test ${i}.`,
-        previousUpg: allUpgradesPlaced[Math.floor(Math.random() * allUpgradesPlaced.length)],
+        previousUpg: "testUpg" + (i - 1),
     });
-}
 
-let upgObjects = {};
-
-for (let i = 1; i <= 23; i++) {
     upgObjects["testUpg" + i] = {
         name: "testUpg" + i,
+        previousUpg: "testUpg" + (i - 1),
         price: 0,
         function: test,
     };
-
-    console.log(firstUpg);
-    console.log(upgObjects["testUpg" + i]);
 }
+//End unit tests
 
 function setupUpgTree(options) {
     options = Object.assign(
@@ -69,7 +95,7 @@ function setupUpgTree(options) {
     let Y = parseInt(placements[options.previousUpg + "Y"]);
 
     if (!Number.isInteger(Y) || !Number.isInteger(X)) {
-        console.log("Woopsie dwoopsie, fowige upgwade eksistewew ikke (baaaka) Fåw ikke plassert " + options.name + " gomenasai userchan UwU");
+        console.log("Woopsie dwoopsie, fowige upgwade eksistewew ikke (baaaka) Fåw ikke plassert " + options.name + ". Gomenasai userchan UwU");
         return;
     }
 
@@ -85,7 +111,7 @@ function setupUpgTree(options) {
 
     let upgTree = document.getElementById("upgTree");
     let upgTreeHTML = `
-        <div class="upgTreeBox infoBox" Id="${options.name}" onclick="kjøpeReincarnationUpg(${options.name})" style="${upgPlacement}">           
+        <div class="upgTreeBox infoBox" Id="${options.name}" onclick="kjøpeReincarnationUpg('${options.name}')" style="${upgPlacement}">           
             <p>
                 ${options.title}<span class="tooltip">${options.infoBoxContent}</span>
             </p>     
@@ -157,39 +183,53 @@ function checkCoords(direction, X, Y) {
 
 function reincarnateOpen() {
     reincarnationPointsDiv.innerHTML = localStorage.getItem("reincarnationPoints") + " Reinkarnasjons-poeng.";
+
+    for (let i = 0; i < allUpgradesPlaced.length; i++) {
+        if (localStorage.getItem(allUpgradesPlaced[i]) == "bought") {
+            let currentUpgHTML = document.getElementById(allUpgradesPlaced[i]);
+            currentUpgHTML.style.opacity = 0.3;
+
+            let connectedLines = document.getElementsByClassName(allUpgradesPlaced[i] + "Line");
+            for (let i = 0; i < connectedLines.length; i++) {
+                connectedLines[i].style.opacity = 0.3;
+            }
+        }
+    }
 }
 
 function kjøpeReincarnationUpg(upg) {
-    console.log(upgObjects["testUpg" + 1]);
+    let upgObject = upgObjects[upg];
 
-    //noe feil med navnet som blir sendt inn eller noe, må fikse det senere
-
-    // if (localStorage.getItem(upg.name) == "bought") {
-    //     console.log("Du har allerede kjøpt denne oppgraderingen.");
-    //     return;
-    // }
-
-    if (localStorage.getItem("reincarnationPoints") < upg.price) {
-        console.log("Du har ikke nok reinkarnasjons-poeng.");
+    if (localStorage.getItem(upg.name) == "bought") {
         return;
     }
 
-    localStorage.setItem("reincarnationPoints", localStorage.getItem("reincarnationPoints") - upg.price);
-    localStorage.setItem(upg.name, "bought");
+    if (localStorage.getItem("reincarnationPoints") < upgObject.price) {
+        console.log("Meow! Ikke nok weinkawasjowns-poweng. OwO");
+        return;
+    }
 
-    let currentUpgHTML = document.getElementById(upg.name);
+    if (localStorage.getItem(upgObject.previousUpg) != "bought" && upgObject.previousUpg != "none") {
+        console.log("Nani? " + upgObject.previousUpg + " ew ikke kjøpt :/ Nyaa~");
+        return;
+    }
+
+    localStorage.setItem("reincarnationPoints", localStorage.getItem("reincarnationPoints") - upgObject.price);
+    localStorage.setItem(upgObject.name, "bought");
+
+    let currentUpgHTML = document.getElementById(upgObject.name);
     currentUpgHTML.style.opacity = 0.3;
 
-    let connectedLines = document.getElementsByClassName(upg.name + "Line");
+    let connectedLines = document.getElementsByClassName(upgObject.name + "Line");
     for (let i = 0; i < connectedLines.length; i++) {
         connectedLines[i].style.opacity = 0.3;
     }
 
-    upg.function();
+    upgObject.function(upgObject);
 
-    reincarnateOpen();
+    reincarnationPointsDiv.innerHTML = localStorage.getItem("reincarnationPoints") + " Reinkarnasjons-poeng.";
 }
 
-function test() {
-    console.log("test");
+function test(upg) {
+    console.log(upg.name + " kjøpt.");
 }
