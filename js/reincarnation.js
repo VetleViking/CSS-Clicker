@@ -1,61 +1,56 @@
 let reincarnationPointsDiv = document.getElementById("reincarnationPoints");
-localStorage.setItem("firstUpgX", "6");
-localStorage.setItem("firstUpgY", "6");
 let occupiedUpgCoords = [[6, 6]];
 let allDirections = ["Y", "X", "-Y", "-X"];
+let allUpgradesPlaced = ["firstUpg"];
 let gridColumn = 0;
 let gridRow = 0;
 let direction;
+let checkedDirections = [];
+let placements = {};
+placements["firstUpgX"] = "6";
+placements["firstUpgY"] = "6";
 
 window.addEventListener("load", () => reincarnateOpen());
 
 setupUpgTree({
-    title: "testUpg1",
-    name: "testUpg1",
-    direction: "X",
-    infoBoxContent: "Dette er en test.",
-    previousUpg: "firstUpg",
-});
-
-setupUpgTree({
-    title: "testUpg2",
-    name: "testUpg2",
-    direction: "X",
-    infoBoxContent: "Dette er en test.",
-    previousUpg: "testUpg1",
-});
-
-setupUpgTree({
-    title: "testUpg3",
-    name: "testUpg3",
-    direction: "X",
-    infoBoxContent: "Dette er en test.",
-    previousUpg: "testUpg2",
-});
-
-setupUpgTree({
-    title: "testUpg4",
-    name: "testUpg4",
-    direction: "X",
-    infoBoxContent: "Dette er en test.",
-    previousUpg: "testUpg3",
-});
-
-setupUpgTree({
-    title: "testUpg5",
-    name: "testUpg5",
-    direction: "X",
-    infoBoxContent: "Dette er en test.",
-    previousUpg: "testUpg4",
-});
-
-setupUpgTree({
-    title: "testUpg6",
-    name: "testUpg6",
+    title: "testUpg0",
+    name: "testUpg0",
     direction: "Y",
     infoBoxContent: "Dette er en test.",
     previousUpg: "firstUpg",
 });
+
+const firstUpg = Object.assign(
+    {},
+    {
+        name: "firstUpg",
+        price: 0,
+        function: test,
+    }
+);
+
+for (let i = 1; i <= 23; i++) {
+    setupUpgTree({
+        title: `testUpg${i}`,
+        name: `testUpg${i}`,
+        direction: allDirections[Math.floor(Math.random() * 4)],
+        infoBoxContent: `Dette er en test ${i}.`,
+        previousUpg: allUpgradesPlaced[Math.floor(Math.random() * allUpgradesPlaced.length)],
+    });
+}
+
+let upgObjects = {};
+
+for (let i = 1; i <= 23; i++) {
+    upgObjects["testUpg" + i] = {
+        name: "testUpg" + i,
+        price: 0,
+        function: test,
+    };
+
+    console.log(firstUpg);
+    console.log(upgObjects["testUpg" + i]);
+}
 
 function setupUpgTree(options) {
     options = Object.assign(
@@ -70,17 +65,18 @@ function setupUpgTree(options) {
         options
     );
 
-    let X = parseInt(localStorage.getItem(options.previousUpg + "X"));
-    let Y = parseInt(localStorage.getItem(options.previousUpg + "Y"));
+    let X = parseInt(placements[options.previousUpg + "X"]);
+    let Y = parseInt(placements[options.previousUpg + "Y"]);
 
     if (!Number.isInteger(Y) || !Number.isInteger(X)) {
         console.log("Woopsie dwoopsie, fowige upgwade eksistewew ikke (baaaka) Fåw ikke plassert " + options.name + " gomenasai userchan UwU");
         return;
     }
 
+    checkedDirections = [];
     direction = checkCoords(options.direction, X, Y);
 
-    if (gridColumn < 1 || gridRow < 1 || gridColumn > 11 || gridRow > 11) {
+    if (direction == false) {
         console.log("Woopsie UwU, ikke pwass til " + options.name + " OwO");
         return;
     }
@@ -100,9 +96,10 @@ function setupUpgTree(options) {
 
     upgTree.innerHTML += upgTreeHTML;
 
-    localStorage.setItem(options.name + "X", gridColumn);
-    localStorage.setItem(options.name + "Y", gridRow);
+    placements[options.name + "X"] = gridColumn;
+    placements[options.name + "Y"] = gridRow;
     occupiedUpgCoords.push([gridColumn, gridRow]);
+    allUpgradesPlaced.push(options.name);
 }
 
 function placeLine(X, Y, direction, previousUpg) {
@@ -129,19 +126,24 @@ function placeLine(X, Y, direction, previousUpg) {
 function checkCoords(direction, X, Y) {
     gridColumn = X;
     gridRow = Y;
+    checkedDirections.push(direction);
+
+    if (checkedDirections.length >= 5) {
+        return false;
+    }
 
     if (direction == "Y") {
-        gridRow = Y - 2;
+        gridRow -= 2;
     } else if (direction == "X") {
-        gridColumn = X + 2;
+        gridColumn += 2;
     } else if (direction == "-Y") {
-        gridRow = Y + 2;
+        gridRow += 2;
     } else if (direction == "-X") {
-        gridColumn = X - 2;
+        gridColumn -= 2;
     }
 
     for (let i = 0; i < occupiedUpgCoords.length; i++) {
-        if (occupiedUpgCoords[i] == [gridColumn, gridRow].toString()) {
+        if (occupiedUpgCoords[i] == [gridColumn, gridRow].toString() || gridColumn < 1 || gridRow < 1 || gridColumn > 11 || gridRow > 11) {
             direction = allDirections[allDirections.indexOf(direction) + 1];
             if (direction == undefined) {
                 direction = allDirections[0];
@@ -157,72 +159,10 @@ function reincarnateOpen() {
     reincarnationPointsDiv.innerHTML = localStorage.getItem("reincarnationPoints") + " Reinkarnasjons-poeng.";
 }
 
-const firstUpg = Object.assign(
-    {},
-    {
-        name: "firstUpg",
-        price: 0,
-        test2: 1,
-    }
-);
-
-const testUpg1 = Object.assign(
-    {},
-    {
-        name: "testUpg1",
-        price: 0,
-        test2: 1,
-    }
-);
-
-const testUpg2 = Object.assign(
-    {},
-    {
-        name: "testUpg2",
-        price: 0,
-        test2: 1,
-    }
-);
-
-const testUpg3 = Object.assign(
-    {},
-    {
-        name: "testUpg3",
-        price: 0,
-        test2: 1,
-    }
-);
-
-const testUpg4 = Object.assign(
-    {},
-    {
-        name: "testUpg4",
-        price: 0,
-        test2: 1,
-    }
-);
-
-const testUpg5 = Object.assign(
-    {},
-    {
-        name: "testUpg5",
-        price: 0,
-        test2: 1,
-    }
-);
-
-const testUpg6 = Object.assign(
-    {},
-    {
-        name: "testUpg6",
-        price: 0,
-        function: test,
-    }
-);
-
 function kjøpeReincarnationUpg(upg) {
-    console.log(upg.price);
-    console.log(upg);
+    console.log(upgObjects["testUpg" + 1]);
+
+    //noe feil med navnet som blir sendt inn eller noe, må fikse det senere
 
     // if (localStorage.getItem(upg.name) == "bought") {
     //     console.log("Du har allerede kjøpt denne oppgraderingen.");
