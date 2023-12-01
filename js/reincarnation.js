@@ -41,40 +41,47 @@ upgObjects["firstUpg"] = {
 
 
 //Unit tests
-// for (let i = 1; i <= 100; i++) {
-//     let previousUpg = allUpgradesPlaced[Math.floor(Math.random() * allUpgradesPlaced.length)];
-//     setupUpgTree({
-//         title: `testUpg${i}`,
-//         name: `testUpg${i}`,
-//         direction: allDirections[Math.floor(Math.random() * 4)],
-//         infoBoxContent: `Dette er en test ${i}.`,
-//         previousUpg: previousUpg,
-//     });
-    
-//     upgObjects["testUpg" + i] = {
-//         name: "testUpg" + i,
-//         previousUpg: previousUpg,
-//         price: 0,
-//         function: test,
-//     };
-// }
 
-for (let i = 1; i <= 23; i++) {
-    setupUpgTree({
-        title: `testUpg${i}`,
-        name: `testUpg${i}`,
-        previousUpg: "testUpg" + (i - 1),
-        direction: allDirections[Math.floor(Math.random() * 4)],
-        infoBoxContent: `Dette er en test ${i}.`,
-        previousUpg: "testUpg" + (i - 1),
-    });
+unitTestBranches();
+//unitTestSnake();
 
-    upgObjects["testUpg" + i] = {
-        name: "testUpg" + i,
-        previousUpg: "testUpg" + (i - 1),
-        price: 0,
-        function: test,
-    };
+function unitTestBranches() {
+    for (let i = 1; i <= 100; i++) {
+        let previousUpg = allUpgradesPlaced[Math.floor(Math.random() * allUpgradesPlaced.length)];
+        setupUpgTree({
+            title: `testUpg${i}`,
+            name: `testUpg${i}`,
+            direction: allDirections[Math.floor(Math.random() * 4)],
+            infoBoxContent: `Dette er en test ${i}.`,
+            previousUpg: previousUpg,
+        });
+        
+        upgObjects["testUpg" + i] = {
+            name: "testUpg" + i,
+            previousUpg: previousUpg,
+            price: 0,
+            function: test,
+        };
+    }
+}
+function unitTestSnake() {
+    for (let i = 1; i <= 23; i++) {
+        setupUpgTree({
+            title: `testUpg${i}`,
+            name: `testUpg${i}`,
+            previousUpg: "testUpg" + (i - 1),
+            direction: allDirections[Math.floor(Math.random() * 4)],
+            infoBoxContent: `Dette er en test ${i}.`,
+            previousUpg: "testUpg" + (i - 1),
+        });
+
+        upgObjects["testUpg" + i] = {
+            name: "testUpg" + i,
+            previousUpg: "testUpg" + (i - 1),
+            price: 0,
+            function: test,
+        };
+    }
 }
 //End unit tests
 
