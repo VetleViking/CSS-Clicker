@@ -39,11 +39,67 @@ let timer = 0;
 let goldenLineInterval;
 let autoInterval;
 
+
+
+// This is a test
+let upgObjects = {};
+shopDiv;
+let html;
+
+upgObjects["testUpg0"] = {
+    name: "testUpg0",
+    title: "TestUpg0",
+    toolTip: "Dette er en tooltip.",
+    price: 0,
+    amount: 1,
+};
+
+upgObjects["testUpg1"] = {
+    name: "testUpg1",
+    title: "TestUpg1",
+    toolTip: "Dette er en tooltip.",
+    price: 0,
+    amount: 1,
+};
+
+setupCssUpgrades();
+
+function setupCssUpgrades() {
+    console.log(upgObjects);
+
+    console.log(Object.entries(upgObjects));
+
+    for (i = 0; i < Object.entries(upgObjects).length; i++) {
+        let currentUpg = Object.entries(upgObjects)[i][1];
+        console.log(currentUpg);
+        console.log(`${currentUpg.name}: ${currentUpg.title}`);
+
+        html = `
+        <div class="shopItem infoBox" id="${currentUpg.name}Shop" onClick="kjøpeCss('${currentUpg.name}', ${currentUpg.price}, ${currentUpg.amount})">
+            <p>
+                ${currentUpg.title}: ${currentUpg.price} linjer <span class="tooltip"
+                    >${currentUpg.toolTip}Gir ${currentUpg.amount} ekstra linje(r) hver gang du skriver.</span>
+            </p>
+        </div>`;
+
+        shopDiv.innerHTML += html;
+    }
+}
+
+
+
 // Ideer:
 // Reinkarnasjon senere
 
-start(shopCssItems);
+//start(shopCssItems);
 start(shopDollarItems);
+onOpen();
+
+function onOpen() {
+    if (localStorage.getItem("chosenUpg") != null) {
+        kjøpeCss(localStorage.getItem("chosenUpg"), 0, 2);
+    }
+}
 
 function start(items) {
     for (let i = 3; i < items.length; i++) {
@@ -173,6 +229,11 @@ function kjøpeCss(clas, price, amount) {
         totalPlus += amount;
 
         allCssUpgradesBought.push(clas);
+        
+        if (localStorage.getItem("allCssUpgradesBought") == null || localStorage.getItem("allCssUpgradesBought").includes(clas) == false) {
+            localStorage.setItem("allCssUpgradesBought", allCssUpgradesBought);
+        }
+        
 
         buyCssShopItem.style.display = "none";
 
@@ -351,7 +412,6 @@ function stopGoldenLineInterval() {
 
 // Function to convert the CSS text to an image
 function convertToImage(newCssTextContent, isGolden) {
-    console.log(cssTextBox.style);
     cssText.innerHTML = "";
     if (isGolden == true) {
         backgroundColor = "gold";

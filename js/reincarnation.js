@@ -10,6 +10,7 @@ let placements = {};
 placements["firstUpgX"] = "6";
 placements["firstUpgY"] = "6";
 let upgObjects = {};
+let chosenUpg = "";
 
 window.addEventListener("load", () => reincarnateOpen());
 
@@ -29,7 +30,7 @@ upgObjects["testUpg0"] = {
     name: "testUpg0",
     previousUpg: "firstUpg",
     price: 0,
-    function: test,
+    function: test1,
 };
 
 upgObjects["firstUpg"] = {
@@ -42,8 +43,8 @@ upgObjects["firstUpg"] = {
 
 //Unit tests
 
-unitTestBranches();
-//unitTestSnake();
+//unitTestBranches();
+unitTestSnake();
 
 function unitTestBranches() {
     for (let i = 1; i <= 100; i++) {
@@ -212,7 +213,7 @@ function kjøpeReincarnationUpg(upg) {
     }
 
     if (localStorage.getItem("reincarnationPoints") < upgObject.price) {
-        console.log("Meow! Ikke nok weinkawasjowns-poweng. OwO");
+        console.log("Meow! Ikke nok weinkawaswons-poweng. OwO");
         return;
     }
 
@@ -239,4 +240,104 @@ function kjøpeReincarnationUpg(upg) {
 
 function test(upg) {
     console.log(upg.name + " kjøpt.");
+}
+
+function test1(upg) {
+    console.log(upg.name + " kjøpt.");
+
+    let cssUpgradesBought = localStorage.getItem("allCssUpgradesBought");
+    cssUpgradesBought = cssUpgradesBought.split(",");
+    let cssUpgradesBoughtHtml = [];
+
+
+    cssUpgradesBought.forEach((element) => {
+        cssUpgradesBoughtHtml.push(`<div id="upgBought${element}">${element}</div>`)
+    });
+
+    let title = "Velg en oppgradering å ha permanent.";
+
+    if (localStorage.getItem("chosenUpg") != null) {
+        title = "Du har allerede valgt en oppgradering å ha permanent. Vil du bytte?";
+    }
+
+    let html = `
+    <div class="choose">
+        <div class="chooseWindow">
+            <div class="chooseTitlebar">
+                <p class="chooseTitle">${title}</p>
+                <div class="chooseClose"><p>&times;</p></div>
+            </div>
+            <div class="chooseContent"></div>
+            <div class="chooseButtons">
+                <div class="chooseButton chooseButtonYe"><p>Ok</p></div>
+                <div class="chooseButton chooseButtonNo"><p>Avbryt</p></div>
+            </div>
+        </div>
+    </div>`;
+
+    cssUpgradesBoughtHtml.forEach((element) => {
+        let indexPos = html.search(`<div class="chooseContent">`);
+        html = html.substring(0, indexPos) + element + html.substring(indexPos, html.length);
+    });
+
+    let template = document.createElement("template");
+    template.innerHTML = html;
+
+    document.body.appendChild(template.content);
+
+    const confirmEl = document.querySelector(".choose");
+    const btnClose = document.querySelector(".chooseClose");
+    const btnOk = document.querySelector(".chooseButtonYe");
+    const btnCancel = document.querySelector(".chooseButtonNo");
+
+    confirmEl.addEventListener("click", (e) => {
+        if (e.target === confirmEl) {
+            close(confirmEl);
+        }
+    });
+
+    btnOk.addEventListener("click", () => {
+        if (chosenUpg != "") {   
+            localStorage.setItem("chosenUpg", chosenUpg);
+        } else if(localStorage.getItem("chosenUpg") == null) {
+            console.log("Du må velge en oppgradering.");
+            return;
+        }
+        
+        close(confirmEl);
+    });
+
+    [btnCancel, btnClose].forEach((el) => {
+        el.addEventListener("click", () => {
+            let currentUpgHTML = document.getElementById(upg.name);
+            currentUpgHTML.style.opacity = 1;
+            let connectedLines = document.getElementsByClassName(upg.name + "Line");
+            for (let i = 0; i < connectedLines.length; i++) {
+                connectedLines[i].style.opacity = 1;
+            }
+            localStorage.removeItem(upg.name, "bought");
+            close(confirmEl);
+        });
+    });
+}
+
+document.addEventListener("click", (e) => {
+    if (e.target.id.includes("upgBought")) {
+        console.log(e.target.id);
+        let allCssUpgradesBought = localStorage.getItem("allCssUpgradesBought").split(",");
+        allCssUpgradesBought.forEach((element) => {
+            if (e.target.id.includes("upgBought" + element)) {             
+                document.getElementById("upgBought" + element).style.backgroundColor = "gray";
+                chosenUpg = element;
+                console.log(chosenUpg);
+            } else {
+                document.getElementById("upgBought" + element).style.backgroundColor = "white";
+            }
+        });
+    }
+});
+
+function close(confirmEl) {
+    confirmEl.classList.add("confirm--close");
+    document.body.removeChild(confirmEl);
 }
