@@ -96,6 +96,10 @@ function buyUpg(name, price, amount) {
         cssLines -= price;
         numHtml.innerHTML = cssLines + " linjer";
 
+        let upgHtml = document.getElementsByTagName("body")[0];
+
+        upgHtml.classList.add(name);
+
         totalPlus += amount;
 
         allCssUpgradesBought.push(name);
@@ -119,6 +123,31 @@ function addNextCssItem() {
             addUpgradeItem(currentUpg);
             return;
         }
+    }
+}
+
+function selgeSideTest() {
+    if (cssLines >= 0) {
+        dollaridoos += Math.floor(cssLines / 10);
+
+        cssLines = 0;
+        totalPlus = 0;
+        cssLinesTotal = 0;
+        numHtml.innerHTML = cssLines + " linjer";
+        dollaridoosHtml.innerHTML = dollaridoos + "$";
+        dollaridoosHtml.style.display = "block";
+
+        let upgHtml = document.getElementsByTagName("body")[0];
+        allCssUpgradesBought.forEach(element => {
+            upgHtml.classList.remove(element);
+        });
+       
+
+        allCssUpgradesBought = [];
+
+
+        setupCssUpgrades();
+        linesPerLineWritten();
     }
 }
 

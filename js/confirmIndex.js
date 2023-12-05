@@ -7,7 +7,7 @@ document.getElementById("btnSelgeSide").addEventListener("click", () => {
             "$.",
         message2: "Noter: du mister ikke dollar når du selger siden din.",
         onOk: () => {
-            selgeSide();
+            selgeSideTest();
         },
     });
 });
