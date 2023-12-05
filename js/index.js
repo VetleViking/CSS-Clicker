@@ -39,54 +39,88 @@ let timer = 0;
 let goldenLineInterval;
 let autoInterval;
 
-
-
 // This is a test
 let upgObjects = {};
 shopDiv;
 let html;
 
-upgObjects["testUpg0"] = {
-    name: "testUpg0",
-    title: "TestUpg0",
+upgObjects["testUpg"] = {
+    name: "testUpg",
+    title: "TestUpg",
     toolTip: "Dette er en tooltip.",
     price: 0,
     amount: 1,
 };
 
-upgObjects["testUpg1"] = {
-    name: "testUpg1",
-    title: "TestUpg1",
-    toolTip: "Dette er en tooltip.",
-    price: 0,
-    amount: 1,
-};
+unitTest();
+
+function unitTest() {
+    for (i = 0; i < 10; i++) {
+        upgObjects["testUpg" + i] = {
+            name: "testUpg" + i,
+            title: "TestUpg" + i,
+            toolTip: "Dette er en tooltip.",
+            price: 0,
+            amount: 1,
+        };
+    }
+}
 
 setupCssUpgrades();
 
 function setupCssUpgrades() {
-    console.log(upgObjects);
+    shopDiv.innerHTML = "";
 
-    console.log(Object.entries(upgObjects));
-
-    for (i = 0; i < Object.entries(upgObjects).length; i++) {
+    for (i = 0; i < 3; i++) {
         let currentUpg = Object.entries(upgObjects)[i][1];
-        console.log(currentUpg);
-        console.log(`${currentUpg.name}: ${currentUpg.title}`);
-
-        html = `
-        <div class="shopItem infoBox" id="${currentUpg.name}Shop" onClick="kjøpeCss('${currentUpg.name}', ${currentUpg.price}, ${currentUpg.amount})">
-            <p>
-                ${currentUpg.title}: ${currentUpg.price} linjer <span class="tooltip"
-                    >${currentUpg.toolTip}Gir ${currentUpg.amount} ekstra linje(r) hver gang du skriver.</span>
-            </p>
-        </div>`;
-
-        shopDiv.innerHTML += html;
+        addUpgradeItem(currentUpg);
     }
 }
 
+function addUpgradeItem(upg) {
+    console.log(`${upg.name}`);
 
+    html = `
+    <div class="shopItem infoBox" id="${upg.name}Shop" onClick="buyUpg('${upg.name}', ${upg.price}, ${upg.amount})">
+        <p>
+            ${upg.title}: ${upg.price} linjer <span class="tooltip"
+                >${upg.toolTip}Gir ${upg.amount} ekstra linje(r) hver gang du skriver.</span>
+        </p>
+    </div>`;
+
+    shopDiv.innerHTML += html;
+}
+
+function buyUpg(name, price, amount) {
+    if (cssLines >= price) {
+        cssLines -= price;
+        numHtml.innerHTML = cssLines + " linjer";
+
+        totalPlus += amount;
+
+        allCssUpgradesBought.push(name);
+
+        if (localStorage.getItem("allCssUpgradesBought") == null || localStorage.getItem("allCssUpgradesBought").includes(name) == false) {
+            localStorage.setItem("allCssUpgradesBought", allCssUpgradesBought);
+        }
+
+        document.getElementById(`${name}Shop`).innerHTML = "";
+
+        addNextCssItem();
+
+        linesPerLineWritten();
+    }
+}
+
+function addNextCssItem() {
+    for (i = 0; i < Object.entries(upgObjects).length; i++) {
+        let currentUpg = Object.entries(upgObjects)[i][1];
+        if (!allCssUpgradesBought.includes(currentUpg.name) && document.getElementById(`${currentUpg.name}Shop`) == null) {
+            addUpgradeItem(currentUpg);
+            return;
+        }
+    }
+}
 
 // Ideer:
 // Reinkarnasjon senere
@@ -229,11 +263,10 @@ function kjøpeCss(clas, price, amount) {
         totalPlus += amount;
 
         allCssUpgradesBought.push(clas);
-        
+
         if (localStorage.getItem("allCssUpgradesBought") == null || localStorage.getItem("allCssUpgradesBought").includes(clas) == false) {
             localStorage.setItem("allCssUpgradesBought", allCssUpgradesBought);
         }
-        
 
         buyCssShopItem.style.display = "none";
 
