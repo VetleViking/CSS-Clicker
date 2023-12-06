@@ -45,6 +45,8 @@ let upgDollarObjects = {};
 shopDiv;
 let html;
 let shopCssDiv = document.getElementById("shopCssDiv");
+let dollarUpgradesBoughtBox = document.getElementById("dollarUpgradesBoughtBox");
+cssUpgradesBoughtBox = document.getElementById("cssUpgradesBoughtBox");
 
 upgCssObjects["testUpg"] = {
     name: "testUpg",
@@ -76,6 +78,7 @@ function unitTestDollar() {
             name: "testDollarUpg" + i,
             title: "TestDollarUpg" + i,
             toolTip: "Dette er en tooltip.",
+            type: "multiplier",
             price: 0,
             amount: 1,
         };
@@ -89,35 +92,44 @@ function setupCssUpgrades() {
 
     for (i = 0; i < 3; i++) {
         let currentUpg = Object.entries(upgCssObjects)[i][1];
-        addUpgradeItem(currentUpg, shopCssDiv);
+        addCssUpgrade(currentUpg);
     }
 }
-
-setupDollarUpgrades();
 
 function setupDollarUpgrades() {
     shopDollarDiv.innerHTML = "";
 
     for (i = 0; i < 3; i++) {
         let currentUpg = Object.entries(upgDollarObjects)[i][1];
-        addUpgradeItem(currentUpg, shopDollarDiv);
+        addDollarUpgrade(currentUpg);
     }
 }
 
-
-function addUpgradeItem(upg, parentDiv) {
+function addCssUpgrade(upg) {
     html = `
-    <div class="shopItem infoBox" id="${upg.name}Shop" onClick="buyUpg('${upg.name}', ${upg.price}, ${upg.amount})">
+    <div class="shopItem infoBox" id="${upg.name}Shop" onClick="buyCssUpg('${upg.name}', ${upg.price}, ${upg.amount})">
         <p>
             ${upg.title}: ${upg.price} linjer <span class="tooltip"
-                >${upg.toolTip} </br> Gir ${upg.amount} ekstra linje(r) hver gang du skriver.</span>
+                >${upg.toolTip}</br>Gir ${upg.amount} ekstra linje(r) hver gang du skriver.</span>
         </p>
     </div>`;
 
-    parentDiv.innerHTML += html;
+    shopCssDiv.innerHTML += html;
 }
 
-function buyUpg(name, price, amount) {
+function addDollarUpgrade(upg) {
+    html = `
+    <div class="shopDollarItem infoBox" id="${upg.name}Shop" onclick="buyDollarUpg('${upg.name}', ${upg.price}, ${upg.amount}, '${upg.type}')">
+        <p>
+            ${upg.title}: ${upg.price}$<span class="tooltip">${upg.toolTip}<br />Legger til ${upg.amount} i multiplier til mengden linjer du får når du skriver</span>
+        </p>
+    </div>
+    `;
+
+    shopDollarDiv.innerHTML += html;
+}
+
+function buyCssUpg(name, price, amount) {
     if (cssLines >= price) {
         cssLines -= price;
         numHtml.innerHTML = cssLines + " linjer";
@@ -136,40 +148,97 @@ function buyUpg(name, price, amount) {
 
         document.getElementById(`${name}Shop`).innerHTML = "";
 
-        addNextCssItem();
-
+        addNextShopItem2(upgCssObjects, shopCssDiv);
+        addUpgBought2(name, cssUpgradesBoughtBox);
         linesPerLineWritten();
     }
 }
 
-function addNextCssItem() {
+function buyDollarUpg(name, price, amount, type) {
+    if (dollaridoos >= price) {
+        dollaridoos -= price;
+        dollaridoosHtml.innerHTML = dollaridoos + "$";
+
+        totalMultiplier += amount;
+
+        allDollaridoosUpgradesBought.push(name);
+
+        //make different types of upgrades work
+
+        document.getElementById(`${name}Shop`).innerHTML = "";
+
+        addNextShopItem2(upgDollarObjects, shopDollarDiv);
+        addUpgBought2(name, dollarUpgradesBoughtBox);
+        linesPerLineWritten();
+    }
+}
+
+function addNextShopItem2(upgObjects, shopDiv) {
     for (i = 0; i < Object.entries(upgObjects).length; i++) {
         let currentUpg = Object.entries(upgObjects)[i][1];
         if (!allCssUpgradesBought.includes(currentUpg.name) && document.getElementById(`${currentUpg.name}Shop`) == null) {
-            addUpgradeItem(currentUpg, shopCssDiv);
+            if (shopDiv == shopCssDiv) {
+                addCssUpgrade(currentUpg);
+            } else if (shopDiv == shopDollarDiv) {
+                addDollarUpgrade(currentUpg);
+            }
             return;
         }
     }
 }
 
-function selgeSideTest() {
+function addUpgBought2(name, type) {
+    // Continue here
+    // maybe split this function into two functions, one for css and one for dollaridoos
+    html = `
+        <div class="upgradesBoughtItem" id="${name}UpgradesBought"><p>${name}</p></div>
+    `;
+    <div class="keyboardUpgradesBought upgradesBoughtDollarItem" id="keyboardUpgradesBought">
+        <p>RGB keyboard</p>
+    </div>;
+
+    if (allCssUpgradesBought.length <= 1 && allDollaridoosUpgradesBought.length <= 1) {
+        upgradesBoughtBox.style.display = "block";
+        upgradesBoughtText.style.display = "block";
+    }
+    if (allDollaridoosUpgradesBought.length >= 1 && allCssUpgradesBought.length >= 1) {
+        upgradesBoughtCssText.style.display = "block";
+        upgradesBoughtDollarText.style.display = "block";
+        if (allCssUpgradesBought.includes("border") && allCssUpgradesBought.includes("grid")) {
+            upgradesBoughtCssText.style.borderRight = "1px solid black";
+            cssUpgradesBoughtBox.style.borderRight = "1px solid black";
+        }
+    }
+}
+
+function selgeSide2() {
     if (cssLines >= 0) {
+        if (dollarUnlocked == false) {
+            for (let i = 0; i < dollaridoosUnlockedHtml.length; i++) {
+                dollaridoosUnlockedHtml[i].classList.add("dollarUnlocked");
+            }
+            dollarShopText.style.display = "block";
+            cssShopText.style.display = "block";
+            setupDollarUpgrades();
+        }
         dollaridoos += Math.floor(cssLines / 10);
 
         cssLines = 0;
         totalPlus = 0;
+        cssLinesTotal = 0;
         numHtml.innerHTML = cssLines + " linjer";
         dollaridoosHtml.innerHTML = dollaridoos + "$";
         dollaridoosHtml.style.display = "block";
 
         let upgHtml = document.getElementsByTagName("body")[0];
-        allCssUpgradesBought.forEach(element => {
+        allCssUpgradesBought.forEach((element) => {
             upgHtml.classList.remove(element);
         });
-       
 
+        rightOrNot.innerHTML = "";
         allCssUpgradesBought = [];
 
+        dollarUnlocked = true;
 
         setupCssUpgrades();
         linesPerLineWritten();
