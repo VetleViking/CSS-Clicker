@@ -40,7 +40,7 @@
 .shopCssText,
 .shopDollarText,
 .dollaridoosBox,
-.shopDollarDiv,
+/* .shopDollarDiv, */
 .timer
 /*, .selgSide  */ {
     display: none;
@@ -58,11 +58,11 @@
     text-decoration: none;
 }
 
-.infoBox span {
+.infoBox span{
     display: none;
 }
 
-.infoBox:hover span {
+.infoBox:hover span{
     display: block;
     position: absolute;
     top: 1.5rem;

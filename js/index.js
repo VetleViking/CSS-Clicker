@@ -40,11 +40,13 @@ let goldenLineInterval;
 let autoInterval;
 
 // This is a test
-let upgObjects = {};
+let upgCssObjects = {};
+let upgDollarObjects = {};
 shopDiv;
 let html;
+let shopCssDiv = document.getElementById("shopCssDiv");
 
-upgObjects["testUpg"] = {
+upgCssObjects["testUpg"] = {
     name: "testUpg",
     title: "TestUpg",
     toolTip: "Dette er en tooltip.",
@@ -52,13 +54,27 @@ upgObjects["testUpg"] = {
     amount: 1,
 };
 
-unitTest();
+unitTestCss();
 
-function unitTest() {
+function unitTestCss() {
     for (i = 0; i < 10; i++) {
-        upgObjects["testUpg" + i] = {
+        upgCssObjects["testUpg" + i] = {
             name: "testUpg" + i,
             title: "TestUpg" + i,
+            toolTip: "Dette er en tooltip.",
+            price: 0,
+            amount: 1,
+        };
+    }
+}
+
+unitTestDollar();
+
+function unitTestDollar() {
+    for (i = 0; i < 10; i++) {
+        upgDollarObjects["testDollarUpg" + i] = {
+            name: "testDollarUpg" + i,
+            title: "TestDollarUpg" + i,
             toolTip: "Dette er en tooltip.",
             price: 0,
             amount: 1,
@@ -69,26 +85,36 @@ function unitTest() {
 setupCssUpgrades();
 
 function setupCssUpgrades() {
-    shopDiv.innerHTML = "";
+    shopCssDiv.innerHTML = "";
 
     for (i = 0; i < 3; i++) {
-        let currentUpg = Object.entries(upgObjects)[i][1];
-        addUpgradeItem(currentUpg);
+        let currentUpg = Object.entries(upgCssObjects)[i][1];
+        addUpgradeItem(currentUpg, shopCssDiv);
     }
 }
 
-function addUpgradeItem(upg) {
-    console.log(`${upg.name}`);
+setupDollarUpgrades();
 
+function setupDollarUpgrades() {
+    shopDollarDiv.innerHTML = "";
+
+    for (i = 0; i < 3; i++) {
+        let currentUpg = Object.entries(upgDollarObjects)[i][1];
+        addUpgradeItem(currentUpg, shopDollarDiv);
+    }
+}
+
+
+function addUpgradeItem(upg, parentDiv) {
     html = `
     <div class="shopItem infoBox" id="${upg.name}Shop" onClick="buyUpg('${upg.name}', ${upg.price}, ${upg.amount})">
         <p>
             ${upg.title}: ${upg.price} linjer <span class="tooltip"
-                >${upg.toolTip}Gir ${upg.amount} ekstra linje(r) hver gang du skriver.</span>
+                >${upg.toolTip} </br> Gir ${upg.amount} ekstra linje(r) hver gang du skriver.</span>
         </p>
     </div>`;
 
-    shopDiv.innerHTML += html;
+    parentDiv.innerHTML += html;
 }
 
 function buyUpg(name, price, amount) {
@@ -120,7 +146,7 @@ function addNextCssItem() {
     for (i = 0; i < Object.entries(upgObjects).length; i++) {
         let currentUpg = Object.entries(upgObjects)[i][1];
         if (!allCssUpgradesBought.includes(currentUpg.name) && document.getElementById(`${currentUpg.name}Shop`) == null) {
-            addUpgradeItem(currentUpg);
+            addUpgradeItem(currentUpg, shopCssDiv);
             return;
         }
     }
@@ -132,7 +158,6 @@ function selgeSideTest() {
 
         cssLines = 0;
         totalPlus = 0;
-        cssLinesTotal = 0;
         numHtml.innerHTML = cssLines + " linjer";
         dollaridoosHtml.innerHTML = dollaridoos + "$";
         dollaridoosHtml.style.display = "block";
