@@ -9,17 +9,24 @@
     height: 100px;
     z-index: 100;
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
 .boksDiv {
     width: 100%;
-    height: 100vh;
+    height: calc(100vh - 100px);
     display: grid;
+    justify-content: center;
+    align-items: center;
     grid-template-columns: repeat(11, 1fr);
     grid-template-rows: repeat(11, 1fr);
+}
+
+.boxBox {
+    width: 100%;
+    height: 100px;
 }
 
 .upgTreeBox {
@@ -42,7 +49,70 @@
     background-color: #000;
 }
 
-.boks1 {
+.firstUpg {
     grid-column: 6;
     grid-row: 6;
+}
+
+
+.choose {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    opacity: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(2px);
+}
+
+.chooseWindow {
+    border: 1px solid #000;
+    background-color: #fff;
+    max-width: 500px;
+}
+
+.chooseClose {
+    margin: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #000;
+}
+
+.chooseTitlebar {
+    display: flex;
+    justify-content: space-between;
+}
+
+.chooseClose:hover,
+.chooseButtonYe:hover,
+.chooseButtonNo:hover {
+    cursor: pointer;
+}
+
+.chooseButtons {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.chooseButtonYe,
+.chooseButtonNo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 20px;
+    border: 1px solid #000;
+    text-align: center;
+    margin: 1px;
+}
+
+.chooseButtonNo {
+    width: 50px;
 }
