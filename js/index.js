@@ -85,6 +85,10 @@ function unitTestDollar() {
     }
 }
 
+function temporaryFunction() {
+    
+}
+
 setupCssUpgrades();
 
 function setupCssUpgrades() {
@@ -193,9 +197,7 @@ function addUpgBought2(name, type) {
     html = `
         <div class="upgradesBoughtItem" id="${name}UpgradesBought"><p>${name}</p></div>
     `;
-    <div class="keyboardUpgradesBought upgradesBoughtDollarItem" id="keyboardUpgradesBought">
-        <p>RGB keyboard</p>
-    </div>;
+    type.innerHTML += html;
 
     if (allCssUpgradesBought.length <= 1 && allDollaridoosUpgradesBought.length <= 1) {
         upgradesBoughtBox.style.display = "block";
