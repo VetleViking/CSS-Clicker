@@ -85,10 +85,6 @@ function unitTestDollar() {
     }
 }
 
-function temporaryFunction() {
-    
-}
-
 setupCssUpgrades();
 
 function setupCssUpgrades() {
@@ -96,6 +92,7 @@ function setupCssUpgrades() {
 
     for (i = 0; i < 3; i++) {
         let currentUpg = Object.entries(upgCssObjects)[i][1];
+        
         addCssUpgrade(currentUpg);
     }
 }
@@ -111,7 +108,7 @@ function setupDollarUpgrades() {
 
 function addCssUpgrade(upg) {
     html = `
-    <div class="shopItem infoBox" id="${upg.name}Shop" onClick="buyCssUpg('${upg.name}', ${upg.price}, ${upg.amount})">
+    <div class="shopItem infoBox" id="${upg.name}Shop" onclick="buyCssUpg('${upg.name}', ${upg.price}, ${upg.amount})">
         <p>
             ${upg.title}: ${upg.price} linjer <span class="tooltip"
                 >${upg.toolTip}</br>Gir ${upg.amount} ekstra linje(r) hver gang du skriver.</span>
@@ -119,6 +116,7 @@ function addCssUpgrade(upg) {
     </div>`;
 
     shopCssDiv.innerHTML += html;
+    eventListener(upg.name);
 }
 
 function addDollarUpgrade(upg) {
@@ -131,6 +129,15 @@ function addDollarUpgrade(upg) {
     `;
 
     shopDollarDiv.innerHTML += html;
+    eventListener(upg.name);
+}
+
+function eventListener(upgName) {
+    console.log(upgName);
+    document.getElementById(`${upgName}Shop`).addEventListener("click", function () {
+        console.log(upgName);
+        buyCssUpg(upgName);
+    });
 }
 
 function buyCssUpg(name, price, amount) {
@@ -163,11 +170,21 @@ function buyDollarUpg(name, price, amount, type) {
         dollaridoos -= price;
         dollaridoosHtml.innerHTML = dollaridoos + "$";
 
-        totalMultiplier += amount;
-
         allDollaridoosUpgradesBought.push(name);
 
-        //make different types of upgrades work
+        if (type == "auto") {
+            autoInterval = setInterval(function () {
+                cssLines += 1;
+                cssLinesTotal += 1;
+                numHtml.innerHTML = cssLines + " linjer";
+                if (cssLinesTotal >= 30) {
+                    selgeSideBtn.style.display = "block";
+                }
+            }, amount * 1000);
+        }
+        if (type == "multiplier") {
+            totalMultiplier += amount;
+        }
 
         document.getElementById(`${name}Shop`).innerHTML = "";
 
