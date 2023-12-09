@@ -115,20 +115,21 @@ function addCssUpgrade(upg) {
         </p>
     </div>`;
 
-    shopCssDiv.innerHTML += html;
+    shopCssDiv.appendChild(html);
     eventListener(upg.name);
 }
 
 function addDollarUpgrade(upg) {
     html = `
-    <div class="shopDollarItem infoBox" id="${upg.name}Shop" onclick="buyDollarUpg('${upg.name}', ${upg.price}, ${upg.amount}, '${upg.type}')">
+    <div class="shopDollarItem infoBox" id="${upg.name}Shop" onclick="buyDollarUpg('${upg.name}', ${upg.price}, ${upg.amount}, '${upg.type}')"
+    >
         <p>
             ${upg.title}: ${upg.price}$<span class="tooltip">${upg.toolTip}<br />Legger til ${upg.amount} i multiplier til mengden linjer du får når du skriver</span>
         </p>
     </div>
     `;
 
-    shopDollarDiv.innerHTML += html;
+    shopDollarDiv.appendChild(html);
     eventListener(upg.name);
 }
 
