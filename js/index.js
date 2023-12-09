@@ -265,6 +265,16 @@ function selgeSide2() {
     }
 }
 
+function reincarnation2 () {    
+    selgeSide2()
+    dollaridoos = 0;
+    totalMultiplier = 1;
+
+    if (localStorage.getItem("reincarnationPoints") == null) {
+        //bla bla fortsett her
+    }
+}
+
 // Ideer:
 // Reinkarnasjon senere
 
