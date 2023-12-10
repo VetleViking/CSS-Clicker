@@ -48,15 +48,55 @@ let shopCssDiv = document.getElementById("shopCssDiv");
 let dollarUpgradesBoughtBox = document.getElementById("dollarUpgradesBoughtBox");
 cssUpgradesBoughtBox = document.getElementById("cssUpgradesBoughtBox");
 
-upgCssObjects["testUpg"] = {
-    name: "testUpg",
-    title: "TestUpg",
-    toolTip: "Dette er en tooltip.",
+upgCssObjects["font-size"] = {
+    name: "font-size",
+    title: "Font-size",
+    toolTip: "Legger til font-size til titler og sånt.",
     price: 0,
     amount: 1,
 };
 
-unitTestCss();
+upgCssObjects["margin"] = {
+    name: "margin",
+    title: "Margin",
+    toolTip: "Legger til margin så ting får pusterom.",
+    price: 0,
+    amount: 1,
+};
+
+upgCssObjects["padding"] = {
+    name: "padding",
+    title: "Padding",
+    toolTip: "Legger til padding så tekst og sånt ikke blir så skvist.",
+    price: 0,
+    amount: 1,
+};
+
+upgCssObjects["color"] = {
+    name: "color",
+    title: "Farger",
+    toolTip: "Adder noen basic farger til knapper og bokser og sånne greier.",
+    price: 0,
+    amount: 2,
+};
+
+upgCssObjects["border"] = {
+    name: "border",
+    title: "Border",
+    toolTip: "Adder bordere til elementene så det er tydeligere skiller på ting.",
+    price: 0,
+    amount: 3,
+};
+
+upgCssObjects["grid"] = {
+    name: "grid",
+    title: "Grid",
+    toolTip: "Adder et grid-system.",
+    price: 0,
+    amount: 5,
+};
+
+//unitTestCss();
 
 function unitTestCss() {
     for (i = 0; i < 10; i++) {
@@ -107,8 +147,10 @@ function setupDollarUpgrades() {
 }
 
 function addCssUpgrade(upg) {
-    html = `
-    <div class="shopItem infoBox" id="${upg.name}Shop" onclick="buyCssUpg('${upg.name}', ${upg.price}, ${upg.amount})">
+    let html = document.createElement("div");
+
+    html.innerHTML = `
+    <div class="shopItem infoBox" id="${upg.name}Shop">
         <p>
             ${upg.title}: ${upg.price} linjer <span class="tooltip"
                 >${upg.toolTip}</br>Gir ${upg.amount} ekstra linje(r) hver gang du skriver.</span>
@@ -116,13 +158,14 @@ function addCssUpgrade(upg) {
     </div>`;
 
     shopCssDiv.appendChild(html);
-    eventListener(upg.name);
+    eventListener(upg);
 }
 
 function addDollarUpgrade(upg) {
-    html = `
-    <div class="shopDollarItem infoBox" id="${upg.name}Shop" onclick="buyDollarUpg('${upg.name}', ${upg.price}, ${upg.amount}, '${upg.type}')"
-    >
+    let html = document.createElement("div");
+
+    html.innerHTML = `
+    <div class="shopDollarItem infoBox" id="${upg.name}Shop">
         <p>
             ${upg.title}: ${upg.price}$<span class="tooltip">${upg.toolTip}<br />Legger til ${upg.amount} i multiplier til mengden linjer du får når du skriver</span>
         </p>
@@ -130,14 +173,16 @@ function addDollarUpgrade(upg) {
     `;
 
     shopDollarDiv.appendChild(html);
-    eventListener(upg.name);
+    eventListener(upg);
 }
 
-function eventListener(upgName) {
-    console.log(upgName);
-    document.getElementById(`${upgName}Shop`).addEventListener("click", function () {
-        console.log(upgName);
-        buyCssUpg(upgName);
+function eventListener(upg) {
+    document.getElementById(`${upg.name}Shop`).addEventListener("click", function () {
+        if (document.getElementById(`${upg.name}Shop`).classList.contains("shopDollarItem")) {
+            buyDollarUpg(upg.name, upg.price, upg.amount, upg.type);
+        } else if (document.getElementById(`${upg.name}Shop`).classList.contains("shopItem")) {
+            buyCssUpg(upg.name, upg.price, upg.amount);
+        }
     });
 }
 
@@ -210,8 +255,6 @@ function addNextShopItem2(upgObjects, shopDiv) {
 }
 
 function addUpgBought2(name, type) {
-    // Continue here
-    // maybe split this function into two functions, one for css and one for dollaridoos
     html = `
         <div class="upgradesBoughtItem" id="${name}UpgradesBought"><p>${name}</p></div>
     `;
@@ -249,6 +292,12 @@ function selgeSide2() {
         numHtml.innerHTML = cssLines + " linjer";
         dollaridoosHtml.innerHTML = dollaridoos + "$";
         dollaridoosHtml.style.display = "block";
+        cssUpgradesBoughtBox.innerHTML = "";
+        upgradesBoughtCssText.style.display = "none";
+
+        if (allDollaridoosUpgradesBought.length <= 0) {
+            upgradesBoughtText.style.display = "none";
+        }
 
         let upgHtml = document.getElementsByTagName("body")[0];
         allCssUpgradesBought.forEach((element) => {
@@ -262,252 +311,37 @@ function selgeSide2() {
 
         setupCssUpgrades();
         linesPerLineWritten();
+
+        //selgeSideBtn.style.display = "none";
     }
 }
 
-function reincarnation2 () {    
-    selgeSide2()
-    dollaridoos = 0;
-    totalMultiplier = 1;
+function reincarnation2 () {
+    if (cssLinesTotal >= 10000) {
+        selgeSide2()
+        dollaridoos = 0;
+        totalMultiplier = 1;
 
-    if (localStorage.getItem("reincarnationPoints") == null) {
-        //bla bla fortsett her
+        allDollaridoosUpgradesBought = [];
+
+        for (let i = 0; i < dollaridoosUnlockedHtml.length; i++) {
+            dollaridoosUnlockedHtml[i].classList.remove("dollarUnlocked");
+        }
+        dollarShopText.style.display = "none";
+        cssShopText.style.display = "none";
+
+        if (localStorage.getItem("reincarnationPoints") == null) {
+            localStorage.setItem("reincarnationPoints", 0);
+        }
+        localStorage.setItem("reincarnationPoints", parseInt(localStorage.getItem("reincarnationPoints")) + Math.floor(cssLinesTotal / 10000));
     }
 }
 
-// Ideer:
-// Reinkarnasjon senere
-
-//start(shopCssItems);
-start(shopDollarItems);
 onOpen();
 
 function onOpen() {
     if (localStorage.getItem("chosenUpg") != null) {
         kjøpeCss(localStorage.getItem("chosenUpg"), 0, 2);
-    }
-}
-
-function start(items) {
-    for (let i = 3; i < items.length; i++) {
-        items[i].style.display = "none";
-    }
-}
-
-// Reincarnation function
-function reincarnation() {
-    if (cssLinesTotal >= 0) {
-        if (localStorage.getItem("reincarnationPoints") == null) {
-            localStorage.setItem("reincarnationPoints", 0);
-        } else {
-            reincarnationPoints = parseInt(localStorage.getItem("reincarnationPoints"));
-            reincarnationPoints += Math.floor(cssLinesTotal / 10000);
-            localStorage.setItem("reincarnationPoints", reincarnationPoints);
-        }
-        selgeSide();
-        allDollaridoosUpgradesBought = [];
-        totalMultiplier = 1;
-        dollaridoos = 0;
-        upgradesBoughtBox.style.display = "none";
-        dollaridoosHtml.style.display = "none";
-        dollarShopText.style.display = "none";
-        dollarShopDiv.style.display = "none";
-        cssShopText.style.display = "none";
-
-        for (let i = 0; i < upgradesBoughtDollarItems.length; i++) {
-            upgradesBoughtDollarItems[i].style.display = "none";
-        }
-
-        for (let i = 0; i <= 2; i++) {
-            shopDollarItems[i].style.display = "initial";
-        }
-
-        clearInterval(autoInterval);
-        start(shopDollarItems);
-
-        for (let i = 0; i < allDollaridoosUpgradesBought.length; i++) {
-            let currentDollarUpgrade = allDollaridoosUpgradesBought[i];
-            let shopItemIds = document.getElementById(currentDollarUpgrade + "DollarShop");
-            shopItemIds.style.display = "block";
-        }
-        window.location.replace("reinkarnasjon.html");
-    }
-}
-
-// Function to sell the website
-function selgeSide() {
-    if (cssLinesTotal >= 0) {
-        if (dollarUnlocked == false) {
-            for (let i = 0; i < dollaridoosUnlockedHtml.length; i++) {
-                dollaridoosUnlockedHtml[i].classList.add("dollarUnlocked");
-            }
-        }
-        dollaridoos += Math.floor(cssLinesTotal / 10);
-
-        cssLines = 0;
-        totalPlus = 0;
-        cssLinesTotal = 0;
-        numHtml.innerHTML = cssLines + " linjer";
-        dollaridoosHtml.innerHTML = dollaridoos + "$";
-        dollaridoosHtml.style.display = "block";
-
-        for (let i = 0; i < allCssUpgradesBought.length; i++) {
-            let currentCssUpgrade = allCssUpgradesBought[i];
-            let classes = document.getElementsByClassName(currentCssUpgrade + "Bought");
-            let shopItemIds = document.getElementById(currentCssUpgrade + "Shop");
-            shopItemIds.style.display = "block";
-
-            for (let i = 0; i < classes.length; i++) {
-                if (classes[i].classList.contains(currentCssUpgrade + "Bought")) {
-                    classes[i].classList.remove(currentCssUpgrade + "On", currentCssUpgrade + "Bought");
-                }
-            }
-        }
-
-        for (let i = 0; i < upgradesBoughtItems.length; i++) {
-            upgradesBoughtItems[i].style.display = "none";
-        }
-
-        dollarShopText.style.display = "block";
-        cssShopText.style.display = "block";
-        dollarShopDiv.style.display = "block";
-
-        rightOrNot.innerHTML = "";
-        allCssUpgradesBought = [];
-
-        if (allDollaridoosUpgradesBought.length == 0) {
-            upgradesBoughtText.style.display = "none";
-        }
-
-        upgradesBoughtDollarText.style.display = "none";
-        upgradesBoughtCssText.style.display = "none";
-        upgradesBoughtCssText.style.borderRight = "none";
-        cssUpgradesBoughtBox.style.borderRight = "none";
-
-        //selgeSideBtn.style.display = "none";
-
-        start(shopCssItems);
-        if (dollarUnlocked == false) {
-            start(shopDollarItems);
-        } else {
-        }
-
-        linesPerLineWritten();
-        dollarUnlocked = true;
-    }
-}
-
-// Function to buy CSS
-function kjøpeCss(clas, price, amount) {
-    if (cssLines >= price && !allCssUpgradesBought.includes(clas)) {
-        cssLines -= price;
-        numHtml.innerHTML = cssLines + " linjer";
-
-        let classBuyList = document.getElementsByClassName(clas);
-        let buyCssShopItem = document.getElementById(clas + "Shop");
-
-        for (let i = 0; i < classBuyList.length; i++) {
-            if (classBuyList[i].classList.contains(clas + "Bought")) {
-            } else {
-                classBuyList[i].classList.add(clas + "On", clas + "Bought");
-            }
-        }
-
-        totalPlus += amount;
-
-        allCssUpgradesBought.push(clas);
-
-        if (localStorage.getItem("allCssUpgradesBought") == null || localStorage.getItem("allCssUpgradesBought").includes(clas) == false) {
-            localStorage.setItem("allCssUpgradesBought", allCssUpgradesBought);
-        }
-
-        buyCssShopItem.style.display = "none";
-
-        addNextShopItem(shopCssItems);
-        addUpgBought(clas);
-        linesPerLineWritten();
-    }
-}
-
-// Function to buy stuff with dollaridoos
-function kjøpeDollar(type, clas, amount, price) {
-    if (dollaridoos >= price && !allDollaridoosUpgradesBought.includes(clas)) {
-        dollaridoos -= price;
-        dollaridoosHtml.innerHTML = dollaridoos + "$";
-
-        let buyDollarShopItem = document.getElementById(clas + "DollarShop");
-
-        if (type == "multiplier") {
-            totalMultiplier *= amount;
-            dollaridoosHtml.innerHTML = dollaridoos + "$";
-        } else if (type == "auto") {
-            autoInterval = setInterval(function () {
-                cssLines += 1;
-                cssLinesTotal += 1;
-                numHtml.innerHTML = cssLines + " linjer";
-                if (cssLinesTotal >= 30) {
-                    selgeSideBtn.style.display = "block";
-                }
-            }, amount * 1000);
-        }
-
-        if (allDollaridoosUpgradesBought.length == 0) {
-            upgradesBoughtBox.style.display = "block";
-        }
-
-        allDollaridoosUpgradesBought.push(clas);
-        buyDollarShopItem.style.display = "none";
-
-        addNextShopItem(shopDollarItems);
-        addUpgBought(clas);
-        linesPerLineWritten();
-    }
-}
-
-// Function to add new shop items
-
-function addNextShopItem(shopType) {
-    let upgradesBought = [];
-    if (shopType == shopCssItems) {
-        upgradesBought = allCssUpgradesBought;
-    } else if (shopType == shopDollarItems) {
-        upgradesBought = allDollaridoosUpgradesBought;
-    }
-
-    if (shopType[upgradesBought.length + 2] != undefined) {
-        shopType[upgradesBought.length + 2].style.display = "block";
-    }
-}
-
-// Function to add bought upgrades to the upgrades bought box
-
-function addUpgBought(clas) {
-    let buyUpgradesBoughtItem = document.getElementById(clas + "UpgradesBought");
-
-    if (allCssUpgradesBought.length <= 1 && allDollaridoosUpgradesBought.length <= 1) {
-        upgradesBoughtBox.style.display = "block";
-        upgradesBoughtText.style.display = "block";
-    }
-    if (allDollaridoosUpgradesBought.length >= 1 && allCssUpgradesBought.length >= 1) {
-        upgradesBoughtCssText.style.display = "block";
-        upgradesBoughtDollarText.style.display = "block";
-        if (allCssUpgradesBought.includes("border") && allCssUpgradesBought.includes("grid")) {
-            upgradesBoughtCssText.style.borderRight = "1px solid black";
-            cssUpgradesBoughtBox.style.borderRight = "1px solid black";
-        }
-    }
-    buyUpgradesBoughtItem.style.display = "block";
-}
-
-// Function to enable/disable CSS on specified class
-function toggleCss(clas) {
-    let classToggleList = document.getElementsByClassName(clas);
-    for (let i = 0; i < classToggleList.length; i++) {
-        if (classToggleList[i].classList.contains(clas + "On", clas + "Bought")) {
-            classToggleList[i].classList.remove(clas + "On");
-        } else if (classToggleList[i].classList.contains(clas + "Bought")) {
-            classToggleList[i].classList.add(clas + "On");
-        }
     }
 }
 
