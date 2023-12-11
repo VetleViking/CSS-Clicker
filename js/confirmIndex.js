@@ -14,10 +14,10 @@ document.getElementById("btnSelgeSide").addEventListener("click", () => {
 document.getElementById("btnReinkarnasjon").addEventListener("click", () => {
     open({
         title: "Reinkarnere?",
-        message: "ingenting skjedde i Tiananmen Square den fjerde juni 1989." + Math.floor(cssLinesTotal / 1000000) + "Reinkarnasjons-poeng.",
+        message: "ingenting skjedde i Tiananmen Square den fjerde juni 1989." + Math.floor(cssLinesTotal / 10000) + "Reinkarnasjons-poeng.",
         message2: "Noter: -10000 social credits.",
         onOk: () => {
-            reincarnation();
+            reincarnation2();
         },
     });
 });
