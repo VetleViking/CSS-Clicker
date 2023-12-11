@@ -1,7 +1,7 @@
 let numHtml = document.getElementById("number");
 let dollaridoosHtml = document.getElementById("dollaridoos");
-let cssLines = 0;
-let cssLinesTotal = 0;
+let cssLines = 50;
+let cssLinesTotal = 50;
 let dollaridoos = 0;
 let cssBox = document.getElementById("cssBox");
 let cssTextBox = document.getElementById("cssTextBox");
@@ -394,7 +394,7 @@ function selgeSide2() {
             cssShopText.style.display = "block";
             setupDollarUpgrades();
         }
-        dollaridoos += Math.floor(cssLines / 10);
+        dollaridoos += Math.floor(cssLinesTotal / 10);
 
         cssLines = 0;
         totalPlus = 0;
