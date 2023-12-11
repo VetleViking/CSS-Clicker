@@ -452,8 +452,8 @@ function buyDollarUpg(upg) {
 
         document.getElementById(`${upg.name}Shop`).innerHTML = "";
 
-        addNextShopItem2(upgDollarObjects, shopDollarDiv);
         addUpgBought2(upg, dollarUpgradesBoughtBox);
+        addNextShopItem2(upgDollarObjects, shopDollarDiv);
         linesPerLineWritten();
     }
 }
