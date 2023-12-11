@@ -19,20 +19,20 @@
 .upgradesBought,
 .shopItem,
 .upgradesBoughtItem,
-.selgSide {
+.selgSide,
+.reinkarnasjon {
     width: fit-content;
 }
 
 .shopItem,
 .shopDollarItem,
-.selgSide {
+.selgSide,
+.reinkarnasjon {
     cursor: pointer;
 }
 
 /* Skru av display på ting som ikke er unlocka */
 
-.upgradesBought,
-.upgradesBoughtItem,
 .upgradesBoughtText,
 .upgradesBoughtCssText,
 .upgradesBoughtDollarText,
@@ -40,9 +40,9 @@
 .shopCssText,
 .shopDollarText,
 .dollaridoosBox,
-/* .shopDollarDiv, */
-.timer
-/*, .selgSide  */ {
+.timer, 
+.selgSide,
+.reinkarnasjon {
     display: none;
 }
 
