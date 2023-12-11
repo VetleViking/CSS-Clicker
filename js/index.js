@@ -46,131 +46,261 @@ let shopCssDiv = document.getElementById("shopCssDiv");
 let dollarUpgradesBoughtBox = document.getElementById("dollarUpgradesBoughtBox");
 let boughtIncrementals = [];
 
-//css upgrades
-upgCssObjects["font-size"] = {
-    name: "font-size",
-    title: "Font-size",
-    toolTip: "Legger til font-size til titler og sånt.",
-    price: 3,
-    amount: 1,
-};
 
-upgCssObjects["margin"] = {
-    name: "margin",
-    title: "Margin",
-    toolTip: "Legger til margin så ting får pusterom.",
-    price: 10,
-    amount: 1,
-};
+//notFinished();
+function notFinished() {
+    //css upgrades
+    upgCssObjects["font-size"] = {
+        name: "font-size",
+        title: "Font-size",
+        toolTip: "Legger til font-size til titler og sånt.",
+        price: 0,
+        amount: 1,
+    };
 
-upgCssObjects["padding"] = {
-    name: "padding",
-    title: "Padding",
-    toolTip: "Legger til padding så tekst og sånt ikke blir så skvist.",
-    price: 25,
-    amount: 1,
-};
+    upgCssObjects["margin"] = {
+        name: "margin",
+        title: "Margin",
+        toolTip: "Legger til margin så ting får pusterom.",
+        price: 0,
+        amount: 1,
+    };
 
-upgCssObjects["color"] = {
-    name: "color",
-    title: "Farger",
-    toolTip: "Adder noen basic farger til knapper og bokser og sånne greier.",
-    price: 50,
-    amount: 2,
-};
+    upgCssObjects["padding"] = {
+        name: "padding",
+        title: "Padding",
+        toolTip: "Legger til padding så tekst og sånt ikke blir så skvist.",
+        price: 0,
+        amount: 1,
+    };
 
-upgCssObjects["border"] = {
-    name: "border",
-    title: "Border",
-    toolTip: "Adder bordere til elementene så det er tydeligere skiller på ting.",
-    price: 100,
-    amount: 3,
-};
+    upgCssObjects["color"] = {
+        name: "color",
+        title: "Farger",
+        toolTip: "Adder noen basic farger til knapper og bokser og sånne greier.",
+        price: 0,
+        amount: 2,
+    };
 
-upgCssObjects["grid"] = {
-    name: "grid",
-    title: "Grid",
-    toolTip: "Adder et grid-system.",
-    price: 200,
-    amount: 5,
-};
+    upgCssObjects["border"] = {
+        name: "border",
+        title: "Border",
+        toolTip: "Adder bordere til elementene så det er tydeligere skiller på ting.",
+        price: 0,
+        amount: 5,
+    };
 
-//dollar upgrades
-upgDollarObjects["mouse"] = {
-    name: "mouse",
-    title: "RGB mus",
-    toolTip: "Med en fancy RGB mus kan du skrive css enda fortere! (det gir mening trust)",
-    type: "multiplier",
-    price: 5,
-    amount: 1,
-};
+    upgCssObjects["grid"] = {
+        name: "grid",
+        title: "Grid",
+        toolTip: "Adder et grid-system.",
+        price: 0,
+        amount: 10,
+    };
 
-upgDollarObjects["stackoverflow"] = {
-    name: "stackoverflow",
-    title: "Stack Overflow",
-    toolTip: "Spør de kule karene på Stack Overflow om hjelp med CSSen din! Bare vær klar over at de mobber deg for å stille spørsmål mer enn de faktisk hjelper.",
-    type: "auto",
-    price: 10,
-    amount: 10,
-};
+    //dollar upgrades
+    upgDollarObjects["mouse"] = {
+        name: "mouse",
+        title: "RGB mus",
+        toolTip: "Med en fancy RGB mus kan du skrive css enda fortere! (det gir mening trust)",
+        type: "multiplier",
+        price: 0,
+        amount: 1,
+    };
 
-upgDollarObjects["bedrePc"] = {
-    name: "bedrePc1",
-    title: "Bedre PC 1",
-    toolTip: "Med en bedre PC kan du compile CSSen enda bedre.",
-    type: "autoMultiplier",
-    price: 10,
-    amount: 2,
-    isIncremental: true,
-    upgradeIncrement: 5,
-};
+    upgDollarObjects["stackoverflow"] = {
+        name: "stackoverflow",
+        title: "Stack Overflow",
+        toolTip: "Spør de kule karene på Stack Overflow om hjelp med CSSen din! Bare vær klar over at de mobber deg for å stille spørsmål mer enn de faktisk hjelper.",
+        type: "auto",
+        price: 0,
+        amount: 10,
+    };
 
-upgDollarObjects["w3schools"] = {
-    name: "w3schools",
-    title: "W3Schools",
-    toolTip: "Lær CSS på W3Schools! Bare husk på at du blir sett ned på av \"ekte\" programmerere for å bruke W3Schools.",
-    type: "multiplier",
-    price: 20,
-    amount: 2,
+    upgDollarObjects["bedrePc"] = {
+        name: "bedrePc1",
+        title: "Bedre PC 1",
+        toolTip: "Med en bedre PC kan du compile CSSen enda bedre.",
+        type: "autoMultiplier",
+        price: 0,
+        amount: 2,
+        isIncremental: true,
+        upgradeIncrement: 5,
+    };
 
-};
+    upgDollarObjects["w3schools"] = {
+        name: "w3schools",
+        title: "W3Schools",
+        toolTip: "Lær CSS på W3Schools! Bare husk på at du blir sett ned på av \"ekte\" programmerere for å bruke W3Schools.",
+        type: "multiplier",
+        price: 0,
+        amount: 2,
 
-upgDollarObjects["keyboard"] = {
-    name: "keyboard",
-    title: "RGB keyboard",
-    toolTip: "Med et fancy RGB keyboard suser linjene forbi!",
-    type: "multiplier",
-    price: 70,
-    amount: 1,
-};
+    };
 
-upgDollarObjects["youtube"] = {
-    name: "youtube",
-    title: "YouTube",
-    toolTip: "Lær CSS av indere på YouTube! Halvparten av tutorialsa er på indisk og resten er nesten uforståelige, men det funker, og da går det bra.",
-    type: "auto",
-    price: 100,
-    amount: 5,
-};
+    upgDollarObjects["keyboard"] = {
+        name: "keyboard",
+        title: "RGB keyboard",
+        toolTip: "Med et fancy RGB keyboard suser linjene forbi!",
+        type: "multiplier",
+        price: 0,
+        amount: 1,
+    };
 
-upgDollarObjects["chatGpt"] = {
-    name: "chatGpt",
-    title: "Chat GPT",
-    toolTip: "La ChatGPT skrive CSSen for deg, mens du sitter og chiller!",
-    type: "auto",
-    price: 150,
-    amount: 1,
-};
+    upgDollarObjects["youtube"] = {
+        name: "youtube",
+        title: "YouTube",
+        toolTip: "Lær CSS av indere på YouTube! Halvparten av tutorialsa er på indisk og resten er nesten uforståelige, men det funker, og da går det bra.",
+        type: "auto",
+        price: 0,
+        amount: 5,
+    };
 
-upgDollarObjects["screen"] = {
-    name: "screen",
-    title: "4k 240hz skjerm",
-    toolTip: "Med denne skjermen kan du se all CSSen utrolig bra!",
-    type: "multiplier",
-    price: 200,
-    amount: 3,
-};
+    upgDollarObjects["chatGpt"] = {
+        name: "chatGpt",
+        title: "Chat GPT",
+        toolTip: "La ChatGPT skrive CSSen for deg, mens du sitter og chiller!",
+        type: "auto",
+        price: 0,
+        amount: 1,
+    };
 
+    upgDollarObjects["screen"] = {
+        name: "screen",
+        title: "4k 240hz skjerm",
+        toolTip: "Med denne skjermen kan du se all CSSen utrolig bra!",
+        type: "multiplier",
+        price: 0,
+        amount: 3,
+    };
+}
+finished();
+function finished() {
+    //css upgrades
+    upgCssObjects["font-size"] = {
+        name: "font-size",
+        title: "Font-size",
+        toolTip: "Legger til font-size til titler og sånt.",
+        price: 3,
+        amount: 1,
+    };
+
+    upgCssObjects["margin"] = {
+        name: "margin",
+        title: "Margin",
+        toolTip: "Legger til margin så ting får pusterom.",
+        price: 10,
+        amount: 1,
+    };
+
+    upgCssObjects["padding"] = {
+        name: "padding",
+        title: "Padding",
+        toolTip: "Legger til padding så tekst og sånt ikke blir så skvist.",
+        price: 25,
+        amount: 1,
+    };
+
+    upgCssObjects["color"] = {
+        name: "color",
+        title: "Farger",
+        toolTip: "Adder noen basic farger til knapper og bokser og sånne greier.",
+        price: 50,
+        amount: 2,
+    };
+
+    upgCssObjects["border"] = {
+        name: "border",
+        title: "Border",
+        toolTip: "Adder bordere til elementene så det er tydeligere skiller på ting.",
+        price: 100,
+        amount: 5,
+    };
+
+    upgCssObjects["grid"] = {
+        name: "grid",
+        title: "Grid",
+        toolTip: "Adder et grid-system.",
+        price: 200,
+        amount: 10,
+    };
+
+    //dollar upgrades
+    upgDollarObjects["mouse"] = {
+        name: "mouse",
+        title: "RGB mus",
+        toolTip: "Med en fancy RGB mus kan du skrive css enda fortere! (det gir mening trust)",
+        type: "multiplier",
+        price: 5,
+        amount: 1,
+    };
+
+    upgDollarObjects["stackoverflow"] = {
+        name: "stackoverflow",
+        title: "Stack Overflow",
+        toolTip: "Spør de kule karene på Stack Overflow om hjelp med CSSen din! Bare vær klar over at de mobber deg for å stille spørsmål mer enn de faktisk hjelper.",
+        type: "auto",
+        price: 10,
+        amount: 10,
+    };
+
+    upgDollarObjects["bedrePc"] = {
+        name: "bedrePc1",
+        title: "Bedre PC 1",
+        toolTip: "Med en bedre PC kan du compile CSSen enda bedre.",
+        type: "autoMultiplier",
+        price: 10,
+        amount: 2,
+        isIncremental: true,
+        upgradeIncrement: 5,
+    };
+
+    upgDollarObjects["w3schools"] = {
+        name: "w3schools",
+        title: "W3Schools",
+        toolTip: "Lær CSS på W3Schools! Bare husk på at du blir sett ned på av \"ekte\" programmerere for å bruke W3Schools.",
+        type: "multiplier",
+        price: 20,
+        amount: 2,
+
+    };
+
+    upgDollarObjects["keyboard"] = {
+        name: "keyboard",
+        title: "RGB keyboard",
+        toolTip: "Med et fancy RGB keyboard suser linjene forbi!",
+        type: "multiplier",
+        price: 70,
+        amount: 1,
+    };
+
+    upgDollarObjects["youtube"] = {
+        name: "youtube",
+        title: "YouTube",
+        toolTip: "Lær CSS av indere på YouTube! Halvparten av tutorialsa er på indisk og resten er nesten uforståelige, men det funker, og da går det bra.",
+        type: "auto",
+        price: 100,
+        amount: 5,
+    };
+
+    upgDollarObjects["chatGpt"] = {
+        name: "chatGpt",
+        title: "Chat GPT",
+        toolTip: "La ChatGPT skrive CSSen for deg, mens du sitter og chiller!",
+        type: "auto",
+        price: 150,
+        amount: 1,
+    };
+
+    upgDollarObjects["screen"] = {
+        name: "screen",
+        title: "4k 240hz skjerm",
+        toolTip: "Med denne skjermen kan du se all CSSen utrolig bra!",
+        type: "multiplier",
+        price: 200,
+        amount: 3,
+    };
+}
 
 //unitTestCss();
 
@@ -322,8 +452,8 @@ function buyDollarUpg(upg) {
 
         document.getElementById(`${upg.name}Shop`).innerHTML = "";
 
-        addNextShopItem2(upgDollarObjects, shopDollarDiv);
         addUpgBought2(upg, dollarUpgradesBoughtBox);
+        addNextShopItem2(upgDollarObjects, shopDollarDiv);
         linesPerLineWritten();
     }
 }
@@ -358,7 +488,9 @@ function addNextShopItem2(upgObjects, shopDiv) {
 }
 
 function addUpgBought2(upg, type) {
-    html = `
+    let html = document.createElement("div");
+
+    html.innerHTML = `
         <div class="upgradesBoughtItem infoBox" id="${upg.name}UpgradesBought"><p>${upg.title}<span class="tooltip">${upg.toolTip}<br /></span></p></div>
     `;
     if (upg.type == "multiplier") {
@@ -368,7 +500,7 @@ function addUpgBought2(upg, type) {
     } else if (upg.type == "autoMultiplier") {
         html.querySelector(".tooltip").innerHTML += `Ganger outputet fra de oppgraderingene du får css automatisk fra med ${upg.amount}.`;
     }
-    type.innerHTML += html;
+    type.appendChild(html);
 
     if (allCssUpgradesBought.length <= 1 && allDollaridoosUpgradesBought.length <= 1) {
         upgradesBoughtBox.style.display = "block";
@@ -446,6 +578,7 @@ function reincarnation2 () {
             localStorage.setItem("reincarnationPoints", 0);
         }
         localStorage.setItem("reincarnationPoints", parseInt(localStorage.getItem("reincarnationPoints")) + Math.floor(cssLinesTotal / 10000));
+        window.location.replace("reinkarnasjon.html");
     }
 }
 
@@ -453,7 +586,7 @@ onOpen();
 
 function onOpen() {
     if (localStorage.getItem("chosenUpg") != null) {
-        kjøpeCss(localStorage.getItem("chosenUpg"), 0, 2);
+        buyCssUpg(upgCssObjects[localStorage.getItem("chosenUpg")]);
     }
 }
 

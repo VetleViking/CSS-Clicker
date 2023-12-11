@@ -40,9 +40,9 @@
 .shopCssText,
 .shopDollarText,
 .dollaridoosBox,
-.timer, 
+.timer , 
 .selgSide,
-.reinkarnasjon {
+.reinkarnasjon { 
     display: none;
 }
 
@@ -58,6 +58,10 @@
     text-decoration: none;
 }
 
+html {
+    overflow: hidden;
+}
+
 .infoBox span{
     display: none;
 }
@@ -71,6 +75,7 @@
     z-index: 1;
     background-color: #fff;
     border: 1px solid rgb(0, 0, 0);
+    
 }
 
 /* confirmation vindu */

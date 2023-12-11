@@ -246,7 +246,9 @@
 }
 
 .padding.grid {
-    padding: 0;
+    .gridBox {
+        padding: 0;
+    }
 
     .typerText,
     .upgradesBoughtTextP,
