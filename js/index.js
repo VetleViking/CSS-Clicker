@@ -38,21 +38,20 @@ var textColor = "#000000";
 let timer = 0;
 let goldenLineInterval;
 let autoInterval;
-
-// This is a test
+let totalAutoMultiplier = 1;
 let upgCssObjects = {};
 let upgDollarObjects = {};
-shopDiv;
 let html;
 let shopCssDiv = document.getElementById("shopCssDiv");
 let dollarUpgradesBoughtBox = document.getElementById("dollarUpgradesBoughtBox");
-cssUpgradesBoughtBox = document.getElementById("cssUpgradesBoughtBox");
+let boughtIncrementals = [];
 
+//css upgrades
 upgCssObjects["font-size"] = {
     name: "font-size",
     title: "Font-size",
     toolTip: "Legger til font-size til titler og sånt.",
-    price: 0,
+    price: 3,
     amount: 1,
 };
 
@@ -60,7 +59,7 @@ upgCssObjects["margin"] = {
     name: "margin",
     title: "Margin",
     toolTip: "Legger til margin så ting får pusterom.",
-    price: 0,
+    price: 10,
     amount: 1,
 };
 
@@ -68,7 +67,7 @@ upgCssObjects["padding"] = {
     name: "padding",
     title: "Padding",
     toolTip: "Legger til padding så tekst og sånt ikke blir så skvist.",
-    price: 0,
+    price: 25,
     amount: 1,
 };
 
@@ -76,7 +75,7 @@ upgCssObjects["color"] = {
     name: "color",
     title: "Farger",
     toolTip: "Adder noen basic farger til knapper og bokser og sånne greier.",
-    price: 0,
+    price: 50,
     amount: 2,
 };
 
@@ -84,7 +83,7 @@ upgCssObjects["border"] = {
     name: "border",
     title: "Border",
     toolTip: "Adder bordere til elementene så det er tydeligere skiller på ting.",
-    price: 0,
+    price: 100,
     amount: 3,
 };
 
@@ -92,9 +91,86 @@ upgCssObjects["grid"] = {
     name: "grid",
     title: "Grid",
     toolTip: "Adder et grid-system.",
-    price: 0,
+    price: 200,
     amount: 5,
 };
+
+//dollar upgrades
+upgDollarObjects["mouse"] = {
+    name: "mouse",
+    title: "RGB mus",
+    toolTip: "Med en fancy RGB mus kan du skrive css enda fortere! (det gir mening trust)",
+    type: "multiplier",
+    price: 5,
+    amount: 1,
+};
+
+upgDollarObjects["stackoverflow"] = {
+    name: "stackoverflow",
+    title: "Stack Overflow",
+    toolTip: "Spør de kule karene på Stack Overflow om hjelp med CSSen din! Bare vær klar over at de mobber deg for å stille spørsmål mer enn de faktisk hjelper.",
+    type: "auto",
+    price: 10,
+    amount: 10,
+};
+
+upgDollarObjects["bedrePc"] = {
+    name: "bedrePc1",
+    title: "Bedre PC 1",
+    toolTip: "Med en bedre PC kan du compile CSSen enda bedre.",
+    type: "autoMultiplier",
+    price: 10,
+    amount: 2,
+    isIncremental: true,
+    upgradeIncrement: 5,
+};
+
+upgDollarObjects["w3schools"] = {
+    name: "w3schools",
+    title: "W3Schools",
+    toolTip: "Lær CSS på W3Schools! Bare husk på at du blir sett ned på av \"ekte\" programmerere for å bruke W3Schools.",
+    type: "multiplier",
+    price: 20,
+    amount: 2,
+
+};
+
+upgDollarObjects["keyboard"] = {
+    name: "keyboard",
+    title: "RGB keyboard",
+    toolTip: "Med et fancy RGB keyboard suser linjene forbi!",
+    type: "multiplier",
+    price: 70,
+    amount: 1,
+};
+
+upgDollarObjects["youtube"] = {
+    name: "youtube",
+    title: "YouTube",
+    toolTip: "Lær CSS av indere på YouTube! Halvparten av tutorialsa er på indisk og resten er nesten uforståelige, men det funker, og da går det bra.",
+    type: "auto",
+    price: 100,
+    amount: 5,
+};
+
+upgDollarObjects["chatGpt"] = {
+    name: "chatGpt",
+    title: "Chat GPT",
+    toolTip: "La ChatGPT skrive CSSen for deg, mens du sitter og chiller!",
+    type: "auto",
+    price: 150,
+    amount: 1,
+};
+
+upgDollarObjects["screen"] = {
+    name: "screen",
+    title: "4k 240hz skjerm",
+    toolTip: "Med denne skjermen kan du se all CSSen utrolig bra!",
+    type: "multiplier",
+    price: 200,
+    amount: 3,
+};
+
 
 //unitTestCss();
 
@@ -110,7 +186,7 @@ function unitTestCss() {
     }
 }
 
-unitTestDollar();
+//unitTestDollar();
 
 function unitTestDollar() {
     for (i = 0; i < 10; i++) {
@@ -167,11 +243,18 @@ function addDollarUpgrade(upg) {
     html.innerHTML = `
     <div class="shopDollarItem infoBox" id="${upg.name}Shop">
         <p>
-            ${upg.title}: ${upg.price}$<span class="tooltip">${upg.toolTip}<br />Legger til ${upg.amount} i multiplier til mengden linjer du får når du skriver</span>
+            ${upg.title}: ${upg.price}$<span class="tooltip">${upg.toolTip}<br /></span>
         </p>
     </div>
     `;
 
+    if (upg.type == "multiplier") {
+        html.querySelector(".tooltip").innerHTML += `Legger til ${upg.amount} i multiplier til mengden linjer du får når du skriver`;
+    } else if (upg.type == "auto") {
+        html.querySelector(".tooltip").innerHTML += `Gir deg en linje hvert ${upg.amount}. sekund.`;
+    } else if (upg.type == "autoMultiplier") {
+        html.querySelector(".tooltip").innerHTML += `Ganger outputet fra de oppgraderingene du får css automatisk fra med ${upg.amount}.`;
+    }
     shopDollarDiv.appendChild(html);
     eventListener(upg);
 }
@@ -179,68 +262,88 @@ function addDollarUpgrade(upg) {
 function eventListener(upg) {
     document.getElementById(`${upg.name}Shop`).addEventListener("click", function () {
         if (document.getElementById(`${upg.name}Shop`).classList.contains("shopDollarItem")) {
-            buyDollarUpg(upg.name, upg.price, upg.amount, upg.type);
+            console.log(upg.name + " event listener");
+            buyDollarUpg(upg);
         } else if (document.getElementById(`${upg.name}Shop`).classList.contains("shopItem")) {
-            buyCssUpg(upg.name, upg.price, upg.amount);
+            buyCssUpg(upg);
         }
     });
 }
 
-function buyCssUpg(name, price, amount) {
-    if (cssLines >= price) {
-        cssLines -= price;
+function buyCssUpg(upg) {
+    if (cssLines >= upg.price) {
+        cssLines -= upg.price;
         numHtml.innerHTML = cssLines + " linjer";
 
         let upgHtml = document.getElementsByTagName("body")[0];
 
-        upgHtml.classList.add(name);
+        upgHtml.classList.add(upg.name);
 
-        totalPlus += amount;
+        totalPlus += upg.amount;
 
-        allCssUpgradesBought.push(name);
+        allCssUpgradesBought.push(upg.name);
 
-        if (localStorage.getItem("allCssUpgradesBought") == null || localStorage.getItem("allCssUpgradesBought").includes(name) == false) {
+        if (localStorage.getItem("allCssUpgradesBought") == null || localStorage.getItem("allCssUpgradesBought").includes(upg.name) == false) {
             localStorage.setItem("allCssUpgradesBought", allCssUpgradesBought);
         }
 
-        document.getElementById(`${name}Shop`).innerHTML = "";
+        document.getElementById(`${upg.name}Shop`).innerHTML = "";
 
         addNextShopItem2(upgCssObjects, shopCssDiv);
-        addUpgBought2(name, cssUpgradesBoughtBox);
+        addUpgBought2(upg, cssUpgradesBoughtBox);
         linesPerLineWritten();
     }
 }
 
-function buyDollarUpg(name, price, amount, type) {
-    if (dollaridoos >= price) {
-        dollaridoos -= price;
+function buyDollarUpg(upg) {
+    if (dollaridoos >= upg.price) {
+        dollaridoos -= upg.price;
         dollaridoosHtml.innerHTML = dollaridoos + "$";
 
-        allDollaridoosUpgradesBought.push(name);
+        allDollaridoosUpgradesBought.push(upg.name);
 
-        if (type == "auto") {
+        if (upg.type == "auto") {
             autoInterval = setInterval(function () {
-                cssLines += 1;
-                cssLinesTotal += 1;
+                cssLines += 1 * totalAutoMultiplier;
+                cssLinesTotal += 1 * totalAutoMultiplier;
                 numHtml.innerHTML = cssLines + " linjer";
                 if (cssLinesTotal >= 30) {
                     selgeSideBtn.style.display = "block";
                 }
-            }, amount * 1000);
+            }, upg.amount * 1000);
         }
-        if (type == "multiplier") {
-            totalMultiplier += amount;
+        if (upg.type == "multiplier") {
+            totalMultiplier += upg.amount;
+        }
+        if (upg.type == "autoMultiplier") {
+            totalAutoMultiplier *= upg.amount;
+            boughtIncrementals.push(upg.name);
         }
 
-        document.getElementById(`${name}Shop`).innerHTML = "";
+        document.getElementById(`${upg.name}Shop`).innerHTML = "";
 
         addNextShopItem2(upgDollarObjects, shopDollarDiv);
-        addUpgBought2(name, dollarUpgradesBoughtBox);
+        addUpgBought2(upg, dollarUpgradesBoughtBox);
         linesPerLineWritten();
     }
 }
 
 function addNextShopItem2(upgObjects, shopDiv) {
+    let shouldReturn = false;
+    boughtIncrementals.forEach((element) => {
+        if ((allDollaridoosUpgradesBought[allDollaridoosUpgradesBought.length -1] == element) && (shopDiv == shopDollarDiv)) {
+            let upg = upgDollarObjects[element.substring(0, element.length - 1)];
+            upg.price *= upg.upgradeIncrement;
+            upg.name = upg.name.substring(0, upg.name.length - 1) + (parseInt(upg.name.substring(upg.name.length - 1)) + 1);
+            upg.title = upg.title.substring(0, upg.title.length - 1) + (parseInt(upg.title.substring(upg.title.length - 1)) + 1);
+            addDollarUpgrade(upg);
+            shouldReturn = true;
+            return;
+        }
+    });
+    if (shouldReturn) {
+        return;
+    }
     for (i = 0; i < Object.entries(upgObjects).length; i++) {
         let currentUpg = Object.entries(upgObjects)[i][1];
         if (!allCssUpgradesBought.includes(currentUpg.name) && document.getElementById(`${currentUpg.name}Shop`) == null) {
@@ -254,10 +357,17 @@ function addNextShopItem2(upgObjects, shopDiv) {
     }
 }
 
-function addUpgBought2(name, type) {
+function addUpgBought2(upg, type) {
     html = `
-        <div class="upgradesBoughtItem" id="${name}UpgradesBought"><p>${name}</p></div>
+        <div class="upgradesBoughtItem infoBox" id="${upg.name}UpgradesBought"><p>${upg.title}<span class="tooltip">${upg.toolTip}<br /></span></p></div>
     `;
+    if (upg.type == "multiplier") {
+        html.querySelector(".tooltip").innerHTML += `Legger til ${upg.amount} i multiplier til mengden linjer du får når du skriver`;
+    } else if (upg.type == "auto") {
+        html.querySelector(".tooltip").innerHTML += `Gir deg en linje hvert ${upg.amount}. sekund.`;
+    } else if (upg.type == "autoMultiplier") {
+        html.querySelector(".tooltip").innerHTML += `Ganger outputet fra de oppgraderingene du får css automatisk fra med ${upg.amount}.`;
+    }
     type.innerHTML += html;
 
     if (allCssUpgradesBought.length <= 1 && allDollaridoosUpgradesBought.length <= 1) {
@@ -294,6 +404,8 @@ function selgeSide2() {
         dollaridoosHtml.style.display = "block";
         cssUpgradesBoughtBox.innerHTML = "";
         upgradesBoughtCssText.style.display = "none";
+        upgradesBoughtCssText.style.borderRight = "none";
+        cssUpgradesBoughtBox.style.borderRight = "none";
 
         if (allDollaridoosUpgradesBought.length <= 0) {
             upgradesBoughtText.style.display = "none";
@@ -312,7 +424,7 @@ function selgeSide2() {
         setupCssUpgrades();
         linesPerLineWritten();
 
-        //selgeSideBtn.style.display = "none";
+        selgeSideBtn.style.display = "none";
     }
 }
 
@@ -369,8 +481,11 @@ function submitCss() {
             numHtml.innerHTML = cssLines + " linjer";
         }
 
-        if (cssLinesTotal >= 100) {
+        if (cssLinesTotal >= 50) {
             selgeSideBtn.style.display = "block";
+        }
+        if (cssLinesTotal >= 10000) {
+            reincarnationBtn.style.display = "block";
         }
 
         rightOrNot.innerHTML = "Riktig! :)"; // Riktig! :)

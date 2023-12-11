@@ -35,93 +35,10 @@
                 <div class="shopDiv" id="shopDiv">
                     <div class="shopCssText" id="shopCssText"><p>Linje-shop</p></div>
                     <div class="numberBox"><p id="number">0 linjer</p></div>
-                    <div class="shopCssDiv" id="shopCssDiv">
-                        <div class="shopItem infoBox" id="font-sizeShop" onclick="kjøpeCss('font-size', 0, 1)">
-                            <p>
-                                Font-size: 5 linjer<span class="tooltip"
-                                    >Legger til font-size til titler og sånt. <br />
-                                    Gir en ekstra linje hver gang du skriver.</span
-                                >
-                            </p>
-                        </div>
-                        <div class="shopItem infoBox" id="marginShop" onclick="kjøpeCss('margin', 0, 1)">
-                            <p>
-                                Margin: 15 linjer<span class="tooltip"
-                                    >Legger til margin så ting får pusterom. <br />
-                                    Gir en ekstra linje hver gang du skriver.</span
-                                >
-                            </p>
-                        </div>
-                        <div class="shopItem infoBox" id="paddingShop" onclick="kjøpeCss('padding', 0, 1)">
-                            <p>
-                                Padding: 30 linjer<span class="tooltip"
-                                    >Legger til padding så tekst og sånt ikke blir så skvist. <br />
-                                    Gir en ekstra linje hver gang du skriver.</span
-                                >
-                            </p>
-                        </div>
-
-                        <div class="shopItem infoBox" id="colorShop" onclick="kjøpeCss('color', 0, 1)">
-                            <p>
-                                Farger: 50 linjer<span class="tooltip"
-                                    >Adder noen basic farger til knapper og bokser og sånne greier. <br />
-                                    Gir en ekstra linje hver gang du skriver.</span
-                                >
-                            </p>
-                        </div>
-                        <div class="shopItem infoBox" id="borderShop" onclick="kjøpeCss('border', 0, 2)">
-                            <p>
-                                Bordere: 100 linjer<span class="tooltip"
-                                    >Adder bordere til elementene så det er tydeligere skiller på ting. <br />
-                                    Gir to ekstra linje hver gang du skriver.</span
-                                >
-                            </p>
-                        </div>
-
-                        <div class="shopItem infoBox" id="gridShop" onclick="kjøpeCss('grid', 0, 5)">
-                            <p>
-                                Grid-system: 200 linjer<span class="tooltip"
-                                    >Adder et grid-system. <br />
-                                    Gir fem ekstra linjer hver gang du skriver.</span
-                                >
-                            </p>
-                        </div>
-                    </div>
+                    <div class="shopCssDiv" id="shopCssDiv"></div>
                     <div class="shopDollarText" id="shopDollarText"><p>Dollar-shop</p></div>
                     <div class="dollaridoosBox" id="dollaridoos"><p>0$</p></div>
-                    <div class="shopDollarDiv" id="shopDollarDiv">
-                        <!-- <div class="shopDollarItem infoBox" id="mouseDollarShop" onclick="kjøpeDollar('multiplier', 'mouse', 2, 0)">
-                            <p>
-                                RGB mus: 10$<span class="tooltip">Med en fancy RGB mus kan du skrive css enda fortere! (det gir mening trust)<br />Dobler mengden linjer du får når du skriver</span>
-                            </p>
-                        </div>
-                        <div class="shopDollarItem infoBox" id="stackoverflowDollarShop" onclick="kjøpeDollar('auto', 'stackoverflow', 10, 0)">
-                            <p>
-                                Stack Overflow: 50$<span class="tooltip"
-                                    >Spør de kule karene på Stack Overflow om hjelp med CSSen din! Bare vær klar over at de mobber deg for å stille spørsmål mer enn de faktisk hjelper.<br />
-                                    Skriver en linje hvert 10. sekund.</span
-                                >
-                            </p>
-                        </div>
-                        <div class="shopDollarItem infoBox" id="keyboardDollarShop" onclick="kjøpeDollar('multiplier', 'keyboard', 2, 0)">
-                            <p>
-                                RGB keyboard: 100$<span class="tooltip">Med et fancy RGB keyboard suser linjene forbi!<br />Dobler mengden linjer du får når du skriver</span>
-                            </p>
-                        </div>
-                        <div class="shopDollarItem infoBox" id="chatgptDollarShop" onclick="kjøpeDollar('auto', 'chatgpt' , 1, 0)">
-                            <p>
-                                ChatGPT: 150$<span class="tooltip"
-                                    >La ChatGPT skrive CSSen for deg, mens du sitter og chiller! <br />
-                                    Skriver en linje hvert sekund.</span
-                                >
-                            </p>
-                        </div>
-                        <div class="shopDollarItem infoBox" id="screenDollarShop" onclick="kjøpeDollar('multiplier', 'screen', 4, 0)">
-                            <p>
-                                4K 240hz skjerm: 300$<span class="tooltip">Med denne skjermen kan du se all CSSen utrolig bra!<br />Firedobler mengden linjer du får når du skriver</span>
-                            </p>
-                        </div> -->
-                    </div>
+                    <div class="shopDollarDiv" id="shopDollarDiv"></div>
                 </div>
             </div>
 
@@ -129,22 +46,9 @@
                 <div class="upgradesBoughtText" id="upgradesBoughtText"><p class="upgradesBoughtTextP">Alle kjøpte oppgraderinger</p></div>
                 <div class="upgradesBoughtBox">
                     <div class="upgradesBoughtCssText" id="upgradesBoughtCssText"><p>Linje-oppgraderinger</p></div>
-                    <div class="cssUpgradesBoughtBox" id="cssUpgradesBoughtBox">
-                        <!-- <div class="gridUpgradesBought upgradesBoughtItem" id="gridUpgradesBought"><p>Grid-system</p></div>
-                        <div class="paddingUpgradesBought upgradesBoughtItem" id="paddingUpgradesBought"><p>Padding</p></div>
-                        <div class="marginUpgradesBought upgradesBoughtItem" id="marginUpgradesBought"><p>Margin</p></div>
-                        <div class="borderUpgradesBought upgradesBoughtItem" id="borderUpgradesBought"><p>Border</p></div>
-                        <div class="colorUpgradesBought upgradesBoughtItem" id="colorUpgradesBought"><p>Farger</p></div>
-                        <div class="font-sizeUpgradesBought upgradesBoughtItem" id="font-sizeUpgradesBought"><p>Font-size</p></div> -->
-                    </div>
+                    <div class="cssUpgradesBoughtBox" id="cssUpgradesBoughtBox"></div>
                     <div class="upgradesBoughtDollarText" id="upgradesBoughtDollarText"><p>Dollar-oppgraderinger</p></div>
-                    <div class="dollarUpgradesBoughtBox" id="dollarUpgradesBoughtBox">
-                        <!-- <div class="keyboardUpgradesBought upgradesBoughtDollarItem" id="keyboardUpgradesBought"><p>RGB keyboard</p></div>
-                        <div class="mouseUpgradesBought upgradesBoughtDollarItem" id="mouseUpgradesBought"><p>RGB mus</p></div>
-                        <div class="screenUpgradesBought upgradesBoughtDollarItem" id="screenUpgradesBought"><p>4k 240hz skjerm</p></div>
-                        <div class="chatgptUpgradesBought upgradesBoughtDollarItem" id="chatgptUpgradesBought"><p>ChatGPT</p></div>
-                        <div class="stackoverflowUpgradesBought upgradesBoughtDollarItem" id="stackoverflowUpgradesBought"><p>Stack Overflow</p></div> -->
-                    </div>
+                    <div class="dollarUpgradesBoughtBox" id="dollarUpgradesBoughtBox"></div>
                 </div>
             </div>
 
@@ -155,18 +59,6 @@
                 <p class="reinkarnasjon" id="btnReinkarnasjon">Reinkarnasjon</p>
             </div>
         </div>
-
-        <!-- <div class="toggle" id="toggle">
-            <div class="toggleText" id="toggleText"><p class="toggleTextP">Toggle oppgraderinger</p></div>
-            <div class="toggleBox">
-                <div class="gridToggle toggleItem" id="gridToggle" onclick="toggleCss('grid')"><p>Grid-system</p></div>
-                <div class="paddingToggle toggleItem" id="paddingToggle" onclick="toggleCss('padding')"><p>Padding</p></div>
-                <div class="marginToggle toggleItem" id="marginToggle" onclick="toggleCss('margin')"><p>Margin</p></div>
-                <div class="borderToggle toggleItem" id="borderToggle" onclick="toggleCss('border')"><p>Border</p></div>
-                <div class="colorToggle toggleItem" id="colorToggle" onclick="toggleCss('color')"><p>Farger</p></div>
-                <div class="font-sizeToggle toggleItem" id="font-sizeToggle" onclick="toggleCss('font-size')"><p>Font-size</p></div>
-            </div>
-        </div> -->
     </body>
     <script type="text/javascript" src="js/index.js"></script>
     <script type="text/javascript" src="js/confirmWindow.js"></script>

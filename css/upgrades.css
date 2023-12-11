@@ -37,7 +37,8 @@
         background-color: #b9b9b9;
     }
 
-    .selgSide {
+    .selgSide,
+    .reinkarnasjon {
         background-color: #b9b9b9;
     }
 }
@@ -207,7 +208,8 @@
 /* Padding-oppgradering */
 
 .padding {
-    .selgSide {
+    .selgSide,
+    .reinkarnasjon {
         padding: 10px;
     }
 
@@ -299,7 +301,8 @@
     .shopDollarDiv,
     .upgradesBought,
     .upgradesBoughtBox,
-    .selgSide {
+    .selgSide,
+    .reinkarnasjon {
         margin-top: 0;
     }
 
@@ -356,7 +359,8 @@
         border-bottom: 1px solid #000;
     }
 
-    .selgSide {
+    .selgSide,
+    .reinkarnasjon {
         border: 1px solid #000;
     }
 }
