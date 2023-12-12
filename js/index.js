@@ -46,8 +46,7 @@ let shopCssDiv = document.getElementById("shopCssDiv");
 let dollarUpgradesBoughtBox = document.getElementById("dollarUpgradesBoughtBox");
 let boughtIncrementals = [];
 
-
-//notFinished();
+notFinished();
 function notFinished() {
     //css upgrades
     upgCssObjects["font-size"] = {
@@ -131,11 +130,10 @@ function notFinished() {
     upgDollarObjects["w3schools"] = {
         name: "w3schools",
         title: "W3Schools",
-        toolTip: "Lær CSS på W3Schools! Bare husk på at du blir sett ned på av \"ekte\" programmerere for å bruke W3Schools.",
+        toolTip: 'Lær CSS på W3Schools! Bare husk på at du blir sett ned på av "ekte" programmerere for å bruke W3Schools.',
         type: "multiplier",
         price: 0,
         amount: 2,
-
     };
 
     upgDollarObjects["keyboard"] = {
@@ -174,7 +172,7 @@ function notFinished() {
         amount: 3,
     };
 }
-finished();
+//finished();
 function finished() {
     //css upgrades
     upgCssObjects["font-size"] = {
@@ -258,11 +256,10 @@ function finished() {
     upgDollarObjects["w3schools"] = {
         name: "w3schools",
         title: "W3Schools",
-        toolTip: "Lær CSS på W3Schools! Bare husk på at du blir sett ned på av \"ekte\" programmerere for å bruke W3Schools.",
+        toolTip: 'Lær CSS på W3Schools! Bare husk på at du blir sett ned på av "ekte" programmerere for å bruke W3Schools.',
         type: "multiplier",
         price: 20,
         amount: 2,
-
     };
 
     upgDollarObjects["keyboard"] = {
@@ -338,7 +335,7 @@ function setupCssUpgrades() {
 
     for (i = 0; i < 3; i++) {
         let currentUpg = Object.entries(upgCssObjects)[i][1];
-        
+
         addCssUpgrade(currentUpg);
     }
 }
@@ -461,7 +458,7 @@ function buyDollarUpg(upg) {
 function addNextShopItem2(upgObjects, shopDiv) {
     let shouldReturn = false;
     boughtIncrementals.forEach((element) => {
-        if ((allDollaridoosUpgradesBought[allDollaridoosUpgradesBought.length -1] == element) && (shopDiv == shopDollarDiv)) {
+        if (allDollaridoosUpgradesBought[allDollaridoosUpgradesBought.length - 1] == element && shopDiv == shopDollarDiv) {
             let upg = upgDollarObjects[element.substring(0, element.length - 1)];
             upg.price *= upg.upgradeIncrement;
             upg.name = upg.name.substring(0, upg.name.length - 1) + (parseInt(upg.name.substring(upg.name.length - 1)) + 1);
@@ -560,9 +557,9 @@ function selgeSide2() {
     }
 }
 
-function reincarnation2 () {
+function reincarnation2() {
     if (cssLinesTotal >= 10000) {
-        selgeSide2()
+        selgeSide2();
         dollaridoos = 0;
         totalMultiplier = 1;
 
