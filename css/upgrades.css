@@ -157,10 +157,13 @@
 
     .upgradesBought {
         width: calc(100% - 2px);
-        
         height: auto;
         grid-area: upgradesBought;
+    }
 
+    .test {
+        width: calc(100% - 2px);
+        height: 100%;
     }
 
     .upgradesBoughtBox {
