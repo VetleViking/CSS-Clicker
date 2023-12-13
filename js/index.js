@@ -45,6 +45,7 @@ let html;
 let shopCssDiv = document.getElementById("shopCssDiv");
 let dollarUpgradesBoughtBox = document.getElementById("dollarUpgradesBoughtBox");
 let boughtIncrementals = [];
+let shopLevelDiv = document.getElementById("shopLevelDiv");
 
 notFinished();
 function notFinished() {
@@ -381,6 +382,9 @@ function addDollarUpgrade(upg) {
         html.querySelector(".tooltip").innerHTML += `Gir deg en linje hvert ${upg.amount}. sekund.`;
     } else if (upg.type == "autoMultiplier") {
         html.querySelector(".tooltip").innerHTML += `Ganger outputet fra de oppgraderingene du får css automatisk fra med ${upg.amount}.`;
+        shopLevelDiv.appendChild(html);
+        eventListener(upg);
+        return;
     }
     shopDollarDiv.appendChild(html);
     eventListener(upg);
