@@ -44,7 +44,8 @@ let upgDollarObjects = {};
 let html;
 let shopCssDiv = document.getElementById("shopCssDiv");
 let dollarUpgradesBoughtBox = document.getElementById("dollarUpgradesBoughtBox");
-let boughtIncrementals = [];
+let boughtDollarIncrementals = [];
+let boughtCssIncrementals = [];
 let shopLevelCssDiv = document.getElementById("shopLevelCssDiv");
 let shopLevelDollarDiv = document.getElementById("shopLevelDollarDiv");
 let shopLevelDollarText = document.getElementById("shopLevelDollarText");
@@ -302,6 +303,31 @@ function finished() {
     };
 }
 
+
+
+function levelCssUpgrades() {
+    upgLevelCssObjects["test"] = {
+        name: "test1",
+        title: "Test 1",
+        toolTip: "Test.",
+        price: 0,
+        amount: 1,
+        isIncremental: true,
+        upgradeIncrement: 2,
+    };
+
+    upgLevelCssObjects["testtikkel"] = {
+        name: "testtikkel1",
+        title: "TestTikkel 1",
+        toolTip: "Test.",
+        price: 0,
+        amount: 1,
+        isIncremental: true,
+        upgradeIncrement: 2,
+    };
+}
+
+
 //unitTestCss();
 
 function unitTestCss() {
@@ -331,7 +357,12 @@ function unitTestDollar() {
     }
 }
 
-buyAllCssUpgrades();
+let upgLevelCssObjects = {};
+
+
+
+
+//buyAllCssUpgrades();
 
 function buyAllCssUpgrades() {
     addNextShopItem2(upgCssObjects, shopCssDiv);
@@ -343,7 +374,25 @@ function buyAllCssUpgrades() {
     }
 }
 
-//setupCssUpgrades();
+levelCssUpgrades();
+setupLevelCssUpgrades();
+
+function setupLevelCssUpgrades() {
+    shopLevelCssDiv.innerHTML = "";
+
+    for (let i = 0; i < Object.entries(upgLevelCssObjects).length; i++) {
+        let currentUpg = Object.entries(upgLevelCssObjects)[i][1];
+
+        console.log(currentUpg);
+
+        addCssUpgrade(currentUpg);
+        if (i >= 3) {
+            return;
+        }
+    }
+}
+
+setupCssUpgrades();
 
 function setupCssUpgrades() {
     shopCssDiv.innerHTML = "";
@@ -387,6 +436,13 @@ function addCssUpgrade(upg) {
                 >${upg.toolTip}</br>Gir ${upg.amount} ekstra linje(r) hver gang du skriver.</span>
         </p>
     </div>`;
+
+    if (upg.isIncremental == true) {
+        html.querySelector(".tooltip").innerHTML += `</br>Denne oppgraderingen kan kjøpes flere ganger.`;
+        shopLevelCssDiv.appendChild(html);
+        eventListener(upg);
+        return;
+    }
 
     shopCssDiv.appendChild(html);
     eventListener(upg);
@@ -449,11 +505,14 @@ function buyCssUpg(upg) {
         if (localStorage.getItem("allCssUpgradesBought") == null || localStorage.getItem("allCssUpgradesBought").includes(upg.name) == false) {
             localStorage.setItem("allCssUpgradesBought", allCssUpgradesBought);
         }
+        if (upg.isIncremental == true) {
+            boughtCssIncrementals.push(upg.name);
+        }
 
         document.getElementById(`${upg.name}Shop`).parentElement.remove();
 
-        addNextShopItem2(upgCssObjects, shopCssDiv);
         addUpgBought2(upg, cssUpgradesBoughtBox);
+        addNextShopItem2(upgCssObjects, shopCssDiv);
         linesPerLineWritten();
     }
 }
@@ -480,7 +539,9 @@ function buyDollarUpg(upg) {
         }
         if (upg.type == "autoMultiplier") {
             totalAutoMultiplier *= upg.amount;
-            boughtIncrementals.push(upg.name);
+        }
+        if (upg.isIncremental == true) {
+            boughtDollarIncrementals.push(upg.name);
         }
 
         document.getElementById(`${upg.name}Shop`).parentElement.remove();
@@ -493,20 +554,40 @@ function buyDollarUpg(upg) {
 
 function addNextShopItem2(upgObjects, shopDiv) {
     let shouldReturn = false;
-    boughtIncrementals.forEach((element) => {
+
+    boughtDollarIncrementals.forEach((element) => {
         if (allDollaridoosUpgradesBought[allDollaridoosUpgradesBought.length - 1] == element && shopDiv == shopDollarDiv) {
-            let upg = upgDollarObjects[element.substring(0, element.length - 1)];
+            let upg = upgDollarObjects[element.replace(/\d+/g, '')];
             upg.price *= upg.upgradeIncrement;
-            upg.name = upg.name.substring(0, upg.name.length - 1) + (parseInt(upg.name.substring(upg.name.length - 1)) + 1);
-            upg.title = upg.title.substring(0, upg.title.length - 1) + (parseInt(upg.title.substring(upg.title.length - 1)) + 1);
+            let newname = upg.name.replace(/\d+/g, '') + (parseInt(upg.name.match(/\d+/g)) + 1);
+            upg.name =  newname;
+            let newtitle = upg.title.replace(/\d+/g, '') + (parseInt(upg.title.match(/\d+/g)) + 1);
+            upg.title = newtitle;
             addDollarUpgrade(upg);
             shouldReturn = true;
             return;
         }
     });
+
+    boughtCssIncrementals.forEach((element) => {
+     if (allCssUpgradesBought[allCssUpgradesBought.length - 1] == element && shopDiv == shopCssDiv) {
+            let upg = upgLevelCssObjects[element.replace(/\d+/g, '')];
+            console.log(upg);
+            upg.price *= upg.upgradeIncrement;
+            let newname = upg.name.replace(/\d+/g, '') + (parseInt(upg.name.match(/\d+/g)) + 1);
+            upg.name =  newname;
+            let newtitle = upg.title.replace(/\d+/g, '') + (parseInt(upg.title.match(/\d+/g)) + 1);
+            upg.title = newtitle;
+            addCssUpgrade(upg);
+            shouldReturn = true;
+            return;
+        }
+    });
+
     if (shouldReturn) {
         return;
     }
+
     for (let i = 0; i < Object.entries(upgObjects).length; i++) {
         let currentUpg = Object.entries(upgObjects)[i][1];
         if (shopDiv == shopCssDiv) {
@@ -540,6 +621,18 @@ function addUpgBought2(upg, type) {
     } else if (upg.type == "autoMultiplier") {
         html.querySelector(".tooltip").innerHTML += `Ganger outputet fra de oppgraderingene du får css automatisk fra med ${upg.amount}.`;
     }
+
+    if (upg.isIncremental == true) {
+        console.log("incremental");
+        let nameToRemove = upg.name.replace(/\d+/g, '') + (parseInt(upg.name.match(/\d+/g)) - 1);
+        console.log(nameToRemove);
+        if (document.getElementById(`${nameToRemove}UpgradesBought`) != null) {
+            document.getElementById(`${nameToRemove}UpgradesBought`).remove();
+            let upgHtml = document.getElementsByTagName("body")[0];
+            upgHtml.classList.remove(nameToRemove);
+        }
+    }
+
     type.appendChild(html);
 
     if (allCssUpgradesBought.length <= 1 && allDollaridoosUpgradesBought.length <= 1) {
@@ -580,6 +673,8 @@ function selgeSide2() {
         upgradesBoughtCssText.style.borderRight = "none";
         cssUpgradesBoughtBox.style.borderRight = "none";
 
+
+
         if (allDollaridoosUpgradesBought.length <= 0) {
             upgradesBoughtText.style.display = "none";
         }
@@ -591,10 +686,13 @@ function selgeSide2() {
 
         rightOrNot.innerHTML = "";
         allCssUpgradesBought = [];
+        boughtCssIncrementals = [];
 
         dollarUnlocked = true;
 
+        levelCssUpgrades();
         setupCssUpgrades();
+        setupLevelCssUpgrades();
         linesPerLineWritten();
 
         selgeSideBtn.style.display = "none";
