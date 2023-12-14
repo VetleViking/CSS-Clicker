@@ -104,7 +104,7 @@
 
     .shop {
         width: calc(100% - 2px);
-        height: 100%;
+        height: auto;
         grid-area: shop;
     }
     .shopText {
@@ -121,7 +121,9 @@
         grid-template-areas:
             "numberBox dollaridoosBox"
             "shopCssText shopDollarText"
-            "shopCss shopDollar";
+            "shopCss shopDollar"
+            "shopLevelCssText shopLevelDollarText"
+            "shopLevelCssDiv shopLevelDollarDiv";
         grid-template-columns: 1fr;
         grid-template-rows: min-content min-content 1fr;
         height: calc(100% - 49px);
@@ -129,6 +131,22 @@
 
     .dollarUnlocked .shopDiv {
         grid-template-columns: 1fr 1fr;
+    }
+
+    .shopLevelCssText {
+        grid-area: shopLevelCssText;
+    }
+
+    .shopLevelCssDiv {
+        grid-area: shopLevelCssDiv;
+    }
+
+    .shopLevelDollarText {
+        grid-area: shopLevelDollarText;
+    }
+
+    .shopLevelDollarDiv {
+        grid-area: shopLevelDollarDiv;
     }
 
     .shopCssText {
@@ -224,14 +242,15 @@
     .shopCssText,
     .shopCssDiv,
     .shopDollarText,
-    .shopDollarDiv,
     .confirmTitle,
     .infoBox span,
     .gridBox,
     .upgradesBoughtCssText,
     .dollarUpgradesBoughtBox,
     .upgradesBoughtDollarText,
-    .cssTextBox2 {
+    .cssTextBox2, 
+    .shopLevelCssDiv,
+    .shopLevelCssText {
         padding: 5px;
     }
 
@@ -248,6 +267,14 @@
     .upgradesBoughtTextP {
         padding-bottom: 5px;
     }  
+
+    .dollarUnlocked {
+        .shopDollarDiv,
+        .shopLevelDollarDiv,
+        .shopLevelDollarText {
+            padding: 5px;
+        }
+    }
 }
 
 .padding.grid {
@@ -347,7 +374,9 @@
         border-bottom: 1px solid #000;
     }
 
-    .shopDollarText {
+    .shopDollarText, 
+    .shopLevelCssText,
+    .shopLevelDollarText {
         border-top: 1px solid #000;
         border-bottom: 1px solid #000;
     }
@@ -381,7 +410,9 @@
     .dollarUnlocked {
         .shopCssText,
         .shopCssDiv,
-        .numberBox {
+        .numberBox,
+        .shopLevelCssDiv,
+        .shopLevelCssText {
             border-right: 1px solid #000;
         }
     }

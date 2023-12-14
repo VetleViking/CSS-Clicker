@@ -45,7 +45,9 @@ let html;
 let shopCssDiv = document.getElementById("shopCssDiv");
 let dollarUpgradesBoughtBox = document.getElementById("dollarUpgradesBoughtBox");
 let boughtIncrementals = [];
-let shopLevelDiv = document.getElementById("shopLevelDiv");
+let shopLevelCssDiv = document.getElementById("shopLevelCssDiv");
+let shopLevelDollarDiv = document.getElementById("shopLevelDollarDiv");
+let shopLevelDollarText = document.getElementById("shopLevelDollarText");
 
 notFinished();
 function notFinished() {
@@ -303,7 +305,7 @@ function finished() {
 //unitTestCss();
 
 function unitTestCss() {
-    for (i = 0; i < 10; i++) {
+    for (let i = 0; i < 10; i++) {
         upgCssObjects["testUpg" + i] = {
             name: "testUpg" + i,
             title: "TestUpg" + i,
@@ -317,7 +319,7 @@ function unitTestCss() {
 //unitTestDollar();
 
 function unitTestDollar() {
-    for (i = 0; i < 10; i++) {
+    for (let i = 0; i < 10; i++) {
         upgDollarObjects["testDollarUpg" + i] = {
             name: "testDollarUpg" + i,
             title: "TestDollarUpg" + i,
@@ -329,24 +331,49 @@ function unitTestDollar() {
     }
 }
 
-setupCssUpgrades();
+buyAllCssUpgrades();
+
+function buyAllCssUpgrades() {
+    addNextShopItem2(upgCssObjects, shopCssDiv);
+    for (let i = 0; i < 6; i++) {
+        console.log(i);
+        let currentUpg = Object.entries(upgCssObjects)[i][1];
+        
+        buyCssUpg(currentUpg);
+    }
+}
+
+//setupCssUpgrades();
 
 function setupCssUpgrades() {
     shopCssDiv.innerHTML = "";
 
-    for (i = 0; i < 3; i++) {
+    for (let i = 0; i < 3; i++) {
         let currentUpg = Object.entries(upgCssObjects)[i][1];
 
         addCssUpgrade(currentUpg);
+        if (currentUpg.isIncremental == true) {
+            let nextUpg = Object.entries(upgCssObjects)[i + 1][1];
+            addCssUpgrade(nextUpg);            
+        }
     }
 }
 
 function setupDollarUpgrades() {
     shopDollarDiv.innerHTML = "";
 
-    for (i = 0; i < 3; i++) {
+    let incremantals = 0;
+    for (let i = 0; i < 3; i++) {
         let currentUpg = Object.entries(upgDollarObjects)[i][1];
+
         addDollarUpgrade(currentUpg);
+        if (currentUpg.isIncremental == true) {
+            incremantals++;
+        }
+    }
+    for (let i = 0; i < incremantals; i++) {
+        let nextUpg = Object.entries(upgDollarObjects)[3 + i][1];
+        addDollarUpgrade(nextUpg);
     }
 }
 
@@ -382,10 +409,15 @@ function addDollarUpgrade(upg) {
         html.querySelector(".tooltip").innerHTML += `Gir deg en linje hvert ${upg.amount}. sekund.`;
     } else if (upg.type == "autoMultiplier") {
         html.querySelector(".tooltip").innerHTML += `Ganger outputet fra de oppgraderingene du får css automatisk fra med ${upg.amount}.`;
-        shopLevelDiv.appendChild(html);
+    }
+
+    if (upg.isIncremental == true) {
+        html.querySelector(".tooltip").innerHTML += `</br>Denne oppgraderingen kan kjøpes flere ganger.`;
+        shopLevelDollarDiv.appendChild(html);
         eventListener(upg);
         return;
     }
+
     shopDollarDiv.appendChild(html);
     eventListener(upg);
 }
@@ -418,7 +450,7 @@ function buyCssUpg(upg) {
             localStorage.setItem("allCssUpgradesBought", allCssUpgradesBought);
         }
 
-        document.getElementById(`${upg.name}Shop`).innerHTML = "";
+        document.getElementById(`${upg.name}Shop`).parentElement.remove();
 
         addNextShopItem2(upgCssObjects, shopCssDiv);
         addUpgBought2(upg, cssUpgradesBoughtBox);
@@ -451,7 +483,7 @@ function buyDollarUpg(upg) {
             boughtIncrementals.push(upg.name);
         }
 
-        document.getElementById(`${upg.name}Shop`).innerHTML = "";
+        document.getElementById(`${upg.name}Shop`).parentElement.remove();
 
         addUpgBought2(upg, dollarUpgradesBoughtBox);
         addNextShopItem2(upgDollarObjects, shopDollarDiv);
@@ -475,16 +507,23 @@ function addNextShopItem2(upgObjects, shopDiv) {
     if (shouldReturn) {
         return;
     }
-    for (i = 0; i < Object.entries(upgObjects).length; i++) {
+    for (let i = 0; i < Object.entries(upgObjects).length; i++) {
         let currentUpg = Object.entries(upgObjects)[i][1];
-        if (!allCssUpgradesBought.includes(currentUpg.name) && document.getElementById(`${currentUpg.name}Shop`) == null) {
-            if (shopDiv == shopCssDiv) {
+        if (shopDiv == shopCssDiv) {
+            if (!allCssUpgradesBought.includes(currentUpg.name) && document.getElementById(`${currentUpg.name}Shop`) == null) {
                 addCssUpgrade(currentUpg);
-            } else if (shopDiv == shopDollarDiv) {
-                addDollarUpgrade(currentUpg);
+                return;
             }
-            return;
+        } else if (shopDiv == shopDollarDiv) {
+            if (!allDollaridoosUpgradesBought.includes(currentUpg.name) && document.getElementById(`${currentUpg.name}Shop`) == null) {
+                addDollarUpgrade(currentUpg);
+                return;
+            }
         }
+    }
+    
+    if (shopDiv.innerHTML == "") {
+        shopDiv.innerHTML = "Du har kjøpt alle oppgraderingene i denne kategorien!";
     }
 }
 
@@ -535,6 +574,7 @@ function selgeSide2() {
         numHtml.innerHTML = cssLines + " linjer";
         dollaridoosHtml.innerHTML = dollaridoos + "$";
         dollaridoosHtml.style.display = "block";
+        shopLevelDollarText.style.display = "block";
         cssUpgradesBoughtBox.innerHTML = "";
         upgradesBoughtCssText.style.display = "none";
         upgradesBoughtCssText.style.borderRight = "none";
