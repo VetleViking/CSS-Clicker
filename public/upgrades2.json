@@ -15,7 +15,7 @@
             "toolTip": "Spør de kule karene på Stack Overflow om hjelp med CSSen din! Bare vær klar over at de mobber deg for å stille spørsmål mer enn de faktisk hjelper.",
             "type": "auto",
             "price": 0,
-            "amount": 10
+            "amount": 5
         },
         "w3schools": {
             "name": "w3schools",
@@ -39,7 +39,7 @@
             "toolTip": "Lær CSS av indere på YouTube! Halvparten av tutorialsa er på indisk og resten er nesten uforståelige, men det funker, og da går det bra.",
             "type": "auto",
             "price": 0,
-            "amount": 5
+            "amount": 2
         },
         "chatGpt": {
             "name": "chatGpt",
@@ -47,7 +47,7 @@
             "toolTip": "La ChatGPT skrive CSSen for deg, mens du sitter og chiller!",
             "type": "auto",
             "price": 0,
-            "amount": 1
+            "amount": 0.5
         },
         "screen": {
             "name": "screen",
@@ -118,7 +118,7 @@
             "title": "Test Tikkel 1",
             "toolTip": "TestTikkel",
             "price": 0,
-            "amount": 1,
+            "amount": 5,
             "isIncremental": true,
             "upgradeIncrement": 2
         }
@@ -132,7 +132,7 @@
             "price": 0,
             "amount": 2,
             "isIncremental": true,
-            "upgradeIncrement": 5
+            "upgradeIncrement": 4
         }
     }
     

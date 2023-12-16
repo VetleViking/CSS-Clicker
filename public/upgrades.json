@@ -60,7 +60,7 @@
             "toolTip": "Spør de kule karene på Stack Overflow om hjelp med CSSen din! Bare vær klar over at de mobber deg for å stille spørsmål mer enn de faktisk hjelper.",
             "type": "auto",
             "price": 10,
-            "amount": 10
+            "amount": 5
         },
         "w3schools": {
             "name": "w3schools",
@@ -84,7 +84,7 @@
             "toolTip": "Lær CSS av indere på YouTube! Halvparten av tutorialsa er på indisk og resten er nesten uforståelige, men det funker, og da går det bra.",
             "type": "auto",
             "price": 100,
-            "amount": 5
+            "amount": 2
         },
         "chatGpt": {
             "name": "chatGpt",
@@ -92,7 +92,7 @@
             "toolTip": "La ChatGPT skrive CSSen for deg, mens du sitter og chiller!",
             "type": "auto",
             "price": 150,
-            "amount": 1
+            "amount": 0.5
         },
         "screen": {
             "name": "screen",
@@ -108,7 +108,7 @@
             "name": "test1",
             "title": "Test 1",
             "toolTip": "Test",
-            "price": 1,
+            "price": 10,
             "amount": 1,
             "isIncremental": true,
             "upgradeIncrement": 2
@@ -117,8 +117,8 @@
             "name": "testTikkel1",
             "title": "Test Tikkel 1",
             "toolTip": "TestTikkel",
-            "price": 2,
-            "amount": 1,
+            "price": 200,
+            "amount": 5,
             "isIncremental": true,
             "upgradeIncrement": 2
         }
@@ -129,10 +129,10 @@
             "title": "Bedre PC 1",
             "toolTip": "Med en bedre PC kan du compile CSSen enda bedre.",
             "type": "autoMultiplier",
-            "price": 3,
+            "price": 10,
             "amount": 2,
             "isIncremental": true,
-            "upgradeIncrement": 5
+            "upgradeIncrement": 4
         }
     }
 }

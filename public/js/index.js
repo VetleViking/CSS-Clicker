@@ -97,7 +97,6 @@ function setupDollarUpgrades() {
     let incremantals = 0;
     for (let i = 0; i < 3; i++) {
         let currentUpg = Object.entries(upgrades.dollarUpgrades)[i][1];
-        console.log(currentUpg);
         addDollarUpgrade(currentUpg);
     }
 }
