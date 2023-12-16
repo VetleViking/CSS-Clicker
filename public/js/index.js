@@ -50,8 +50,8 @@ let shopLevelDollarText = document.getElementById("shopLevelDollarText");
 let upgrades
 
 async function fetchUpgrades() {
-    //const response = await fetch("../upgrades.json")
-    const response = await fetch("../upgrades2.json")
+    const response = await fetch("../upgrades.json")
+    //const response = await fetch("../upgrades2.json")
     upgrades = await response.json()
 }
 
@@ -328,7 +328,7 @@ function addUpgBought2(upg, type) {
 }
 
 function selgeSide2() {
-    if (cssLines >= 0) {
+    if (cssLines >= 50) {
         if (dollarUnlocked == false) {
             for (let i = 0; i < dollaridoosUnlockedHtml.length; i++) {
                 dollaridoosUnlockedHtml[i].classList.add("dollarUnlocked");
