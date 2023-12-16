@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-12" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="css/reset.css" />
+        <link rel="stylesheet" href="css/style.css" />
+        <link rel="stylesheet" href="css/upgrades.css" />
+
+        <title>CSS typer</title>
+    </head>
+    <body class="">
+        <div class="gridBox">
+            <div class="header">
+                <p class="title">CSS typer</p>
+            </div>
+
+            <div class="cssTyper">
+                <div class="typerTextBox">
+                    <p class="typerText">Typer</p>
+                </div>
+                <div class="cssTextBox" id="cssTextBox">
+                    <div class="cssTextBox2">
+                        <p class="timer" id="timer"></p>
+                        <p class="cssText" id="cssText" onmousedown="return false;" onselectstart="return false;"></p>
+                        <input type="text" placeholder="Skriv CSSen over her" id="cssBox" class="cssBox" />
+                        <p class="numberLines" id="numberLines">Antall linjer per linje skrevet: 1</p>
+                        <p id="rightOrNot"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="test">
+                <div class="shop dollaridoos">
+                    <div><p class="shopText">Shop</p></div>
+                    <div class="shopDiv" id="shopDiv">
+                        <div class="shopCssText" id="shopCssText"><p>Linje-shop</p></div>
+                        <div class="numberBox"><p id="number">0 linjer</p></div>
+                        <div class="shopCssDiv" id="shopCssDiv"></div>
+                        <div class="shopLevelCssText" id="shopLevelCssText"><p>Levelbasert-shop linjer</p></div>
+                        <div class="shopLevelCssDiv" id="shopLevelCssDiv"></div>
+                        <div class="shopDollarText" id="shopDollarText"><p>Dollar-shop</p></div>
+                        <div class="dollaridoosBox" id="dollaridoos"><p>0$</p></div>
+                        <div class="shopDollarDiv" id="shopDollarDiv"></div>
+                        <div class="shopLevelDollarText" id="shopLevelDollarText"><p>Levelbasert-shop dollar</p></div>
+                        <div class="shopLevelDollarDiv" id="shopLevelDollarDiv"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="test">
+                <div class="upgradesBought dollaridoos" id="upgradesBought">
+                    <div class="upgradesBoughtText" id="upgradesBoughtText"><p class="upgradesBoughtTextP">Alle kjøpte oppgraderinger</p></div>               
+                    <div class="upgradesBoughtBox">
+                        <div class="upgradesBoughtCssText" id="upgradesBoughtCssText"><p>Linje-oppgraderinger</p></div>
+                        <div class="cssUpgradesBoughtBox" id="cssUpgradesBoughtBox"></div>
+                        <div class="upgradesBoughtDollarText" id="upgradesBoughtDollarText"><p>Dollar-oppgraderinger</p></div>
+                        <div class="dollarUpgradesBoughtBox" id="dollarUpgradesBoughtBox"></div>
+                    </div>            
+                </div>
+            </div>
+            <div class="selgSide" id="btnSelgeSide">
+                <p>Selg side</p>
+            </div>
+            <div>
+                <p class="reinkarnasjon" id="btnReinkarnasjon">Reinkarnasjon</p>
+            </div>
+        </div>
+    </body>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript" src="js/confirmWindow.js"></script>
+    <script type="text/javascript" src="js/confirmIndex.js"></script>
+</html>

@@ -39,315 +39,64 @@ let timer = 0;
 let goldenLineInterval;
 let autoInterval;
 let totalAutoMultiplier = 1;
-let upgCssObjects = {};
-let upgDollarObjects = {};
 let html;
 let shopCssDiv = document.getElementById("shopCssDiv");
 let dollarUpgradesBoughtBox = document.getElementById("dollarUpgradesBoughtBox");
-let boughtIncrementals = [];
+let boughtDollarIncrementals = [];
+let boughtCssIncrementals = [];
+let shopLevelCssDiv = document.getElementById("shopLevelCssDiv");
+let shopLevelDollarDiv = document.getElementById("shopLevelDollarDiv");
+let shopLevelDollarText = document.getElementById("shopLevelDollarText");
+let upgrades
 
-
-//notFinished();
-function notFinished() {
-    //css upgrades
-    upgCssObjects["font-size"] = {
-        name: "font-size",
-        title: "Font-size",
-        toolTip: "Legger til font-size til titler og sånt.",
-        price: 0,
-        amount: 1,
-    };
-
-    upgCssObjects["margin"] = {
-        name: "margin",
-        title: "Margin",
-        toolTip: "Legger til margin så ting får pusterom.",
-        price: 0,
-        amount: 1,
-    };
-
-    upgCssObjects["padding"] = {
-        name: "padding",
-        title: "Padding",
-        toolTip: "Legger til padding så tekst og sånt ikke blir så skvist.",
-        price: 0,
-        amount: 1,
-    };
-
-    upgCssObjects["color"] = {
-        name: "color",
-        title: "Farger",
-        toolTip: "Adder noen basic farger til knapper og bokser og sånne greier.",
-        price: 0,
-        amount: 2,
-    };
-
-    upgCssObjects["border"] = {
-        name: "border",
-        title: "Border",
-        toolTip: "Adder bordere til elementene så det er tydeligere skiller på ting.",
-        price: 0,
-        amount: 5,
-    };
-
-    upgCssObjects["grid"] = {
-        name: "grid",
-        title: "Grid",
-        toolTip: "Adder et grid-system.",
-        price: 0,
-        amount: 10,
-    };
-
-    //dollar upgrades
-    upgDollarObjects["mouse"] = {
-        name: "mouse",
-        title: "RGB mus",
-        toolTip: "Med en fancy RGB mus kan du skrive css enda fortere! (det gir mening trust)",
-        type: "multiplier",
-        price: 0,
-        amount: 1,
-    };
-
-    upgDollarObjects["stackoverflow"] = {
-        name: "stackoverflow",
-        title: "Stack Overflow",
-        toolTip: "Spør de kule karene på Stack Overflow om hjelp med CSSen din! Bare vær klar over at de mobber deg for å stille spørsmål mer enn de faktisk hjelper.",
-        type: "auto",
-        price: 0,
-        amount: 10,
-    };
-
-    upgDollarObjects["bedrePc"] = {
-        name: "bedrePc1",
-        title: "Bedre PC 1",
-        toolTip: "Med en bedre PC kan du compile CSSen enda bedre.",
-        type: "autoMultiplier",
-        price: 0,
-        amount: 2,
-        isIncremental: true,
-        upgradeIncrement: 5,
-    };
-
-    upgDollarObjects["w3schools"] = {
-        name: "w3schools",
-        title: "W3Schools",
-        toolTip: "Lær CSS på W3Schools! Bare husk på at du blir sett ned på av \"ekte\" programmerere for å bruke W3Schools.",
-        type: "multiplier",
-        price: 0,
-        amount: 2,
-
-    };
-
-    upgDollarObjects["keyboard"] = {
-        name: "keyboard",
-        title: "RGB keyboard",
-        toolTip: "Med et fancy RGB keyboard suser linjene forbi!",
-        type: "multiplier",
-        price: 0,
-        amount: 1,
-    };
-
-    upgDollarObjects["youtube"] = {
-        name: "youtube",
-        title: "YouTube",
-        toolTip: "Lær CSS av indere på YouTube! Halvparten av tutorialsa er på indisk og resten er nesten uforståelige, men det funker, og da går det bra.",
-        type: "auto",
-        price: 0,
-        amount: 5,
-    };
-
-    upgDollarObjects["chatGpt"] = {
-        name: "chatGpt",
-        title: "Chat GPT",
-        toolTip: "La ChatGPT skrive CSSen for deg, mens du sitter og chiller!",
-        type: "auto",
-        price: 0,
-        amount: 1,
-    };
-
-    upgDollarObjects["screen"] = {
-        name: "screen",
-        title: "4k 240hz skjerm",
-        toolTip: "Med denne skjermen kan du se all CSSen utrolig bra!",
-        type: "multiplier",
-        price: 0,
-        amount: 3,
-    };
-}
-finished();
-function finished() {
-    //css upgrades
-    upgCssObjects["font-size"] = {
-        name: "font-size",
-        title: "Font-size",
-        toolTip: "Legger til font-size til titler og sånt.",
-        price: 3,
-        amount: 1,
-    };
-
-    upgCssObjects["margin"] = {
-        name: "margin",
-        title: "Margin",
-        toolTip: "Legger til margin så ting får pusterom.",
-        price: 10,
-        amount: 1,
-    };
-
-    upgCssObjects["padding"] = {
-        name: "padding",
-        title: "Padding",
-        toolTip: "Legger til padding så tekst og sånt ikke blir så skvist.",
-        price: 25,
-        amount: 1,
-    };
-
-    upgCssObjects["color"] = {
-        name: "color",
-        title: "Farger",
-        toolTip: "Adder noen basic farger til knapper og bokser og sånne greier.",
-        price: 50,
-        amount: 2,
-    };
-
-    upgCssObjects["border"] = {
-        name: "border",
-        title: "Border",
-        toolTip: "Adder bordere til elementene så det er tydeligere skiller på ting.",
-        price: 100,
-        amount: 5,
-    };
-
-    upgCssObjects["grid"] = {
-        name: "grid",
-        title: "Grid",
-        toolTip: "Adder et grid-system.",
-        price: 200,
-        amount: 10,
-    };
-
-    //dollar upgrades
-    upgDollarObjects["mouse"] = {
-        name: "mouse",
-        title: "RGB mus",
-        toolTip: "Med en fancy RGB mus kan du skrive css enda fortere! (det gir mening trust)",
-        type: "multiplier",
-        price: 5,
-        amount: 1,
-    };
-
-    upgDollarObjects["stackoverflow"] = {
-        name: "stackoverflow",
-        title: "Stack Overflow",
-        toolTip: "Spør de kule karene på Stack Overflow om hjelp med CSSen din! Bare vær klar over at de mobber deg for å stille spørsmål mer enn de faktisk hjelper.",
-        type: "auto",
-        price: 10,
-        amount: 10,
-    };
-
-    upgDollarObjects["bedrePc"] = {
-        name: "bedrePc1",
-        title: "Bedre PC 1",
-        toolTip: "Med en bedre PC kan du compile CSSen enda bedre.",
-        type: "autoMultiplier",
-        price: 10,
-        amount: 2,
-        isIncremental: true,
-        upgradeIncrement: 5,
-    };
-
-    upgDollarObjects["w3schools"] = {
-        name: "w3schools",
-        title: "W3Schools",
-        toolTip: "Lær CSS på W3Schools! Bare husk på at du blir sett ned på av \"ekte\" programmerere for å bruke W3Schools.",
-        type: "multiplier",
-        price: 20,
-        amount: 2,
-
-    };
-
-    upgDollarObjects["keyboard"] = {
-        name: "keyboard",
-        title: "RGB keyboard",
-        toolTip: "Med et fancy RGB keyboard suser linjene forbi!",
-        type: "multiplier",
-        price: 70,
-        amount: 1,
-    };
-
-    upgDollarObjects["youtube"] = {
-        name: "youtube",
-        title: "YouTube",
-        toolTip: "Lær CSS av indere på YouTube! Halvparten av tutorialsa er på indisk og resten er nesten uforståelige, men det funker, og da går det bra.",
-        type: "auto",
-        price: 100,
-        amount: 5,
-    };
-
-    upgDollarObjects["chatGpt"] = {
-        name: "chatGpt",
-        title: "Chat GPT",
-        toolTip: "La ChatGPT skrive CSSen for deg, mens du sitter og chiller!",
-        type: "auto",
-        price: 150,
-        amount: 1,
-    };
-
-    upgDollarObjects["screen"] = {
-        name: "screen",
-        title: "4k 240hz skjerm",
-        toolTip: "Med denne skjermen kan du se all CSSen utrolig bra!",
-        type: "multiplier",
-        price: 200,
-        amount: 3,
-    };
+async function fetchUpgrades() {
+    const response = await fetch("../upgrades.json")
+    //const response = await fetch("../upgrades2.json")
+    upgrades = await response.json()
 }
 
-//unitTestCss();
 
-function unitTestCss() {
-    for (i = 0; i < 10; i++) {
-        upgCssObjects["testUpg" + i] = {
-            name: "testUpg" + i,
-            title: "TestUpg" + i,
-            toolTip: "Dette er en tooltip.",
-            price: 0,
-            amount: 1,
-        };
+
+function setupLevelCssUpgrades() {
+    shopLevelCssDiv.innerHTML = "";
+    for (let i = 0; i < Object.entries(upgrades.upgLevelCssUpgrades).length; i++) {
+        let currentUpg = Object.entries(upgrades.upgLevelCssUpgrades)[i][1];
+
+        addCssUpgrade(currentUpg);
+        if (i >= 3) {
+            return;
+        }
     }
 }
-
-//unitTestDollar();
-
-function unitTestDollar() {
-    for (i = 0; i < 10; i++) {
-        upgDollarObjects["testDollarUpg" + i] = {
-            name: "testDollarUpg" + i,
-            title: "TestDollarUpg" + i,
-            toolTip: "Dette er en tooltip.",
-            type: "multiplier",
-            price: 0,
-            amount: 1,
-        };
-    }
-}
-
-setupCssUpgrades();
 
 function setupCssUpgrades() {
     shopCssDiv.innerHTML = "";
 
-    for (i = 0; i < 3; i++) {
-        let currentUpg = Object.entries(upgCssObjects)[i][1];
-        
+    for (let i = 0; i < 3; i++) {
+        let currentUpg = Object.entries(upgrades.cssUpgrades)[i][1];
+
         addCssUpgrade(currentUpg);
+    }
+}
+
+function setupLevelDollarUpgrades() {
+    shopLevelDollarDiv.innerHTML = "";
+    for (let i = 0; i < Object.entries(upgrades.upgLevelDollarUpgrades).length; i++) {
+        let currentUpg = Object.entries(upgrades.upgLevelDollarUpgrades)[i][1];
+
+        addDollarUpgrade(currentUpg);
+        if (i >= 3) {
+            return;
+        }
     }
 }
 
 function setupDollarUpgrades() {
     shopDollarDiv.innerHTML = "";
 
-    for (i = 0; i < 3; i++) {
-        let currentUpg = Object.entries(upgDollarObjects)[i][1];
+    let incremantals = 0;
+    for (let i = 0; i < 3; i++) {
+        let currentUpg = Object.entries(upgrades.dollarUpgrades)[i][1];
         addDollarUpgrade(currentUpg);
     }
 }
@@ -362,6 +111,13 @@ function addCssUpgrade(upg) {
                 >${upg.toolTip}</br>Gir ${upg.amount} ekstra linje(r) hver gang du skriver.</span>
         </p>
     </div>`;
+
+    if (upg.isIncremental == true) {
+        html.querySelector(".tooltip").innerHTML += `</br>Denne oppgraderingen kan kjøpes flere ganger.`;
+        shopLevelCssDiv.appendChild(html);
+        eventListener(upg);
+        return;
+    }
 
     shopCssDiv.appendChild(html);
     eventListener(upg);
@@ -385,6 +141,14 @@ function addDollarUpgrade(upg) {
     } else if (upg.type == "autoMultiplier") {
         html.querySelector(".tooltip").innerHTML += `Ganger outputet fra de oppgraderingene du får css automatisk fra med ${upg.amount}.`;
     }
+
+    if (upg.isIncremental == true) {
+        html.querySelector(".tooltip").innerHTML += `</br>Denne oppgraderingen kan kjøpes flere ganger.`;
+        shopLevelDollarDiv.appendChild(html);
+        eventListener(upg);
+        return;
+    }
+
     shopDollarDiv.appendChild(html);
     eventListener(upg);
 }
@@ -392,7 +156,6 @@ function addDollarUpgrade(upg) {
 function eventListener(upg) {
     document.getElementById(`${upg.name}Shop`).addEventListener("click", function () {
         if (document.getElementById(`${upg.name}Shop`).classList.contains("shopDollarItem")) {
-            console.log(upg.name + " event listener");
             buyDollarUpg(upg);
         } else if (document.getElementById(`${upg.name}Shop`).classList.contains("shopItem")) {
             buyCssUpg(upg);
@@ -413,14 +176,19 @@ function buyCssUpg(upg) {
 
         allCssUpgradesBought.push(upg.name);
 
-        if (localStorage.getItem("allCssUpgradesBought") == null || localStorage.getItem("allCssUpgradesBought").includes(upg.name) == false) {
+        let isAllCSSBought = localStorage.getItem("allCssUpgradesBought") == null 
+
+        if (isAllCSSBought || !localStorage.getItem("allCssUpgradesBought").includes(upg.name)) {
             localStorage.setItem("allCssUpgradesBought", allCssUpgradesBought);
         }
+        if (upg.isIncremental == true) {
+            boughtCssIncrementals.push(upg.name);
+        }
 
-        document.getElementById(`${upg.name}Shop`).innerHTML = "";
+        document.getElementById(`${upg.name}Shop`).parentElement.remove();
 
-        addNextShopItem2(upgCssObjects, shopCssDiv);
         addUpgBought2(upg, cssUpgradesBoughtBox);
+        addNextShopItem2(upgrades.cssUpgrades, shopCssDiv);
         linesPerLineWritten();
     }
 }
@@ -447,43 +215,72 @@ function buyDollarUpg(upg) {
         }
         if (upg.type == "autoMultiplier") {
             totalAutoMultiplier *= upg.amount;
-            boughtIncrementals.push(upg.name);
+        }
+        if (upg.isIncremental == true) {
+            boughtDollarIncrementals.push(upg.name);
         }
 
-        document.getElementById(`${upg.name}Shop`).innerHTML = "";
+        document.getElementById(`${upg.name}Shop`).parentElement.remove();
 
         addUpgBought2(upg, dollarUpgradesBoughtBox);
-        addNextShopItem2(upgDollarObjects, shopDollarDiv);
+        addNextShopItem2(upgrades.dollarUpgrades, shopDollarDiv);
         linesPerLineWritten();
     }
 }
 
 function addNextShopItem2(upgObjects, shopDiv) {
     let shouldReturn = false;
-    boughtIncrementals.forEach((element) => {
-        if ((allDollaridoosUpgradesBought[allDollaridoosUpgradesBought.length -1] == element) && (shopDiv == shopDollarDiv)) {
-            let upg = upgDollarObjects[element.substring(0, element.length - 1)];
+
+    boughtDollarIncrementals.forEach((element) => {
+        if (allDollaridoosUpgradesBought[allDollaridoosUpgradesBought.length - 1] == element && shopDiv == shopDollarDiv) {
+            let upg = upgrades.upgLevelDollarUpgrades[element.replace(/\d+/g, '')];
+
             upg.price *= upg.upgradeIncrement;
-            upg.name = upg.name.substring(0, upg.name.length - 1) + (parseInt(upg.name.substring(upg.name.length - 1)) + 1);
-            upg.title = upg.title.substring(0, upg.title.length - 1) + (parseInt(upg.title.substring(upg.title.length - 1)) + 1);
+            upg.name = upg.name.replace(/\d+/g, '') + (parseInt(upg.name.match(/\d+/g)) + 1);           
+            upg.title = upg.title.replace(/\d+/g, '') + (parseInt(upg.title.match(/\d+/g)) + 1);
+
             addDollarUpgrade(upg);
             shouldReturn = true;
             return;
         }
     });
-    if (shouldReturn) {
-        return;
-    }
-    for (i = 0; i < Object.entries(upgObjects).length; i++) {
-        let currentUpg = Object.entries(upgObjects)[i][1];
-        if (!allCssUpgradesBought.includes(currentUpg.name) && document.getElementById(`${currentUpg.name}Shop`) == null) {
-            if (shopDiv == shopCssDiv) {
-                addCssUpgrade(currentUpg);
-            } else if (shopDiv == shopDollarDiv) {
-                addDollarUpgrade(currentUpg);
-            }
+
+    boughtCssIncrementals.forEach((element) => {
+     if (allCssUpgradesBought[allCssUpgradesBought.length - 1] == element && shopDiv == shopCssDiv) {
+            let upg = upgrades.upgLevelCssUpgrades[element.replace(/\d+/g, '')];
+
+            upg.price *= upg.upgradeIncrement;
+            upg.name = upg.name.replace(/\d+/g, '') + (parseInt(upg.name.match(/\d+/g)) + 1);
+            upg.title = upg.title.replace(/\d+/g, '') + (parseInt(upg.title.match(/\d+/g)) + 1);
+            
+            addCssUpgrade(upg);
+            shouldReturn = true;
             return;
         }
+    });
+
+    if (shouldReturn) {
+
+        return;
+    }
+
+    for (let i = 0; i < Object.entries(upgObjects).length; i++) {
+        let currentUpg = Object.entries(upgObjects)[i][1];
+        if (shopDiv == shopCssDiv) {
+            if (!allCssUpgradesBought.includes(currentUpg.name) && document.getElementById(`${currentUpg.name}Shop`) == null) {
+                addCssUpgrade(currentUpg);
+                return;
+            }
+        } else if (shopDiv == shopDollarDiv) {
+            if (!allDollaridoosUpgradesBought.includes(currentUpg.name) && document.getElementById(`${currentUpg.name}Shop`) == null) {
+                addDollarUpgrade(currentUpg);
+                return;
+            }
+        }
+    }
+    
+    if (shopDiv.innerHTML == "") {
+        shopDiv.innerHTML = "Du har kjøpt alle oppgraderingene i denne kategorien!";
     }
 }
 
@@ -500,6 +297,19 @@ function addUpgBought2(upg, type) {
     } else if (upg.type == "autoMultiplier") {
         html.querySelector(".tooltip").innerHTML += `Ganger outputet fra de oppgraderingene du får css automatisk fra med ${upg.amount}.`;
     }
+    if (upgrades.cssUpgrades[upg.name] != null) {
+        html.querySelector(".tooltip").innerHTML += `Gir ${upgrades.cssUpgrades[upg.name].amount} ekstra linje(r) hver gang du skriver.`;
+    }
+
+    if (upg.isIncremental == true) {
+        let nameToRemove = upg.name.replace(/\d+/g, '') + (parseInt(upg.name.match(/\d+/g)) - 1);
+        if (document.getElementById(`${nameToRemove}UpgradesBought`) != null) {
+            document.getElementById(`${nameToRemove}UpgradesBought`).remove();
+            let upgHtml = document.getElementsByTagName("body")[0];
+            upgHtml.classList.remove(nameToRemove);
+        }
+    }
+
     type.appendChild(html);
 
     if (allCssUpgradesBought.length <= 1 && allDollaridoosUpgradesBought.length <= 1) {
@@ -517,7 +327,7 @@ function addUpgBought2(upg, type) {
 }
 
 function selgeSide2() {
-    if (cssLines >= 0) {
+    if (cssLines >= 50) {
         if (dollarUnlocked == false) {
             for (let i = 0; i < dollaridoosUnlockedHtml.length; i++) {
                 dollaridoosUnlockedHtml[i].classList.add("dollarUnlocked");
@@ -534,10 +344,13 @@ function selgeSide2() {
         numHtml.innerHTML = cssLines + " linjer";
         dollaridoosHtml.innerHTML = dollaridoos + "$";
         dollaridoosHtml.style.display = "block";
+        shopLevelDollarText.style.display = "block";
         cssUpgradesBoughtBox.innerHTML = "";
         upgradesBoughtCssText.style.display = "none";
         upgradesBoughtCssText.style.borderRight = "none";
         cssUpgradesBoughtBox.style.borderRight = "none";
+
+
 
         if (allDollaridoosUpgradesBought.length <= 0) {
             upgradesBoughtText.style.display = "none";
@@ -550,19 +363,22 @@ function selgeSide2() {
 
         rightOrNot.innerHTML = "";
         allCssUpgradesBought = [];
+        boughtCssIncrementals = [];
 
         dollarUnlocked = true;
 
         setupCssUpgrades();
+        setupLevelCssUpgrades();
+        setupLevelDollarUpgrades();
         linesPerLineWritten();
 
         selgeSideBtn.style.display = "none";
     }
 }
 
-function reincarnation2 () {
+function reincarnation2() {
     if (cssLinesTotal >= 10000) {
-        selgeSide2()
+        selgeSide2();
         dollaridoos = 0;
         totalMultiplier = 1;
 
@@ -582,11 +398,9 @@ function reincarnation2 () {
     }
 }
 
-onOpen();
-
 function onOpen() {
     if (localStorage.getItem("chosenUpg") != null) {
-        buyCssUpg(upgCssObjects[localStorage.getItem("chosenUpg")]);
+        buyCssUpg(upgrades.cssUpgrades[localStorage.getItem("chosenUpg")]);
     }
 }
 
@@ -777,4 +591,9 @@ const lengthValueProperties = [
 
 const numberPropertyTypes = [keywordValueProperties, lengthValueProperties, numericValueProperties];
 
-newCssText();
+fetchUpgrades().then(() => {
+    setupLevelCssUpgrades();
+    setupCssUpgrades();
+    onOpen();
+    newCssText();
+})

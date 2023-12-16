@@ -7,6 +7,20 @@ function start(items) {
     }
 }
 
+
+// har denne på lur i tilfelle
+buyAllCssUpgrades();
+
+function buyAllCssUpgrades() {
+    addNextShopItem2(upgrades.cssUpgrades, shopCssDiv);
+    for (let i = 0; i < 6; i++) {
+        console.log(i);
+        let currentUpg = Object.entries(upgrades.cssUpgrades)[i][1];
+        
+        buyCssUpg(currentUpg);
+    }
+}
+
 // Reincarnation function
 function reincarnation() {
     if (cssLinesTotal >= 0) {
