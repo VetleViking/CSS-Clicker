@@ -50,8 +50,8 @@ let shopLevelDollarText = document.getElementById("shopLevelDollarText");
 let upgrades
 
 async function fetchUpgrades() {
-    const response = await fetch("../upgrades.json")
-    //const response = await fetch("../upgrades2.json")
+    //const response = await fetch("../upgrades.json")
+    const response = await fetch("../upgrades2.json")
     upgrades = await response.json()
 }
 
@@ -327,7 +327,7 @@ function addUpgBought2(upg, type) {
 }
 
 function selgeSide2() {
-    if (cssLines >= 50) {
+    if (cssLines >= 0) {
         if (dollarUnlocked == false) {
             for (let i = 0; i < dollaridoosUnlockedHtml.length; i++) {
                 dollaridoosUnlockedHtml[i].classList.add("dollarUnlocked");
@@ -377,7 +377,7 @@ function selgeSide2() {
 }
 
 function reincarnation2() {
-    if (cssLinesTotal >= 10000) {
+    if (cssLinesTotal >= 0) {
         selgeSide2();
         dollaridoos = 0;
         totalMultiplier = 1;

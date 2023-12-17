@@ -116,7 +116,7 @@
         "testTikkel": {
             "name": "testTikkel1",
             "title": "Test Tikkel 1",
-            "toolTip": "TestTikkel",
+            "toolTip": "Test Tikkel",
             "price": 200,
             "amount": 5,
             "isIncremental": true,
