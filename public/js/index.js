@@ -20,16 +20,12 @@ var textColor = "#000000";
 
 let goldenLineInterval;
 let autoInterval;
-
-let shopCssDiv = document.getElementById("shopCssDiv");
-let dollarUpgradesBoughtBox = document.getElementById("dollarUpgradesBoughtBox");
+const shopCssDiv = document.getElementById("shopCssDiv");
 let boughtDollarIncrementals = [];
 let boughtCssIncrementals = [];
-let shopLevelCssDiv = document.getElementById("shopLevelCssDiv");
-let shopLevelDollarDiv = document.getElementById("shopLevelDollarDiv");
-let shopLevelDollarText = document.getElementById("shopLevelDollarText");
 let upgrades;
-const reincarnationBtn = document.getElementById("btnReinkarnasjon");
+
+
 
 async function fetchUpgrades() {
     //const response = await fetch("../upgrades.json")
@@ -40,6 +36,8 @@ async function fetchUpgrades() {
 
 
 function setupLevelCssUpgrades() {
+    const shopLevelCssDiv = document.getElementById("shopLevelCssDiv");
+
     shopLevelCssDiv.innerHTML = "";
     for (let i = 0; i < Object.entries(upgrades.upgLevelCssUpgrades).length; i++) {
         let currentUpg = Object.entries(upgrades.upgLevelCssUpgrades)[i][1];
@@ -62,6 +60,8 @@ function setupCssUpgrades() {
 }
 
 function setupLevelDollarUpgrades() {
+    const shopLevelDollarDiv = document.getElementById("shopLevelDollarDiv");
+
     shopLevelDollarDiv.innerHTML = "";
     for (let i = 0; i < Object.entries(upgrades.upgLevelDollarUpgrades).length; i++) {
         let currentUpg = Object.entries(upgrades.upgLevelDollarUpgrades)[i][1];
@@ -76,9 +76,9 @@ function setupLevelDollarUpgrades() {
 function setupDollarUpgrades() {
     shopDollarDiv.innerHTML = "";
 
-    let incremantals = 0;
     for (let i = 0; i < 3; i++) {
         let currentUpg = Object.entries(upgrades.dollarUpgrades)[i][1];
+
         addDollarUpgrade(currentUpg);
     }
 }
@@ -95,6 +95,8 @@ function addCssUpgrade(upg) {
     </div>`;
 
     if (upg.isIncremental == true) {
+        const shopLevelCssDiv = document.getElementById("shopLevelCssDiv");
+
         html.querySelector(".tooltip").innerHTML += `</br>Denne oppgraderingen kan kjøpes flere ganger.`;
         shopLevelCssDiv.appendChild(html);
         eventListener(upg);
@@ -106,7 +108,9 @@ function addCssUpgrade(upg) {
 }
 
 function addDollarUpgrade(upg) {
+    
     let html = document.createElement("div");
+    
 
     html.innerHTML = `
     <div class="shopDollarItem infoBox" id="${upg.name}Shop">
@@ -125,6 +129,8 @@ function addDollarUpgrade(upg) {
     }
 
     if (upg.isIncremental == true) {
+        const shopLevelDollarDiv = document.getElementById("shopLevelDollarDiv");
+
         html.querySelector(".tooltip").innerHTML += `</br>Denne oppgraderingen kan kjøpes flere ganger.`;
         shopLevelDollarDiv.appendChild(html);
         eventListener(upg);
@@ -179,8 +185,9 @@ function buyCssUpg(upg) {
 
 function buyDollarUpg(upg) {
     if (dollaridoos >= upg.price) {
-
+        const dollarUpgradesBoughtBox = document.getElementById("dollarUpgradesBoughtBox");
         const dollaridoosHtml = document.getElementById("dollaridoos");
+
         dollaridoos -= upg.price;
         dollaridoosHtml.innerHTML = dollaridoos + "$";
 
@@ -224,6 +231,8 @@ function checkCssLines() {
     if (cssLinesTotal >= 30) {
         selgeSideBtn.style.display = "block";
     } if (cssLinesTotalTotal >= 10000) {
+        const reincarnationBtn = document.getElementById("btnReinkarnasjon");        
+
         reincarnationBtn.style.display = "block";
     }
 }
@@ -344,6 +353,7 @@ function selgeSide2() {
         const dollarShopText = document.getElementById("shopDollarText");
         const upgradesBoughtCssText = document.getElementById("upgradesBoughtCssText");
         const cssUpgradesBoughtBox = document.getElementById("cssUpgradesBoughtBox");
+        const shopLevelDollarText = document.getElementById("shopLevelDollarText");
 
         if (dollarUnlocked == false) {
             const dollaridoosUnlockedHtml = document.getElementsByClassName("dollaridoos");
