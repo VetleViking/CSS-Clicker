@@ -108,7 +108,7 @@
             "name": "test1",
             "title": "Test 1",
             "toolTip": "Test",
-            "price": 10,
+            "price": 0,
             "amount": 1,
             "isIncremental": true,
             "upgradeIncrement": 2
@@ -117,7 +117,7 @@
             "name": "testTikkel1",
             "title": "Test Tikkel 1",
             "toolTip": "TestTikkel",
-            "price": 10,
+            "price": 0,
             "amount": 5,
             "isIncremental": true,
             "upgradeIncrement": 2
@@ -129,7 +129,7 @@
             "title": "Bedre PC 1",
             "toolTip": "Med en bedre PC kan du compile CSSen enda bedre.",
             "type": "autoMultiplier",
-            "price": 1,
+            "price": 0,
             "amount": 2,
             "isIncremental": true,
             "upgradeIncrement": 4

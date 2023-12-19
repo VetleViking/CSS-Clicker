@@ -197,9 +197,11 @@ function buyDollarUpg(upg) {
 
         if (upg.type == "auto") {
             autoInterval = setInterval(function () {
-                cssLines += 1 * totalAutoMultiplier;
-                cssLinesTotal += 1 * totalAutoMultiplier;
-                cssLinesTotalTotal += 1 * totalAutoMultiplier;
+                let reincarnationPts = localStorage.getItem("reincarnationPoints") == null ? 0 : parseInt(localStorage.getItem("reincarnationPoints"));
+                let n = Math.floor(1 * totalAutoMultiplier * (1 + reincarnationPts / 10));
+                cssLines += n;
+                cssLinesTotal += n;
+                cssLinesTotalTotal += n;
                 checkCssLines();
             }, upg.amount * 1000);
         }
@@ -346,7 +348,7 @@ function addUpgBought2(upg, type) {
 }
 
 function selgeSide2() {
-    if (cssLines >= 0) {
+    if (cssLines >= 50) {
         const dollaridoosHtml = document.getElementById("dollaridoos");
         const rightOrNot = document.getElementById("rightOrNot");
         const selgeSideBtn = document.getElementById("btnSelgeSide");
@@ -365,6 +367,7 @@ function selgeSide2() {
             dollarShopText.style.display = "block";
             cssShopText.style.display = "block";
             setupDollarUpgrades();
+            setupLevelDollarUpgrades();
         }
         dollaridoos += Math.floor(cssLinesTotal / 10);
 
@@ -400,7 +403,6 @@ function selgeSide2() {
 
         setupCssUpgrades();
         setupLevelCssUpgrades();
-        setupLevelDollarUpgrades();
         linesPerLineWritten();
 
         selgeSideBtn.style.display = "none";
@@ -408,7 +410,7 @@ function selgeSide2() {
 }
 
 function reincarnation2() {
-    if (cssLinesTotalTotal >= 0) {
+    if (cssLinesTotalTotal >= 10000) {
         const cssShopText = document.getElementById("shopCssText");
         const dollarShopText = document.getElementById("shopDollarText");
         const dollaridoosUnlockedHtml = document.getElementsByClassName("dollaridoos");
@@ -451,13 +453,15 @@ function submitCss() {
         const rightOrNot = document.getElementById("rightOrNot");
         if (isGolden == true) {
             // If the line is golden, add 10 times lines instead of normal amount
-            let n = (1 + totalPlus) * totalMultiplier * 10;
+            let reincarnationPts = localStorage.getItem("reincarnationPoints") == null ? 0 : parseInt(localStorage.getItem("reincarnationPoints"));
+            let n = Math.floor((1 + totalPlus) * totalMultiplier * 10 * (1 + reincarnationPts / 10));
             cssLines += n;
             cssLinesTotal += n;
             cssLinesTotalTotal += n;
         } else {
             // else add normal amount of lines
-            let n = (1 + totalPlus) * totalMultiplier;
+            let reincarnationPts = localStorage.getItem("reincarnationPoints") == null ? 0 : parseInt(localStorage.getItem("reincarnationPoints"));
+            let n = Math.floor((1 + totalPlus) * totalMultiplier * (1 + reincarnationPts / 10));
             cssLines += n;
             cssLinesTotal += n;
             cssLinesTotalTotal += n;
