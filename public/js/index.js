@@ -10,6 +10,13 @@ let totalPlus = 0;
 let dollarUnlocked = false;
 let isGolden = false; // lets isGolden to be false
 let currentText;
+let goldenLineInterval;
+let autoInterval;
+let boughtDollarIncrementals = [];
+let boughtCssIncrementals = [];
+let upgrades;
+const shopDollarDiv = document.getElementById("shopDollarDiv");
+const shopCssDiv = document.getElementById("shopCssDiv");
 
 // probably going to remove this, dont want text to img forever.
 var img;
@@ -18,22 +25,11 @@ var backgroundColor;
 var font = "16px Times New Roman";
 var textColor = "#000000";
 
-let goldenLineInterval;
-let autoInterval;
-const shopCssDiv = document.getElementById("shopCssDiv");
-let boughtDollarIncrementals = [];
-let boughtCssIncrementals = [];
-let upgrades;
-
-
-
 async function fetchUpgrades() {
     //const response = await fetch("../upgrades.json")
-    const response = await fetch("../upgrades2.json")
-    upgrades = await response.json()
+    const response = await fetch("../upgrades2.json");
+    upgrades = await response.json();
 }
-
-
 
 function setupLevelCssUpgrades() {
     const shopLevelCssDiv = document.getElementById("shopLevelCssDiv");
@@ -41,6 +37,10 @@ function setupLevelCssUpgrades() {
     shopLevelCssDiv.innerHTML = "";
     for (let i = 0; i < Object.entries(upgrades.upgLevelCssUpgrades).length; i++) {
         let currentUpg = Object.entries(upgrades.upgLevelCssUpgrades)[i][1];
+
+        currentUpg.price /= currentUpg.upgradeIncrement ** (parseInt(currentUpg.name.match(/\d+/g)) - 1);
+        currentUpg.name = currentUpg.name.replace(/\d+/g, "") + 1;
+        currentUpg.title = currentUpg.title.replace(/\d+/g, "") + 1;
 
         addCssUpgrade(currentUpg);
         if (i >= 3) {
@@ -65,6 +65,10 @@ function setupLevelDollarUpgrades() {
     shopLevelDollarDiv.innerHTML = "";
     for (let i = 0; i < Object.entries(upgrades.upgLevelDollarUpgrades).length; i++) {
         let currentUpg = Object.entries(upgrades.upgLevelDollarUpgrades)[i][1];
+
+        currentUpg.price /= currentUpg.upgradeIncrement ** (parseInt(currentUpg.name.match(/\d+/g)) - 1);
+        currentUpg.name = currentUpg.name.replace(/\d+/g, "") + 1;
+        currentUpg.title = currentUpg.title.replace(/\d+/g, "") + 1;
 
         addDollarUpgrade(currentUpg);
         if (i >= 3) {
@@ -108,9 +112,7 @@ function addCssUpgrade(upg) {
 }
 
 function addDollarUpgrade(upg) {
-    
     let html = document.createElement("div");
-    
 
     html.innerHTML = `
     <div class="shopDollarItem infoBox" id="${upg.name}Shop">
@@ -166,7 +168,7 @@ function buyCssUpg(upg) {
 
         allCssUpgradesBought.push(upg.name);
 
-        let isAllCSSBought = localStorage.getItem("allCssUpgradesBought") == null 
+        let isAllCSSBought = localStorage.getItem("allCssUpgradesBought") == null;
 
         if (isAllCSSBought || !localStorage.getItem("allCssUpgradesBought").includes(upg.name)) {
             localStorage.setItem("allCssUpgradesBought", allCssUpgradesBought);
@@ -230,24 +232,24 @@ function checkCssLines() {
 
     if (cssLinesTotal >= 30) {
         selgeSideBtn.style.display = "block";
-    } if (cssLinesTotalTotal >= 10000) {
-        const reincarnationBtn = document.getElementById("btnReinkarnasjon");        
+    }
+    if (cssLinesTotalTotal >= 10000) {
+        const reincarnationBtn = document.getElementById("btnReinkarnasjon");
 
         reincarnationBtn.style.display = "block";
     }
 }
-
 
 function addNextShopItem2(upgObjects, shopDiv) {
     let shouldReturn = false;
 
     boughtDollarIncrementals.forEach((element) => {
         if (allDollaridoosUpgradesBought[allDollaridoosUpgradesBought.length - 1] == element && shopDiv == shopDollarDiv) {
-            let upg = upgrades.upgLevelDollarUpgrades[element.replace(/\d+/g, '')];
+            let upg = upgrades.upgLevelDollarUpgrades[element.replace(/\d+/g, "")];
 
             upg.price *= upg.upgradeIncrement;
-            upg.name = upg.name.replace(/\d+/g, '') + (parseInt(upg.name.match(/\d+/g)) + 1);           
-            upg.title = upg.title.replace(/\d+/g, '') + (parseInt(upg.title.match(/\d+/g)) + 1);
+            upg.name = upg.name.replace(/\d+/g, "") + (parseInt(upg.name.match(/\d+/g)) + 1);
+            upg.title = upg.title.replace(/\d+/g, "") + (parseInt(upg.title.match(/\d+/g)) + 1);
 
             addDollarUpgrade(upg);
             shouldReturn = true;
@@ -256,13 +258,13 @@ function addNextShopItem2(upgObjects, shopDiv) {
     });
 
     boughtCssIncrementals.forEach((element) => {
-     if (allCssUpgradesBought[allCssUpgradesBought.length - 1] == element && shopDiv == shopCssDiv) {
-            let upg = upgrades.upgLevelCssUpgrades[element.replace(/\d+/g, '')];
+        if (allCssUpgradesBought[allCssUpgradesBought.length - 1] == element && shopDiv == shopCssDiv) {
+            let upg = upgrades.upgLevelCssUpgrades[element.replace(/\d+/g, "")];
 
             upg.price *= upg.upgradeIncrement;
-            upg.name = upg.name.replace(/\d+/g, '') + (parseInt(upg.name.match(/\d+/g)) + 1);
-            upg.title = upg.title.replace(/\d+/g, '') + (parseInt(upg.title.match(/\d+/g)) + 1);
-            
+            upg.name = upg.name.replace(/\d+/g, "") + (parseInt(upg.name.match(/\d+/g)) + 1);
+            upg.title = upg.title.replace(/\d+/g, "") + (parseInt(upg.title.match(/\d+/g)) + 1);
+
             addCssUpgrade(upg);
             shouldReturn = true;
             return;
@@ -270,7 +272,6 @@ function addNextShopItem2(upgObjects, shopDiv) {
     });
 
     if (shouldReturn) {
-
         return;
     }
 
@@ -288,7 +289,7 @@ function addNextShopItem2(upgObjects, shopDiv) {
             }
         }
     }
-    
+
     if (shopDiv.innerHTML == "") {
         shopDiv.innerHTML = "Du har kjøpt alle oppgraderingene i denne kategorien!";
     }
@@ -312,7 +313,7 @@ function addUpgBought2(upg, type) {
     }
 
     if (upg.isIncremental == true) {
-        let nameToRemove = upg.name.replace(/\d+/g, '') + (parseInt(upg.name.match(/\d+/g)) - 1);
+        let nameToRemove = upg.name.replace(/\d+/g, "") + (parseInt(upg.name.match(/\d+/g)) - 1);
         if (document.getElementById(`${nameToRemove}UpgradesBought`) != null) {
             document.getElementById(`${nameToRemove}UpgradesBought`).remove();
             let upgHtml = document.getElementsByTagName("body")[0];
@@ -375,11 +376,10 @@ function selgeSide2() {
         dollaridoosHtml.style.display = "block";
         shopLevelDollarText.style.display = "block";
         cssUpgradesBoughtBox.innerHTML = "";
+
         upgradesBoughtCssText.style.display = "none";
         upgradesBoughtCssText.style.borderRight = "none";
         cssUpgradesBoughtBox.style.borderRight = "none";
-
-
 
         if (allDollaridoosUpgradesBought.length <= 0) {
             const upgradesBoughtText = document.getElementById("upgradesBoughtText");
@@ -418,8 +418,6 @@ function reincarnation2() {
         totalMultiplier = 1;
 
         allDollaridoosUpgradesBought = [];
-
-        
 
         for (let i = 0; i < dollaridoosUnlockedHtml.length; i++) {
             dollaridoosUnlockedHtml[i].classList.remove("dollarUnlocked");
@@ -639,4 +637,4 @@ fetchUpgrades().then(() => {
     setupCssUpgrades();
     onOpen();
     newCssText();
-})
+});
