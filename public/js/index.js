@@ -26,8 +26,8 @@ var font = "16px Times New Roman";
 var textColor = "#000000";
 
 async function fetchUpgrades() {
-    //const response = await fetch("../upgrades.json")
-    const response = await fetch("../upgrades2.json");
+    const response = await fetch("../upgrades.json")
+    //const response = await fetch("../upgrades2.json");
     upgrades = await response.json();
 }
 
