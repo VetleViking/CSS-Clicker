@@ -1,66 +1,46 @@
-let numHtml = document.getElementById("number");
-let dollaridoosHtml = document.getElementById("dollaridoos");
 let cssLines = 0;
 let cssLinesTotal = 0;
+let cssLinesTotalTotal = 0;
 let dollaridoos = 0;
-let cssBox = document.getElementById("cssBox");
-let cssTextBox = document.getElementById("cssTextBox");
-let cssText = document.getElementById("cssText");
-let rightOrNot = document.getElementById("rightOrNot");
-let upgradesBoughtBox = document.getElementById("upgradesBought");
-let upgradesBoughtText = document.getElementById("upgradesBoughtText");
-let upgradesBoughtItems = document.getElementsByClassName("upgradesBoughtItem");
-let upgradesBoughtDollarItems = document.getElementsByClassName("upgradesBoughtDollarItem");
 let allCssUpgradesBought = [];
 let allDollaridoosUpgradesBought = [];
-let shopDiv = document.getElementById("shopDiv");
-let selgeSideBtn = document.getElementById("btnSelgeSide");
-let cssShopText = document.getElementById("shopCssText");
 let totalMultiplier = 1;
+let totalAutoMultiplier = 1;
 let totalPlus = 0;
-let shopCssItems = document.getElementsByClassName("shopItem");
-let shopDollarItems = document.getElementsByClassName("shopDollarItem");
-let dollarShopDiv = document.getElementById("shopDollarDiv");
-let dollarShopText = document.getElementById("shopDollarText");
-let upgradesBoughtCssText = document.getElementById("upgradesBoughtCssText");
-let upgradesBoughtDollarText = document.getElementById("upgradesBoughtDollarText");
-let cssUpgradesBoughtBox = document.getElementById("cssUpgradesBoughtBox");
-let dollaridoosUnlockedHtml = document.getElementsByClassName("dollaridoos");
 let dollarUnlocked = false;
-let timerHtml = document.getElementById("timer");
 let isGolden = false; // lets isGolden to be false
-let newCssTextContent;
+let currentText;
+let goldenLineInterval;
+let autoInterval;
+let boughtDollarIncrementals = [];
+let boughtCssIncrementals = [];
+let upgrades;
+const shopDollarDiv = document.getElementById("shopDollarDiv");
+const shopCssDiv = document.getElementById("shopCssDiv");
+
+// probably going to remove this, dont want text to img forever.
 var img;
 var imageBase64;
 var backgroundColor;
 var font = "16px Times New Roman";
 var textColor = "#000000";
-let timer = 0;
-let goldenLineInterval;
-let autoInterval;
-let totalAutoMultiplier = 1;
-let html;
-let shopCssDiv = document.getElementById("shopCssDiv");
-let dollarUpgradesBoughtBox = document.getElementById("dollarUpgradesBoughtBox");
-let boughtDollarIncrementals = [];
-let boughtCssIncrementals = [];
-let shopLevelCssDiv = document.getElementById("shopLevelCssDiv");
-let shopLevelDollarDiv = document.getElementById("shopLevelDollarDiv");
-let shopLevelDollarText = document.getElementById("shopLevelDollarText");
-let upgrades
 
 async function fetchUpgrades() {
     const response = await fetch("../upgrades.json")
-    //const response = await fetch("../upgrades2.json")
-    upgrades = await response.json()
+    //const response = await fetch("../upgrades2.json");
+    upgrades = await response.json();
 }
 
-
-
 function setupLevelCssUpgrades() {
+    const shopLevelCssDiv = document.getElementById("shopLevelCssDiv");
+
     shopLevelCssDiv.innerHTML = "";
     for (let i = 0; i < Object.entries(upgrades.upgLevelCssUpgrades).length; i++) {
         let currentUpg = Object.entries(upgrades.upgLevelCssUpgrades)[i][1];
+
+        currentUpg.price /= currentUpg.upgradeIncrement ** (parseInt(currentUpg.name.match(/\d+/g)) - 1);
+        currentUpg.name = currentUpg.name.replace(/\d+/g, "") + 1;
+        currentUpg.title = currentUpg.title.replace(/\d+/g, "") + 1;
 
         addCssUpgrade(currentUpg);
         if (i >= 3) {
@@ -80,9 +60,15 @@ function setupCssUpgrades() {
 }
 
 function setupLevelDollarUpgrades() {
+    const shopLevelDollarDiv = document.getElementById("shopLevelDollarDiv");
+
     shopLevelDollarDiv.innerHTML = "";
     for (let i = 0; i < Object.entries(upgrades.upgLevelDollarUpgrades).length; i++) {
         let currentUpg = Object.entries(upgrades.upgLevelDollarUpgrades)[i][1];
+
+        currentUpg.price /= currentUpg.upgradeIncrement ** (parseInt(currentUpg.name.match(/\d+/g)) - 1);
+        currentUpg.name = currentUpg.name.replace(/\d+/g, "") + 1;
+        currentUpg.title = currentUpg.title.replace(/\d+/g, "") + 1;
 
         addDollarUpgrade(currentUpg);
         if (i >= 3) {
@@ -94,9 +80,9 @@ function setupLevelDollarUpgrades() {
 function setupDollarUpgrades() {
     shopDollarDiv.innerHTML = "";
 
-    let incremantals = 0;
     for (let i = 0; i < 3; i++) {
         let currentUpg = Object.entries(upgrades.dollarUpgrades)[i][1];
+
         addDollarUpgrade(currentUpg);
     }
 }
@@ -113,6 +99,8 @@ function addCssUpgrade(upg) {
     </div>`;
 
     if (upg.isIncremental == true) {
+        const shopLevelCssDiv = document.getElementById("shopLevelCssDiv");
+
         html.querySelector(".tooltip").innerHTML += `</br>Denne oppgraderingen kan kjøpes flere ganger.`;
         shopLevelCssDiv.appendChild(html);
         eventListener(upg);
@@ -143,6 +131,8 @@ function addDollarUpgrade(upg) {
     }
 
     if (upg.isIncremental == true) {
+        const shopLevelDollarDiv = document.getElementById("shopLevelDollarDiv");
+
         html.querySelector(".tooltip").innerHTML += `</br>Denne oppgraderingen kan kjøpes flere ganger.`;
         shopLevelDollarDiv.appendChild(html);
         eventListener(upg);
@@ -165,8 +155,10 @@ function eventListener(upg) {
 
 function buyCssUpg(upg) {
     if (cssLines >= upg.price) {
+        const cssUpgradesBoughtBox = document.getElementById("cssUpgradesBoughtBox");
+
         cssLines -= upg.price;
-        numHtml.innerHTML = cssLines + " linjer";
+        checkCssLines();
 
         let upgHtml = document.getElementsByTagName("body")[0];
 
@@ -176,7 +168,7 @@ function buyCssUpg(upg) {
 
         allCssUpgradesBought.push(upg.name);
 
-        let isAllCSSBought = localStorage.getItem("allCssUpgradesBought") == null 
+        let isAllCSSBought = localStorage.getItem("allCssUpgradesBought") == null;
 
         if (isAllCSSBought || !localStorage.getItem("allCssUpgradesBought").includes(upg.name)) {
             localStorage.setItem("allCssUpgradesBought", allCssUpgradesBought);
@@ -195,6 +187,9 @@ function buyCssUpg(upg) {
 
 function buyDollarUpg(upg) {
     if (dollaridoos >= upg.price) {
+        const dollarUpgradesBoughtBox = document.getElementById("dollarUpgradesBoughtBox");
+        const dollaridoosHtml = document.getElementById("dollaridoos");
+
         dollaridoos -= upg.price;
         dollaridoosHtml.innerHTML = dollaridoos + "$";
 
@@ -202,12 +197,12 @@ function buyDollarUpg(upg) {
 
         if (upg.type == "auto") {
             autoInterval = setInterval(function () {
-                cssLines += 1 * totalAutoMultiplier;
-                cssLinesTotal += 1 * totalAutoMultiplier;
-                numHtml.innerHTML = cssLines + " linjer";
-                if (cssLinesTotal >= 30) {
-                    selgeSideBtn.style.display = "block";
-                }
+                let reincarnationPts = localStorage.getItem("reincarnationPoints") == null ? 0 : parseInt(localStorage.getItem("reincarnationPoints"));
+                let n = Math.floor(1 * totalAutoMultiplier * (1 + reincarnationPts / 10));
+                cssLines += n;
+                cssLinesTotal += n;
+                cssLinesTotalTotal += n;
+                checkCssLines();
             }, upg.amount * 1000);
         }
         if (upg.type == "multiplier") {
@@ -228,16 +223,35 @@ function buyDollarUpg(upg) {
     }
 }
 
+function checkCssLines() {
+    const numHtml = document.getElementById("number");
+    const selgeSideBtn = document.getElementById("btnSelgeSide");
+    if (cssLines == 1) {
+        numHtml.innerHTML = cssLines + " linje";
+    } else {
+        numHtml.innerHTML = cssLines + " linjer";
+    }
+
+    if (cssLinesTotal >= 30) {
+        selgeSideBtn.style.display = "block";
+    }
+    if (cssLinesTotalTotal >= 10000) {
+        const reincarnationBtn = document.getElementById("btnReinkarnasjon");
+
+        reincarnationBtn.style.display = "block";
+    }
+}
+
 function addNextShopItem2(upgObjects, shopDiv) {
     let shouldReturn = false;
 
     boughtDollarIncrementals.forEach((element) => {
         if (allDollaridoosUpgradesBought[allDollaridoosUpgradesBought.length - 1] == element && shopDiv == shopDollarDiv) {
-            let upg = upgrades.upgLevelDollarUpgrades[element.replace(/\d+/g, '')];
+            let upg = upgrades.upgLevelDollarUpgrades[element.replace(/\d+/g, "")];
 
             upg.price *= upg.upgradeIncrement;
-            upg.name = upg.name.replace(/\d+/g, '') + (parseInt(upg.name.match(/\d+/g)) + 1);           
-            upg.title = upg.title.replace(/\d+/g, '') + (parseInt(upg.title.match(/\d+/g)) + 1);
+            upg.name = upg.name.replace(/\d+/g, "") + (parseInt(upg.name.match(/\d+/g)) + 1);
+            upg.title = upg.title.replace(/\d+/g, "") + (parseInt(upg.title.match(/\d+/g)) + 1);
 
             addDollarUpgrade(upg);
             shouldReturn = true;
@@ -246,13 +260,13 @@ function addNextShopItem2(upgObjects, shopDiv) {
     });
 
     boughtCssIncrementals.forEach((element) => {
-     if (allCssUpgradesBought[allCssUpgradesBought.length - 1] == element && shopDiv == shopCssDiv) {
-            let upg = upgrades.upgLevelCssUpgrades[element.replace(/\d+/g, '')];
+        if (allCssUpgradesBought[allCssUpgradesBought.length - 1] == element && shopDiv == shopCssDiv) {
+            let upg = upgrades.upgLevelCssUpgrades[element.replace(/\d+/g, "")];
 
             upg.price *= upg.upgradeIncrement;
-            upg.name = upg.name.replace(/\d+/g, '') + (parseInt(upg.name.match(/\d+/g)) + 1);
-            upg.title = upg.title.replace(/\d+/g, '') + (parseInt(upg.title.match(/\d+/g)) + 1);
-            
+            upg.name = upg.name.replace(/\d+/g, "") + (parseInt(upg.name.match(/\d+/g)) + 1);
+            upg.title = upg.title.replace(/\d+/g, "") + (parseInt(upg.title.match(/\d+/g)) + 1);
+
             addCssUpgrade(upg);
             shouldReturn = true;
             return;
@@ -260,7 +274,6 @@ function addNextShopItem2(upgObjects, shopDiv) {
     });
 
     if (shouldReturn) {
-
         return;
     }
 
@@ -278,7 +291,7 @@ function addNextShopItem2(upgObjects, shopDiv) {
             }
         }
     }
-    
+
     if (shopDiv.innerHTML == "") {
         shopDiv.innerHTML = "Du har kjøpt alle oppgraderingene i denne kategorien!";
     }
@@ -302,7 +315,7 @@ function addUpgBought2(upg, type) {
     }
 
     if (upg.isIncremental == true) {
-        let nameToRemove = upg.name.replace(/\d+/g, '') + (parseInt(upg.name.match(/\d+/g)) - 1);
+        let nameToRemove = upg.name.replace(/\d+/g, "") + (parseInt(upg.name.match(/\d+/g)) - 1);
         if (document.getElementById(`${nameToRemove}UpgradesBought`) != null) {
             document.getElementById(`${nameToRemove}UpgradesBought`).remove();
             let upgHtml = document.getElementsByTagName("body")[0];
@@ -313,13 +326,21 @@ function addUpgBought2(upg, type) {
     type.appendChild(html);
 
     if (allCssUpgradesBought.length <= 1 && allDollaridoosUpgradesBought.length <= 1) {
+        const upgradesBoughtBox = document.getElementById("upgradesBought");
+        const upgradesBoughtText = document.getElementById("upgradesBoughtText");
+
         upgradesBoughtBox.style.display = "block";
         upgradesBoughtText.style.display = "block";
     }
     if (allDollaridoosUpgradesBought.length >= 1 && allCssUpgradesBought.length >= 1) {
+        const upgradesBoughtCssText = document.getElementById("upgradesBoughtCssText");
+        const upgradesBoughtDollarText = document.getElementById("upgradesBoughtDollarText");
+
         upgradesBoughtCssText.style.display = "block";
         upgradesBoughtDollarText.style.display = "block";
         if (allCssUpgradesBought.includes("border") && allCssUpgradesBought.includes("grid")) {
+            const cssUpgradesBoughtBox = document.getElementById("cssUpgradesBoughtBox");
+
             upgradesBoughtCssText.style.borderRight = "1px solid black";
             cssUpgradesBoughtBox.style.borderRight = "1px solid black";
         }
@@ -328,31 +349,44 @@ function addUpgBought2(upg, type) {
 
 function selgeSide2() {
     if (cssLines >= 50) {
+        const dollaridoosHtml = document.getElementById("dollaridoos");
+        const rightOrNot = document.getElementById("rightOrNot");
+        const selgeSideBtn = document.getElementById("btnSelgeSide");
+        const cssShopText = document.getElementById("shopCssText");
+        const dollarShopText = document.getElementById("shopDollarText");
+        const upgradesBoughtCssText = document.getElementById("upgradesBoughtCssText");
+        const cssUpgradesBoughtBox = document.getElementById("cssUpgradesBoughtBox");
+        const shopLevelDollarText = document.getElementById("shopLevelDollarText");
+
         if (dollarUnlocked == false) {
+            const dollaridoosUnlockedHtml = document.getElementsByClassName("dollaridoos");
+
             for (let i = 0; i < dollaridoosUnlockedHtml.length; i++) {
                 dollaridoosUnlockedHtml[i].classList.add("dollarUnlocked");
             }
             dollarShopText.style.display = "block";
             cssShopText.style.display = "block";
             setupDollarUpgrades();
+            setupLevelDollarUpgrades();
         }
         dollaridoos += Math.floor(cssLinesTotal / 10);
 
         cssLines = 0;
         totalPlus = 0;
         cssLinesTotal = 0;
-        numHtml.innerHTML = cssLines + " linjer";
+        checkCssLines();
         dollaridoosHtml.innerHTML = dollaridoos + "$";
         dollaridoosHtml.style.display = "block";
         shopLevelDollarText.style.display = "block";
         cssUpgradesBoughtBox.innerHTML = "";
+
         upgradesBoughtCssText.style.display = "none";
         upgradesBoughtCssText.style.borderRight = "none";
         cssUpgradesBoughtBox.style.borderRight = "none";
 
-
-
         if (allDollaridoosUpgradesBought.length <= 0) {
+            const upgradesBoughtText = document.getElementById("upgradesBoughtText");
+
             upgradesBoughtText.style.display = "none";
         }
 
@@ -369,7 +403,6 @@ function selgeSide2() {
 
         setupCssUpgrades();
         setupLevelCssUpgrades();
-        setupLevelDollarUpgrades();
         linesPerLineWritten();
 
         selgeSideBtn.style.display = "none";
@@ -377,7 +410,11 @@ function selgeSide2() {
 }
 
 function reincarnation2() {
-    if (cssLinesTotal >= 10000) {
+    if (cssLinesTotalTotal >= 10000) {
+        const cssShopText = document.getElementById("shopCssText");
+        const dollarShopText = document.getElementById("shopDollarText");
+        const dollaridoosUnlockedHtml = document.getElementsByClassName("dollaridoos");
+
         selgeSide2();
         dollaridoos = 0;
         totalMultiplier = 1;
@@ -393,7 +430,7 @@ function reincarnation2() {
         if (localStorage.getItem("reincarnationPoints") == null) {
             localStorage.setItem("reincarnationPoints", 0);
         }
-        localStorage.setItem("reincarnationPoints", parseInt(localStorage.getItem("reincarnationPoints")) + Math.floor(cssLinesTotal / 10000));
+        localStorage.setItem("reincarnationPoints", parseInt(localStorage.getItem("reincarnationPoints")) + Math.floor(cssLinesTotalTotal / 10000));
         window.location.replace("reinkarnasjon.html");
     }
 }
@@ -411,29 +448,26 @@ function linesPerLineWritten() {
 
 // Function that checks if submitted CSS is right
 function submitCss() {
-    if (cssBox.value == newCssTextContent) {
+    if (cssBox.value == currentText) {
+        const cssBox = document.getElementById("cssBox");
+        const rightOrNot = document.getElementById("rightOrNot");
         if (isGolden == true) {
-            // If the line is golden, add 10 lines instead of 1
-            cssLines += (1 + totalPlus) * totalMultiplier * 10;
-            cssLinesTotal += (1 + totalPlus) * totalMultiplier * 10;
+            // If the line is golden, add 10 times lines instead of normal amount
+            let reincarnationPts = localStorage.getItem("reincarnationPoints") == null ? 0 : parseInt(localStorage.getItem("reincarnationPoints"));
+            let n = Math.floor((1 + totalPlus) * totalMultiplier * 10 * (1 + reincarnationPts / 10));
+            cssLines += n;
+            cssLinesTotal += n;
+            cssLinesTotalTotal += n;
         } else {
-            // else add 1 line
-            cssLines += (1 + totalPlus) * totalMultiplier;
-            cssLinesTotal += (1 + totalPlus) * totalMultiplier;
+            // else add normal amount of lines
+            let reincarnationPts = localStorage.getItem("reincarnationPoints") == null ? 0 : parseInt(localStorage.getItem("reincarnationPoints"));
+            let n = Math.floor((1 + totalPlus) * totalMultiplier * (1 + reincarnationPts / 10));
+            cssLines += n;
+            cssLinesTotal += n;
+            cssLinesTotalTotal += n;
         }
 
-        if (cssLines == 1) {
-            numHtml.innerHTML = cssLines + " linje";
-        } else {
-            numHtml.innerHTML = cssLines + " linjer";
-        }
-
-        if (cssLinesTotal >= 50) {
-            selgeSideBtn.style.display = "block";
-        }
-        if (cssLinesTotal >= 10000) {
-            reincarnationBtn.style.display = "block";
-        }
+        checkCssLines();
 
         rightOrNot.innerHTML = "Riktig! :)"; // Riktig! :)
 
@@ -447,6 +481,8 @@ function submitCss() {
 // Function to generate new CSS text
 function newCssText() {
     let chooseNum = Math.floor(Math.random() * numberPropertyTypes.length);
+    let newCssTextContent;
+
     newCssTextContent = numberPropertyTypes[chooseNum];
     newCssTextContent = newCssTextContent[Math.floor(Math.random() * newCssTextContent.length)];
 
@@ -466,6 +502,9 @@ function newCssText() {
 
     let goldenLine = Math.floor(Math.random() * 25);
     if (goldenLine == 1) {
+        const cssText = document.getElementById("cssText");
+        const timerHtml = document.getElementById("timer");
+
         let timer = 10;
         timerHtml.innerHTML = timer;
         cssText.style.backgroundColor = "gold";
@@ -481,11 +520,15 @@ function newCssText() {
             }
         }, 1000);
     }
+    currentText = newCssTextContent;
     convertToImage(newCssTextContent, isGolden);
 }
 
 // Function to stop the golden line
 function stopGoldenLineInterval() {
+    const cssText = document.getElementById("cssText");
+    const timerHtml = document.getElementById("timer");
+
     clearInterval(goldenLineInterval);
     cssText.style.backgroundColor = "";
     timerHtml.style.display = "none";
@@ -494,6 +537,7 @@ function stopGoldenLineInterval() {
 
 // Function to convert the CSS text to an image
 function convertToImage(newCssTextContent, isGolden) {
+    const cssText = document.getElementById("cssText");
     cssText.innerHTML = "";
     if (isGolden == true) {
         backgroundColor = "gold";
@@ -534,6 +578,7 @@ function textToImage(text, font, textColor, backgroundColor) {
 
 // Event listener for Enter key press in the CSS input box
 document.addEventListener("keypress", function (event) {
+    const cssBox = document.getElementById("cssBox");
     let isFocused = document.activeElement === cssBox;
     if (event.key == "Enter" && isFocused) {
         submitCss();
@@ -596,4 +641,4 @@ fetchUpgrades().then(() => {
     setupCssUpgrades();
     onOpen();
     newCssText();
-})
+});
