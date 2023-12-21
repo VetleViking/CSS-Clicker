@@ -170,7 +170,8 @@ function buyCssUpg(upg) {
 
         let isAllCSSBought = localStorage.getItem("allCssUpgradesBought") == null;
 
-        if (isAllCSSBought || !localStorage.getItem("allCssUpgradesBought").includes(upg.name)) {
+        if ((isAllCSSBought || !localStorage.getItem("allCssUpgradesBought").includes(upg.name))) {
+            console.log((localStorage.getItem("allCssUpgradesBought") == null ? "" : localStorage.getItem("allCssUpgradesBought")));
             localStorage.setItem("allCssUpgradesBought", allCssUpgradesBought);
         }
         if (upg.isIncremental == true) {
