@@ -26,8 +26,8 @@ var font = "16px Times New Roman";
 var textColor = "#000000";
 
 async function fetchUpgrades() {
-    const response = await fetch("../upgrades.json")
-    //const response = await fetch("../upgrades2.json");
+    //const response = await fetch("../upgrades.json")
+    const response = await fetch("../upgrades2.json");
     upgrades = await response.json();
 }
 
@@ -310,8 +310,8 @@ function addUpgBought2(upg, type) {
     } else if (upg.type == "autoMultiplier") {
         html.querySelector(".tooltip").innerHTML += `Ganger outputet fra de oppgraderingene du får css automatisk fra med ${upg.amount}.`;
     }
-    if (upgrades.cssUpgrades[upg.name] != null) {
-        html.querySelector(".tooltip").innerHTML += `Gir ${upgrades.cssUpgrades[upg.name].amount} ekstra linje(r) hver gang du skriver.`;
+    if (upgrades.cssUpgrades[upg.name] != null || upgrades.upgLevelCssUpgrades[upg.name.replace(/\d+/g, "")] != null) {
+        html.querySelector(".tooltip").innerHTML += `Gir ${upg.amount} ekstra linje(r) hver gang du skriver.`;
     }
 
     if (upg.isIncremental == true) {
@@ -348,7 +348,7 @@ function addUpgBought2(upg, type) {
 }
 
 function selgeSide2() {
-    if (cssLines >= 50) {
+    if (cssLines >= 0) {
         const dollaridoosHtml = document.getElementById("dollaridoos");
         const rightOrNot = document.getElementById("rightOrNot");
         const selgeSideBtn = document.getElementById("btnSelgeSide");
@@ -405,12 +405,12 @@ function selgeSide2() {
         setupLevelCssUpgrades();
         linesPerLineWritten();
 
-        selgeSideBtn.style.display = "none";
+        //selgeSideBtn.style.display = "none";
     }
 }
 
 function reincarnation2() {
-    if (cssLinesTotalTotal >= 10000) {
+    if (cssLinesTotalTotal >= 0) {
         const cssShopText = document.getElementById("shopCssText");
         const dollarShopText = document.getElementById("shopDollarText");
         const dollaridoosUnlockedHtml = document.getElementsByClassName("dollaridoos");

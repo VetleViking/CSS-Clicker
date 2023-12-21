@@ -41,9 +41,9 @@
 .shopDollarText,
 .shopLevelDollarText,
 .dollaridoosBox,
-.timer,
-.selgSide,
-.reinkarnasjon {
+.timer
+/*, .selgSide,
+.reinkarnasjon */ {
     display: none;
 }
 
