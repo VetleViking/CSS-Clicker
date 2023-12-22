@@ -35,14 +35,14 @@ upgObjects["testUpg0"] = {
     name: "testUpg0",
     previousUpg: "firstUpg",
     price: 0,
-    function: test1,
+    function: permUpg,
 };
 
 upgObjects["firstUpg"] = {
     name: "firstUpg",
     previousUpg: "none",
     price: 0,
-    function: test,
+    function: firstUpg,
 };
 
 //Unit tests
@@ -212,6 +212,8 @@ function reincarnateOpen() {
 function kjøpeReincarnationUpg(upg) {
     let upgObject = upgObjects[upg];
 
+    console.log(upg.name);
+
     if (localStorage.getItem(upg.name) == "bought") {
         return;
     }
@@ -226,17 +228,13 @@ function kjøpeReincarnationUpg(upg) {
         return;
     }
 
-    let buying = upgObject.function(upgObject);
-
-    if (buying == false) {
-        return;
-    } else if (buying == true) {
-        kjøpeReincarnationUpg2(upg);
-    }
+    upgObject.function(upgObject);
 }
 
-function kjøpeReincarnationUpg2() {
+function kjøpeReincarnationUpg2(upg) {
     let upgObject = upgObjects[upg];
+    console.log(upg)
+    console.log(upgObject)
 
     localStorage.setItem("reincarnationPoints", localStorage.getItem("reincarnationPoints") - upgObject.price);
     localStorage.setItem(upgObject.name, "bought");
@@ -254,9 +252,20 @@ function kjøpeReincarnationUpg2() {
 
 function test(upg) {
     console.log(upg.name + " kjøpt.");
+    kjøpeReincarnationUpg2(upg.name);
 }
 
-function test1(upg) {
+function firstUpg(upg) {
+    console.log(upg.name + " kjøpt.");
+
+    if (localStorage.getItem("totalReincarnationMultiplier") == undefined) {
+        localStorage.setItem("totalReincarnationMultiplier", 1);
+    }
+    localStorage.setItem("totalReincarnationMultiplier", parseFloat(localStorage.getItem("totalReincarnationMultiplier")) + 0.5);
+    kjøpeReincarnationUpg2(upg.name);
+}
+
+function permUpg(upg) {
     console.log(upg.name + " kjøpt.");
 
     let cssUpgradesBought = localStorage.getItem("allCssUpgradesBought");
@@ -321,13 +330,13 @@ function test1(upg) {
     btnOk.addEventListener("click", () => {
         if (chosenUpg != "") {
             localStorage.setItem("chosenUpg", chosenUpg);
+            kjøpeReincarnationUpg2(upg.name);
         } else if (localStorage.getItem("chosenUpg") == null) {
             console.log("Du må velge en oppgradering.");
             return;
         }
 
         close(confirmEl);
-        return true;
     });
 
     [btnCancel, btnClose].forEach((el) => {

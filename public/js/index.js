@@ -154,74 +154,80 @@ function eventListener(upg) {
 }
 
 function buyCssUpg(upg) {
-    if (cssLines >= upg.price) {
-        const cssUpgradesBoughtBox = document.getElementById("cssUpgradesBoughtBox");
+    if (cssLines < upg.price || allCssUpgradesBought.includes(upg.name)) {
+        return;
+    }    
+    const cssUpgradesBoughtBox = document.getElementById("cssUpgradesBoughtBox");
 
-        cssLines -= upg.price;
-        checkCssLines();
+    cssLines -= upg.price;
+    checkCssLines();
 
-        let upgHtml = document.getElementsByTagName("body")[0];
+    let upgHtml = document.getElementsByTagName("body")[0];
 
-        upgHtml.classList.add(upg.name);
+    upgHtml.classList.add(upg.name);
 
-        totalPlus += upg.amount;
+    totalPlus += upg.amount;
 
-        allCssUpgradesBought.push(upg.name);
+    allCssUpgradesBought.push(upg.name);
 
-        let isAllCSSBought = localStorage.getItem("allCssUpgradesBought") == null;
+    let isAllCSSBought = localStorage.getItem("allCssUpgradesBought") == null;
 
-        if ((isAllCSSBought || !localStorage.getItem("allCssUpgradesBought").includes(upg.name))) {
-            console.log((localStorage.getItem("allCssUpgradesBought") == null ? "" : localStorage.getItem("allCssUpgradesBought")));
-            localStorage.setItem("allCssUpgradesBought", allCssUpgradesBought);
-        }
-        if (upg.isIncremental == true) {
-            boughtCssIncrementals.push(upg.name);
-        }
-
-        document.getElementById(`${upg.name}Shop`).parentElement.remove();
-
-        addUpgBought2(upg, cssUpgradesBoughtBox);
-        addNextShopItem2(upgrades.cssUpgrades, shopCssDiv);
-        linesPerLineWritten();
+    if ((isAllCSSBought || !localStorage.getItem("allCssUpgradesBought").includes(upg.name))) {
+        localStorage.setItem("allCssUpgradesBought", allCssUpgradesBought);
+    } if (upg.isIncremental == true) {
+        boughtCssIncrementals.push(upg.name);
     }
+
+    let shopItem = document.getElementById(`${upg.name}Shop`);
+    if (shopItem != null) {
+        shopItem.parentElement.remove();
+    }
+
+    addUpgBought2(upg, cssUpgradesBoughtBox);
+    addNextShopItem2(upgrades.cssUpgrades, shopCssDiv);
+    linesPerLineWritten();   
 }
 
 function buyDollarUpg(upg) {
-    if (dollaridoos >= upg.price) {
-        const dollarUpgradesBoughtBox = document.getElementById("dollarUpgradesBoughtBox");
-        const dollaridoosHtml = document.getElementById("dollaridoos");
-
-        dollaridoos -= upg.price;
-        dollaridoosHtml.innerHTML = dollaridoos + "$";
-
-        allDollaridoosUpgradesBought.push(upg.name);
-
-        if (upg.type == "auto") {
-            autoInterval = setInterval(function () {
-                let reincarnationPts = localStorage.getItem("reincarnationPoints") == null ? 0 : parseInt(localStorage.getItem("reincarnationPoints"));
-                let n = Math.floor(1 * totalAutoMultiplier * (1 + reincarnationPts / 10));
-                cssLines += n;
-                cssLinesTotal += n;
-                cssLinesTotalTotal += n;
-                checkCssLines();
-            }, upg.amount * 1000);
-        }
-        if (upg.type == "multiplier") {
-            totalMultiplier += upg.amount;
-        }
-        if (upg.type == "autoMultiplier") {
-            totalAutoMultiplier *= upg.amount;
-        }
-        if (upg.isIncremental == true) {
-            boughtDollarIncrementals.push(upg.name);
-        }
-
-        document.getElementById(`${upg.name}Shop`).parentElement.remove();
-
-        addUpgBought2(upg, dollarUpgradesBoughtBox);
-        addNextShopItem2(upgrades.dollarUpgrades, shopDollarDiv);
-        linesPerLineWritten();
+    if (dollaridoos < upg.price || allDollaridoosUpgradesBought.includes(upg.name)) {
+        return;
     }
+
+    const dollarUpgradesBoughtBox = document.getElementById("dollarUpgradesBoughtBox");
+    const dollaridoosHtml = document.getElementById("dollaridoos");
+
+    dollaridoos -= upg.price;
+    dollaridoosHtml.innerHTML = dollaridoos + "$";
+
+    allDollaridoosUpgradesBought.push(upg.name);
+
+    if (upg.type == "auto") {
+        autoInterval = setInterval(function () {
+            let reincarnationPts = localStorage.getItem("reincarnationPointsTotal") == null ? 0 : parseInt(localStorage.getItem("reincarnationPointsTotal"));
+            let reincarnationMultiplier = localStorage.getItem("totalReincarnationMultiplier") == null ? 0 : parseFloat(localStorage.getItem("totalReincarnationMultiplier"));
+            let n = Math.floor(1 * totalAutoMultiplier * (1 + reincarnationPts / 10) * (reincarnationMultiplier));
+            cssLines += n;
+            cssLinesTotal += n;
+            cssLinesTotalTotal += n;
+            checkCssLines();
+        }, upg.amount * 1000);
+    }
+    if (upg.type == "multiplier") {
+        totalMultiplier += upg.amount;
+    }
+    if (upg.type == "autoMultiplier") {
+        totalAutoMultiplier *= upg.amount;
+    }
+    if (upg.isIncremental == true) {
+        boughtDollarIncrementals.push(upg.name);
+    }
+
+    document.getElementById(`${upg.name}Shop`).parentElement.remove();
+
+    addUpgBought2(upg, dollarUpgradesBoughtBox);
+    addNextShopItem2(upgrades.dollarUpgrades, shopDollarDiv);
+    linesPerLineWritten();
+    
 }
 
 function checkCssLines() {
@@ -430,8 +436,10 @@ function reincarnation2() {
 
         if (localStorage.getItem("reincarnationPoints") == null) {
             localStorage.setItem("reincarnationPoints", 0);
+            localStorage.setItem("reincarnationPointsTotal", 0);
         }
         localStorage.setItem("reincarnationPoints", parseInt(localStorage.getItem("reincarnationPoints")) + Math.floor(cssLinesTotalTotal / 10000));
+        localStorage.setItem("reincarnationPointsTotal", parseInt(localStorage.getItem("reincarnationPointsTotal")) + Math.floor(cssLinesTotalTotal / 10000));
         window.location.replace("reinkarnasjon.html");
     }
 }
@@ -444,7 +452,10 @@ function onOpen() {
 
 function linesPerLineWritten() {
     let linesPerLineWritten = document.getElementById("numberLines");
-    linesPerLineWritten.innerHTML = "Antall linjer per linje skrevet: " + (1 + totalPlus) * totalMultiplier;
+    let reincarnationPts = localStorage.getItem("reincarnationPointsTotal") == null ? 0 : parseInt(localStorage.getItem("reincarnationPointsTotal"));
+    let reincarnationMultiplier = localStorage.getItem("totalReincarnationMultiplier") == null ? 1 : parseFloat(localStorage.getItem("totalReincarnationMultiplier"));
+    let n = Math.floor((1 + totalPlus) * totalMultiplier * (1 + reincarnationPts / 10) * (reincarnationMultiplier));
+    linesPerLineWritten.innerHTML = "Antall linjer per linje skrevet: " + n;
 }
 
 // Function that checks if submitted CSS is right
@@ -454,15 +465,17 @@ function submitCss() {
         const rightOrNot = document.getElementById("rightOrNot");
         if (isGolden == true) {
             // If the line is golden, add 10 times lines instead of normal amount
-            let reincarnationPts = localStorage.getItem("reincarnationPoints") == null ? 0 : parseInt(localStorage.getItem("reincarnationPoints"));
-            let n = Math.floor((1 + totalPlus) * totalMultiplier * 10 * (1 + reincarnationPts / 10));
+            let reincarnationPts = localStorage.getItem("reincarnationPointsTotal") == null ? 0 : parseInt(localStorage.getItem("reincarnationPointsTotal"));
+            let reincarnationMultiplier = localStorage.getItem("totalReincarnationMultiplier") == null ? 0 : parseFloat(localStorage.getItem("totalReincarnationMultiplier"));
+            let n = Math.floor((1 + totalPlus) * totalMultiplier * 10 * (1 + reincarnationPts / 10) * (reincarnationMultiplier));
             cssLines += n;
             cssLinesTotal += n;
             cssLinesTotalTotal += n;
         } else {
             // else add normal amount of lines
-            let reincarnationPts = localStorage.getItem("reincarnationPoints") == null ? 0 : parseInt(localStorage.getItem("reincarnationPoints"));
-            let n = Math.floor((1 + totalPlus) * totalMultiplier * (1 + reincarnationPts / 10));
+            let reincarnationPts = localStorage.getItem("reincarnationPointsTotal") == null ? 0 : parseInt(localStorage.getItem("reincarnationPointsTotal"));
+            let reincarnationMultiplier = localStorage.getItem("totalReincarnationMultiplier") == null ? 0 : parseFloat(localStorage.getItem("totalReincarnationMultiplier"));
+            let n = Math.floor((1 + totalPlus) * totalMultiplier * (1 + reincarnationPts / 10) * (reincarnationMultiplier));
             cssLines += n;
             cssLinesTotal += n;
             cssLinesTotalTotal += n;
