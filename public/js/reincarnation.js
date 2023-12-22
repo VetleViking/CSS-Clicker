@@ -20,7 +20,6 @@ async function fetchUpgrades() {
     upgrades = await response.json();
 }
 
-
 //Example upgrade tree item
 setupUpgTree({
     title: "testUpg0",
@@ -46,7 +45,6 @@ upgObjects["firstUpg"] = {
     function: test,
 };
 
-
 //Unit tests
 
 //unitTestBranches();
@@ -62,7 +60,7 @@ function unitTestBranches() {
             infoBoxContent: `Dette er en test ${i}.`,
             previousUpg: previousUpg,
         });
-        
+
         upgObjects["testUpg" + i] = {
             name: "testUpg" + i,
             previousUpg: previousUpg,
@@ -213,7 +211,7 @@ function reincarnateOpen() {
 
 function kjøpeReincarnationUpg(upg) {
     let upgObject = upgObjects[upg];
-    
+
     if (localStorage.getItem(upg.name) == "bought") {
         return;
     }
@@ -227,12 +225,18 @@ function kjøpeReincarnationUpg(upg) {
         console.log("Nani? " + upgObject.previousUpg + " ew ikke kjøpt :/ Nyaa~");
         return;
     }
-    
+
     let buying = upgObject.function(upgObject);
 
     if (buying == false) {
         return;
+    } else if (buying == true) {
+        kjøpeReincarnationUpg2(upg);
     }
+}
+
+function kjøpeReincarnationUpg2() {
+    let upgObject = upgObjects[upg];
 
     localStorage.setItem("reincarnationPoints", localStorage.getItem("reincarnationPoints") - upgObject.price);
     localStorage.setItem(upgObject.name, "bought");
@@ -244,8 +248,6 @@ function kjøpeReincarnationUpg(upg) {
     for (let i = 0; i < connectedLines.length; i++) {
         connectedLines[i].style.opacity = 0.3;
     }
-
-    
 
     reincarnationPointsDiv.innerHTML = localStorage.getItem("reincarnationPoints") + " Reinkarnasjons-poeng.";
 }
@@ -260,19 +262,18 @@ function test1(upg) {
     let cssUpgradesBought = localStorage.getItem("allCssUpgradesBought");
     cssUpgradesBought = cssUpgradesBought.split(",");
     let cssUpgradesBoughtOld = cssUpgradesBought;
-    
+
     for (let i = 0; i < cssUpgradesBoughtOld.length; i++) {
-        
         if (upgrades.upgLevelCssUpgrades[cssUpgradesBoughtOld[i].replace(/\d+/g, "")] != undefined) {
-            cssUpgradesBought = cssUpgradesBought.filter(item => item !== cssUpgradesBoughtOld[i]);           
+            cssUpgradesBought = cssUpgradesBought.filter((item) => item !== cssUpgradesBoughtOld[i]);
         }
     }
 
     let cssUpgradesBoughtHtml = [];
 
-
     cssUpgradesBought.forEach((element) => {
-        cssUpgradesBoughtHtml.push(`<div id="upgBought${element}">${element}</div>`)
+        let currentUpg = upgrades.cssUpgrades[element];
+        cssUpgradesBoughtHtml.push(`<div id="upgBought${currentUpg.name}">${currentUpg.title}</div>`);
     });
 
     let title = "Velg en oppgradering å ha permanent.";
@@ -318,14 +319,13 @@ function test1(upg) {
     });
 
     btnOk.addEventListener("click", () => {
-        if (chosenUpg != "") {   
+        if (chosenUpg != "") {
             localStorage.setItem("chosenUpg", chosenUpg);
-            
-        } else if(localStorage.getItem("chosenUpg") == null) {
+        } else if (localStorage.getItem("chosenUpg") == null) {
             console.log("Du må velge en oppgradering.");
             return;
         }
-        
+
         close(confirmEl);
         return true;
     });
@@ -342,11 +342,11 @@ function test1(upg) {
             close(confirmEl);
         });
     });
-    
+
     document.addEventListener("click", (e) => {
         if (e.target.id.includes("upgBought")) {
             cssUpgradesBought.forEach((element) => {
-                if (e.target.id.includes("upgBought" + element)) {             
+                if (e.target.id.includes("upgBought" + element)) {
                     document.getElementById("upgBought" + element).style.backgroundColor = "gray";
                     chosenUpg = element;
                 } else {
@@ -361,7 +361,5 @@ function test1(upg) {
         document.body.removeChild(confirmEl);
     }
 }
-
-
 
 fetchUpgrades();
