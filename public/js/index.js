@@ -80,6 +80,7 @@ function onOpen() {
     });
 
     if (localStorage.getItem("cssLines") != null) {
+        console.log(localStorage.getItem("cssLines"));
         cssLines = parseInt(localStorage.getItem("cssLines"));
         cssLinesTotal = parseInt(localStorage.getItem("cssLinesTotal"));
         cssLinesTotalTotal = parseInt(localStorage.getItem("cssLinesTotalTotal"));
@@ -252,7 +253,9 @@ function buyCssUpg(upg, alreadyBought = false) {
     addUpgBought2(upg, cssUpgradesBoughtBox);
     addNextShopItem2(upgrades.cssUpgrades, shopCssDiv);
     linesPerLineWritten();   
-    saveGame();
+    if (!alreadyBought) {
+        saveGame();
+    }
 }
 
 function buyDollarUpg(upg, alreadyBought = false) {
@@ -300,7 +303,9 @@ function buyDollarUpg(upg, alreadyBought = false) {
     addUpgBought2(upg, dollarUpgradesBoughtBox);
     addNextShopItem2(upgrades.dollarUpgrades, shopDollarDiv);
     linesPerLineWritten();
-    saveGame();
+    if (!alreadyBought) {
+        saveGame();
+    }
 }
 
 function checkCssLines() {
