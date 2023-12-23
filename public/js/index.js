@@ -26,8 +26,8 @@ var font = "16px Times New Roman";
 var textColor = "#000000";
 
 async function fetchUpgrades() {
-    //const response = await fetch("../upgrades.json")
-    const response = await fetch("../upgrades2.json");
+    const response = await fetch("../upgrades.json")
+    //const response = await fetch("../upgrades2.json");
     upgrades = await response.json();
 }
 
@@ -86,8 +86,6 @@ function onOpen() {
 
         checkCssLines();
     }
-
-    
 
     if (localStorage.getItem("chosenUpg") != null && !allCssUpgradesBought.includes(localStorage.getItem("chosenUpg"))) {
         buyCssUpg(upgrades.cssUpgrades[localStorage.getItem("chosenUpg")]);
@@ -430,7 +428,7 @@ function addUpgBought2(upg, type) {
 }
 
 function selgeSide2(onOpen = false) {
-    if (cssLines >= 0 || onOpen == true) {
+    if (cssLines >= 50 || onOpen == true) {
         const dollaridoosHtml = document.getElementById("dollaridoos");
         const rightOrNot = document.getElementById("rightOrNot");
         const selgeSideBtn = document.getElementById("btnSelgeSide");
@@ -491,12 +489,12 @@ function selgeSide2(onOpen = false) {
             saveGame();
         }
 
-        //selgeSideBtn.style.display = "none";
+        selgeSideBtn.style.display = "none";
     }
 }
 
 function reincarnation2() {
-    if (cssLinesTotalTotal >= 0) {
+    if (cssLinesTotalTotal >= 10000) {
         const cssShopText = document.getElementById("shopCssText");
         const dollarShopText = document.getElementById("shopDollarText");
         const dollaridoosUnlockedHtml = document.getElementsByClassName("dollaridoos");
@@ -591,7 +589,7 @@ function newCssText() {
         newCssTextContent = newCssTextContent + ": " + Math.floor(Math.random() * 10) / 10 + ";";
     }
 
-    let goldenLine = Math.floor(Math.random() * 2);
+    let goldenLine = Math.floor(Math.random() * 25);
     if (goldenLine == 1) {
         const cssText = document.getElementById("cssText");
         const timerHtml = document.getElementById("timer");
