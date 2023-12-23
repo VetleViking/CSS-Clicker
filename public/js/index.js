@@ -252,7 +252,9 @@ function buyCssUpg(upg, alreadyBought = false) {
     addUpgBought2(upg, cssUpgradesBoughtBox);
     addNextShopItem2(upgrades.cssUpgrades, shopCssDiv);
     linesPerLineWritten();   
-    saveGame();
+    if (!alreadyBought) {
+        saveGame();
+    }
 }
 
 function buyDollarUpg(upg, alreadyBought = false) {
@@ -300,7 +302,9 @@ function buyDollarUpg(upg, alreadyBought = false) {
     addUpgBought2(upg, dollarUpgradesBoughtBox);
     addNextShopItem2(upgrades.dollarUpgrades, shopDollarDiv);
     linesPerLineWritten();
-    saveGame();
+    if (!alreadyBought) {
+        saveGame();
+    }
 }
 
 function checkCssLines() {
