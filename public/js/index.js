@@ -80,7 +80,6 @@ function onOpen() {
     });
 
     if (localStorage.getItem("cssLines") != null) {
-        console.log(localStorage.getItem("cssLines"));
         cssLines = parseInt(localStorage.getItem("cssLines"));
         cssLinesTotal = parseInt(localStorage.getItem("cssLinesTotal"));
         cssLinesTotalTotal = parseInt(localStorage.getItem("cssLinesTotalTotal"));
