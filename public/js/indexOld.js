@@ -8,6 +8,48 @@ function start(items) {
 }
 
 
+// Function to convert the CSS text to an image
+function convertToImage(newCssTextContent, isGolden) {
+    const cssText = document.getElementById("cssText");
+    cssText.innerHTML = "";
+    if (isGolden == true) {
+        backgroundColor = "gold";
+    } else {
+        backgroundColor = "rgba(0, 0, 0, 0)";
+    }
+    imageBase64 = textToImage(newCssTextContent, font, textColor, backgroundColor);
+    img.src = imageBase64;
+    cssText.appendChild(img);
+}
+
+// Function to convert text to image
+function textToImage(text, font, textColor, backgroundColor) {
+    var canvas = document.createElement("canvas");
+    var context = canvas.getContext("2d");
+
+    var canvas = document.createElement("canvas");
+    var context = canvas.getContext("2d");
+    context.font = font;
+
+    canvas.width = 207;
+    canvas.height = 24;
+
+    var pixelRatio = window.devicePixelRatio * 2;
+    canvas.width *= 2;
+    canvas.height *= 2;
+    context.scale(pixelRatio, pixelRatio);
+
+    context.font = font;
+    context.fillStyle = backgroundColor;
+    context.fillRect(0, 0, canvas.width, canvas.height);
+    context.fillStyle = textColor;
+    context.fillText(text, 0, parseInt(font, 10));
+    img = document.createElement("img");
+
+    return canvas.toDataURL("image/png");
+}
+
+
 // har denne på lur i tilfelle
 buyAllCssUpgrades();
 

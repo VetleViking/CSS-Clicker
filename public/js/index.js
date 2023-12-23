@@ -31,6 +31,68 @@ async function fetchUpgrades() {
     upgrades = await response.json();
 }
 
+// Function to save the game automatically
+function autoSave() {
+    setInterval(function () {
+        saveGame();
+    }, 5000);
+}
+
+// Function to save the game
+function saveGame() {
+    localStorage.setItem("cssLines", cssLines);
+    localStorage.setItem("cssLinesTotal", cssLinesTotal);
+    localStorage.setItem("cssLinesTotalTotal", cssLinesTotalTotal);
+    localStorage.setItem("dollaridoos", dollaridoos);
+    localStorage.setItem("allCssUpgradesBoughtCurrent", allCssUpgradesBought);
+    localStorage.setItem("allDollaridoosUpgradesBoughtCurrent", allDollaridoosUpgradesBought);
+    localStorage.setItem("dollarUnlocked", dollarUnlocked);
+}
+
+// Function on load of the game
+function onOpen() {
+    let allCssUpgradesBoughtCurrent = localStorage.getItem("allCssUpgradesBoughtCurrent") == null ? [] : localStorage.getItem("allCssUpgradesBoughtCurrent").split(",");
+    let allDollaridoosUpgradesBoughtCurrent = localStorage.getItem("allDollaridoosUpgradesBoughtCurrent") == null ? [] : localStorage.getItem("allDollaridoosUpgradesBoughtCurrent").split(",");
+    const dollaridoosHtml = document.getElementById("dollaridoos");
+     
+    if (localStorage.getItem("dollarUnlocked") == "true") {
+        selgeSide2(true);
+        dollaridoos = parseInt(localStorage.getItem("dollaridoos"));
+        dollaridoosHtml.innerHTML = dollaridoos + "$";
+    }
+
+    stopGoldenLineInterval();
+
+    allCssUpgradesBoughtCurrent.forEach((element) => {
+        if (upgrades.cssUpgrades[element] != undefined) {
+            buyCssUpg(upgrades.cssUpgrades[element], true);
+        } else if (upgrades.upgLevelCssUpgrades[element.replace(/\d+/g, "")] != undefined) {
+            buyCssUpg(upgrades.upgLevelCssUpgrades[element.replace(/\d+/g, "")], true);
+        }
+    });
+
+    allDollaridoosUpgradesBoughtCurrent.forEach((element) => {
+        if (upgrades.dollarUpgrades[element] != undefined) {
+            buyDollarUpg(upgrades.dollarUpgrades[element], true);
+        } else if (upgrades.upgLevelDollarUpgrades[element.replace(/\d+/g, "")] != undefined) {
+            buyDollarUpg(upgrades.upgLevelDollarUpgrades[element.replace(/\d+/g, "")], true);
+        }
+    });
+
+    if (localStorage.getItem("cssLines") != null) {
+        cssLines = parseInt(localStorage.getItem("cssLines"));
+        cssLinesTotal = parseInt(localStorage.getItem("cssLinesTotal"));
+        cssLinesTotalTotal = parseInt(localStorage.getItem("cssLinesTotalTotal"));
+
+        checkCssLines();
+    }
+
+    if (localStorage.getItem("chosenUpg") != null && !allCssUpgradesBought.includes(localStorage.getItem("chosenUpg"))) {
+        buyCssUpg(upgrades.cssUpgrades[localStorage.getItem("chosenUpg")]);
+    }
+}
+
+
 function setupLevelCssUpgrades() {
     const shopLevelCssDiv = document.getElementById("shopLevelCssDiv");
 
@@ -153,74 +215,92 @@ function eventListener(upg) {
     });
 }
 
-function buyCssUpg(upg) {
-    if (cssLines >= upg.price) {
-        const cssUpgradesBoughtBox = document.getElementById("cssUpgradesBoughtBox");
+function buyCssUpg(upg, alreadyBought = false) {
+    if ((cssLines < upg.price || allCssUpgradesBought.includes(upg.name)) && !alreadyBought) {
+        return;
+    }    
 
+    const cssUpgradesBoughtBox = document.getElementById("cssUpgradesBoughtBox");
+
+    if (!alreadyBought) {
         cssLines -= upg.price;
-        checkCssLines();
-
-        let upgHtml = document.getElementsByTagName("body")[0];
-
-        upgHtml.classList.add(upg.name);
-
-        totalPlus += upg.amount;
-
-        allCssUpgradesBought.push(upg.name);
-
-        let isAllCSSBought = localStorage.getItem("allCssUpgradesBought") == null;
-
-        if (isAllCSSBought || !localStorage.getItem("allCssUpgradesBought").includes(upg.name)) {
-            localStorage.setItem("allCssUpgradesBought", allCssUpgradesBought);
-        }
-        if (upg.isIncremental == true) {
-            boughtCssIncrementals.push(upg.name);
-        }
-
-        document.getElementById(`${upg.name}Shop`).parentElement.remove();
-
-        addUpgBought2(upg, cssUpgradesBoughtBox);
-        addNextShopItem2(upgrades.cssUpgrades, shopCssDiv);
-        linesPerLineWritten();
     }
+
+    checkCssLines();
+
+    let upgHtml = document.getElementsByTagName("body")[0];
+
+    upgHtml.classList.add(upg.name);
+
+    totalPlus += upg.amount;
+
+    allCssUpgradesBought.push(upg.name);
+
+    let isAllCSSBought = localStorage.getItem("allCssUpgradesBought") == null;
+
+    if ((isAllCSSBought || !localStorage.getItem("allCssUpgradesBought").includes(upg.name))) {
+        localStorage.setItem("allCssUpgradesBought", allCssUpgradesBought);
+    } if (upg.isIncremental == true) {
+        boughtCssIncrementals.push(upg.name);
+    }
+
+    let shopItem = document.getElementById(`${upg.name}Shop`);
+    if (shopItem != null) {
+        shopItem.parentElement.remove();
+    }
+
+    addUpgBought2(upg, cssUpgradesBoughtBox);
+    addNextShopItem2(upgrades.cssUpgrades, shopCssDiv);
+    linesPerLineWritten();   
+    saveGame();
 }
 
-function buyDollarUpg(upg) {
-    if (dollaridoos >= upg.price) {
-        const dollarUpgradesBoughtBox = document.getElementById("dollarUpgradesBoughtBox");
-        const dollaridoosHtml = document.getElementById("dollaridoos");
-
-        dollaridoos -= upg.price;
-        dollaridoosHtml.innerHTML = dollaridoos + "$";
-
-        allDollaridoosUpgradesBought.push(upg.name);
-
-        if (upg.type == "auto") {
-            autoInterval = setInterval(function () {
-                let reincarnationPts = localStorage.getItem("reincarnationPoints") == null ? 0 : parseInt(localStorage.getItem("reincarnationPoints"));
-                let n = Math.floor(1 * totalAutoMultiplier * (1 + reincarnationPts / 10));
-                cssLines += n;
-                cssLinesTotal += n;
-                cssLinesTotalTotal += n;
-                checkCssLines();
-            }, upg.amount * 1000);
-        }
-        if (upg.type == "multiplier") {
-            totalMultiplier += upg.amount;
-        }
-        if (upg.type == "autoMultiplier") {
-            totalAutoMultiplier *= upg.amount;
-        }
-        if (upg.isIncremental == true) {
-            boughtDollarIncrementals.push(upg.name);
-        }
-
-        document.getElementById(`${upg.name}Shop`).parentElement.remove();
-
-        addUpgBought2(upg, dollarUpgradesBoughtBox);
-        addNextShopItem2(upgrades.dollarUpgrades, shopDollarDiv);
-        linesPerLineWritten();
+function buyDollarUpg(upg, alreadyBought = false) {
+    if ((dollaridoos < upg.price || allDollaridoosUpgradesBought.includes(upg.name)) && !alreadyBought) {
+        return;
     }
+
+    const dollarUpgradesBoughtBox = document.getElementById("dollarUpgradesBoughtBox");
+    const dollaridoosHtml = document.getElementById("dollaridoos");
+
+    if (!alreadyBought) {
+        dollaridoos -= upg.price;
+    }
+
+    dollaridoosHtml.innerHTML = dollaridoos + "$";
+
+    allDollaridoosUpgradesBought.push(upg.name);
+
+    if (upg.type == "auto") {
+        autoInterval = setInterval(function () {
+            let reincarnationPts = localStorage.getItem("reincarnationPointsTotal") == null ? 0 : parseInt(localStorage.getItem("reincarnationPointsTotal"));
+            let reincarnationMultiplier = localStorage.getItem("totalReincarnationMultiplier") == null ? 0 : parseFloat(localStorage.getItem("totalReincarnationMultiplier"));
+            let n = Math.floor(1 * totalAutoMultiplier * (1 + reincarnationPts / 10) * (1 + reincarnationMultiplier));
+            cssLines += n;
+            cssLinesTotal += n;
+            cssLinesTotalTotal += n;
+            checkCssLines();
+        }, upg.amount * 1000);
+    }
+    if (upg.type == "multiplier") {
+        totalMultiplier += upg.amount;
+    }
+    if (upg.type == "autoMultiplier") {
+        totalAutoMultiplier *= upg.amount;
+    }
+    if (upg.isIncremental == true) {
+        boughtDollarIncrementals.push(upg.name);
+    }
+
+    let shopItem = document.getElementById(`${upg.name}Shop`);
+    if (shopItem != null) {
+        shopItem.parentElement.remove();
+    }
+
+    addUpgBought2(upg, dollarUpgradesBoughtBox);
+    addNextShopItem2(upgrades.dollarUpgrades, shopDollarDiv);
+    linesPerLineWritten();
+    saveGame();
 }
 
 function checkCssLines() {
@@ -310,8 +390,8 @@ function addUpgBought2(upg, type) {
     } else if (upg.type == "autoMultiplier") {
         html.querySelector(".tooltip").innerHTML += `Ganger outputet fra de oppgraderingene du får css automatisk fra med ${upg.amount}.`;
     }
-    if (upgrades.cssUpgrades[upg.name] != null) {
-        html.querySelector(".tooltip").innerHTML += `Gir ${upgrades.cssUpgrades[upg.name].amount} ekstra linje(r) hver gang du skriver.`;
+    if (upgrades.cssUpgrades[upg.name] != null || upgrades.upgLevelCssUpgrades[upg.name.replace(/\d+/g, "")] != null) {
+        html.querySelector(".tooltip").innerHTML += `Gir ${upg.amount} ekstra linje(r) hver gang du skriver.`;
     }
 
     if (upg.isIncremental == true) {
@@ -347,8 +427,8 @@ function addUpgBought2(upg, type) {
     }
 }
 
-function selgeSide2() {
-    if (cssLines >= 50) {
+function selgeSide2(onOpen = false) {
+    if (cssLines >= 50 || onOpen == true) {
         const dollaridoosHtml = document.getElementById("dollaridoos");
         const rightOrNot = document.getElementById("rightOrNot");
         const selgeSideBtn = document.getElementById("btnSelgeSide");
@@ -405,6 +485,10 @@ function selgeSide2() {
         setupLevelCssUpgrades();
         linesPerLineWritten();
 
+        if (onOpen == false) {
+            saveGame();
+        }
+
         selgeSideBtn.style.display = "none";
     }
 }
@@ -417,6 +501,7 @@ function reincarnation2() {
 
         selgeSide2();
         dollaridoos = 0;
+        cssLinesTotalTotal = 0;
         totalMultiplier = 1;
 
         allDollaridoosUpgradesBought = [];
@@ -429,39 +514,43 @@ function reincarnation2() {
 
         if (localStorage.getItem("reincarnationPoints") == null) {
             localStorage.setItem("reincarnationPoints", 0);
+            localStorage.setItem("reincarnationPointsTotal", 0);
         }
         localStorage.setItem("reincarnationPoints", parseInt(localStorage.getItem("reincarnationPoints")) + Math.floor(cssLinesTotalTotal / 10000));
-        window.location.replace("reinkarnasjon.html");
-    }
-}
+        localStorage.setItem("reincarnationPointsTotal", parseInt(localStorage.getItem("reincarnationPointsTotal")) + Math.floor(cssLinesTotalTotal / 10000));
 
-function onOpen() {
-    if (localStorage.getItem("chosenUpg") != null) {
-        buyCssUpg(upgrades.cssUpgrades[localStorage.getItem("chosenUpg")]);
+        saveGame();
+        localStorage.setItem("dollarUnlocked", false)
+
+        window.location.replace("reinkarnasjon.html");
     }
 }
 
 function linesPerLineWritten() {
     let linesPerLineWritten = document.getElementById("numberLines");
-    linesPerLineWritten.innerHTML = "Antall linjer per linje skrevet: " + (1 + totalPlus) * totalMultiplier;
+    let reincarnationPts = localStorage.getItem("reincarnationPointsTotal") == null ? 0 : parseInt(localStorage.getItem("reincarnationPointsTotal"));
+    let reincarnationMultiplier = localStorage.getItem("totalReincarnationMultiplier") == null ? 0 : parseFloat(localStorage.getItem("totalReincarnationMultiplier"));
+    let n = Math.floor((1 + totalPlus) * totalMultiplier * (1 + reincarnationPts / 10) * (1 + reincarnationMultiplier));
+    linesPerLineWritten.innerHTML = "Antall linjer per linje skrevet: " + n;
 }
 
 // Function that checks if submitted CSS is right
 function submitCss() {
     if (cssBox.value == currentText) {
-        const cssBox = document.getElementById("cssBox");
         const rightOrNot = document.getElementById("rightOrNot");
         if (isGolden == true) {
             // If the line is golden, add 10 times lines instead of normal amount
-            let reincarnationPts = localStorage.getItem("reincarnationPoints") == null ? 0 : parseInt(localStorage.getItem("reincarnationPoints"));
-            let n = Math.floor((1 + totalPlus) * totalMultiplier * 10 * (1 + reincarnationPts / 10));
+            let reincarnationPts = localStorage.getItem("reincarnationPointsTotal") == null ? 0 : parseInt(localStorage.getItem("reincarnationPointsTotal"));
+            let reincarnationMultiplier = localStorage.getItem("totalReincarnationMultiplier") == null ? 0 : parseFloat(localStorage.getItem("totalReincarnationMultiplier"));
+            let n = Math.floor((1 + totalPlus) * totalMultiplier * 10 * (1 + reincarnationPts / 10) * (1 + reincarnationMultiplier));
             cssLines += n;
             cssLinesTotal += n;
             cssLinesTotalTotal += n;
         } else {
             // else add normal amount of lines
-            let reincarnationPts = localStorage.getItem("reincarnationPoints") == null ? 0 : parseInt(localStorage.getItem("reincarnationPoints"));
-            let n = Math.floor((1 + totalPlus) * totalMultiplier * (1 + reincarnationPts / 10));
+            let reincarnationPts = localStorage.getItem("reincarnationPointsTotal") == null ? 0 : parseInt(localStorage.getItem("reincarnationPointsTotal"));
+            let reincarnationMultiplier = localStorage.getItem("totalReincarnationMultiplier") == null ? 0 : parseFloat(localStorage.getItem("totalReincarnationMultiplier"));
+            let n = Math.floor((1 + totalPlus) * totalMultiplier * (1 + reincarnationPts / 10) * (1 + reincarnationMultiplier));
             cssLines += n;
             cssLinesTotal += n;
             cssLinesTotalTotal += n;
@@ -516,12 +605,11 @@ function newCssText() {
             timerHtml.innerHTML = timer;
             if (timer == 0) {
                 stopGoldenLineInterval();
-                convertToImage(newCssTextContent, isGolden);
             }
         }, 1000);
     }
     currentText = newCssTextContent;
-    convertToImage(newCssTextContent, isGolden);
+    document.getElementById("cssText").innerHTML = newCssTextContent;
 }
 
 // Function to stop the golden line
@@ -533,47 +621,6 @@ function stopGoldenLineInterval() {
     cssText.style.backgroundColor = "";
     timerHtml.style.display = "none";
     isGolden = false;
-}
-
-// Function to convert the CSS text to an image
-function convertToImage(newCssTextContent, isGolden) {
-    const cssText = document.getElementById("cssText");
-    cssText.innerHTML = "";
-    if (isGolden == true) {
-        backgroundColor = "gold";
-    } else {
-        backgroundColor = "rgba(0, 0, 0, 0)";
-    }
-    imageBase64 = textToImage(newCssTextContent, font, textColor, backgroundColor);
-    img.src = imageBase64;
-    cssText.appendChild(img);
-}
-
-// Function to convert text to image
-function textToImage(text, font, textColor, backgroundColor) {
-    var canvas = document.createElement("canvas");
-    var context = canvas.getContext("2d");
-
-    var canvas = document.createElement("canvas");
-    var context = canvas.getContext("2d");
-    context.font = font;
-
-    canvas.width = 207;
-    canvas.height = 24;
-
-    var pixelRatio = window.devicePixelRatio * 2;
-    canvas.width *= 2;
-    canvas.height *= 2;
-    context.scale(pixelRatio, pixelRatio);
-
-    context.font = font;
-    context.fillStyle = backgroundColor;
-    context.fillRect(0, 0, canvas.width, canvas.height);
-    context.fillStyle = textColor;
-    context.fillText(text, 0, parseInt(font, 10));
-    img = document.createElement("img");
-
-    return canvas.toDataURL("image/png");
 }
 
 // Event listener for Enter key press in the CSS input box
@@ -639,6 +686,7 @@ const numberPropertyTypes = [keywordValueProperties, lengthValueProperties, nume
 fetchUpgrades().then(() => {
     setupLevelCssUpgrades();
     setupCssUpgrades();
-    onOpen();
     newCssText();
+    onOpen();
+    autoSave();
 });

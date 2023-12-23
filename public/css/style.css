@@ -6,7 +6,6 @@
 
 .cssText {
     cursor: default;
-    height: 20px;
 }
 
 .cssText img {
@@ -41,7 +40,7 @@
 .shopDollarText,
 .shopLevelDollarText,
 .dollaridoosBox,
-.timer,
+.timer, 
 .selgSide,
 .reinkarnasjon {
     display: none;
