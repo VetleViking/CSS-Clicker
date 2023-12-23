@@ -34,14 +34,14 @@ setupUpgTree({
 upgObjects["testUpg0"] = {
     name: "testUpg0",
     previousUpg: "firstUpg",
-    price: 0,
+    price: 5,
     function: permUpg,
 };
 
 upgObjects["firstUpg"] = {
     name: "firstUpg",
     previousUpg: "none",
-    price: 0,
+    price: 1,
     function: firstUpg,
 };
 
@@ -212,8 +212,6 @@ function reincarnateOpen() {
 function kjøpeReincarnationUpg(upg) {
     let upgObject = upgObjects[upg];
 
-    console.log(upg.name);
-
     if (localStorage.getItem(upg.name) == "bought") {
         return;
     }
@@ -233,10 +231,8 @@ function kjøpeReincarnationUpg(upg) {
 
 function kjøpeReincarnationUpg2(upg) {
     let upgObject = upgObjects[upg];
-    console.log(upg)
-    console.log(upgObject)
 
-    localStorage.setItem("reincarnationPoints", localStorage.getItem("reincarnationPoints") - upgObject.price);
+    localStorage.setItem("reincarnationPoints", parseInt(localStorage.getItem("reincarnationPoints")) - upgObject.price);
     localStorage.setItem(upgObject.name, "bought");
 
     let currentUpgHTML = document.getElementById(upgObject.name);
@@ -251,25 +247,25 @@ function kjøpeReincarnationUpg2(upg) {
 }
 
 function test(upg) {
-    console.log(upg.name + " kjøpt.");
     kjøpeReincarnationUpg2(upg.name);
 }
 
 function firstUpg(upg) {
-    console.log(upg.name + " kjøpt.");
+    if (localStorage.getItem(upg.name) == "bought") {
+        return;
+    }
 
     if (localStorage.getItem("totalReincarnationMultiplier") == undefined) {
-        localStorage.setItem("totalReincarnationMultiplier", 1);
+        localStorage.setItem("totalReincarnationMultiplier", 0);
     }
     localStorage.setItem("totalReincarnationMultiplier", parseFloat(localStorage.getItem("totalReincarnationMultiplier")) + 0.5);
     kjøpeReincarnationUpg2(upg.name);
 }
 
 function permUpg(upg) {
-    console.log(upg.name + " kjøpt.");
-
     let cssUpgradesBought = localStorage.getItem("allCssUpgradesBought");
     cssUpgradesBought = cssUpgradesBought.split(",");
+
     let cssUpgradesBoughtOld = cssUpgradesBought;
 
     for (let i = 0; i < cssUpgradesBoughtOld.length; i++) {
@@ -330,7 +326,9 @@ function permUpg(upg) {
     btnOk.addEventListener("click", () => {
         if (chosenUpg != "") {
             localStorage.setItem("chosenUpg", chosenUpg);
-            kjøpeReincarnationUpg2(upg.name);
+            if (localStorage.getItem(upg.name) != "bought") {
+                kjøpeReincarnationUpg2(upg.name);
+            }
         } else if (localStorage.getItem("chosenUpg") == null) {
             console.log("Du må velge en oppgradering.");
             return;
