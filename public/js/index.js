@@ -26,8 +26,8 @@ var font = "16px Times New Roman";
 var textColor = "#000000";
 
 async function fetchUpgrades() {
-    const response = await fetch("../upgrades.json")
-    //const response = await fetch("../upgrades2.json");
+    //const response = await fetch("../upgrades.json")
+    const response = await fetch("../upgrades2.json");
     upgrades = await response.json();
 }
 
@@ -56,7 +56,7 @@ function onOpen() {
     const dollaridoosHtml = document.getElementById("dollaridoos");
      
     if (localStorage.getItem("dollarUnlocked") == "true") {
-        selgeSide2(true);
+        selgeSide(true);
         dollaridoos = parseInt(localStorage.getItem("dollaridoos"));
         dollaridoosHtml.innerHTML = dollaridoos + "$";
     }
@@ -249,8 +249,8 @@ function buyCssUpg(upg, alreadyBought = false) {
         shopItem.parentElement.remove();
     }
 
-    addUpgBought2(upg, cssUpgradesBoughtBox);
-    addNextShopItem2(upgrades.cssUpgrades, shopCssDiv);
+    addUpgBought(upg, cssUpgradesBoughtBox);
+    addNextShopItem(upgrades.cssUpgrades, shopCssDiv);
     linesPerLineWritten();   
     if (!alreadyBought) {
         saveGame();
@@ -299,8 +299,8 @@ function buyDollarUpg(upg, alreadyBought = false) {
         shopItem.parentElement.remove();
     }
 
-    addUpgBought2(upg, dollarUpgradesBoughtBox);
-    addNextShopItem2(upgrades.dollarUpgrades, shopDollarDiv);
+    addUpgBought(upg, dollarUpgradesBoughtBox);
+    addNextShopItem(upgrades.dollarUpgrades, shopDollarDiv);
     linesPerLineWritten();
     if (!alreadyBought) {
         saveGame();
@@ -326,13 +326,13 @@ function checkCssLines() {
     }
 }
 
-function addNextShopItem2(upgObjects, shopDiv) {
+function addNextShopItem(upgObjects, shopDiv) {
     let shouldReturn = false;
 
     boughtDollarIncrementals.forEach((element) => {
         if (allDollaridoosUpgradesBought[allDollaridoosUpgradesBought.length - 1] == element && shopDiv == shopDollarDiv) {
             let upg = upgrades.upgLevelDollarUpgrades[element.replace(/\d+/g, "")];
-
+            
             upg.price *= upg.upgradeIncrement;
             upg.name = upg.name.replace(/\d+/g, "") + (parseInt(upg.name.match(/\d+/g)) + 1);
             upg.title = upg.title.replace(/\d+/g, "") + (parseInt(upg.title.match(/\d+/g)) + 1);
@@ -381,7 +381,7 @@ function addNextShopItem2(upgObjects, shopDiv) {
     }
 }
 
-function addUpgBought2(upg, type) {
+function addUpgBought(upg, type) {
     let html = document.createElement("div");
 
     html.innerHTML = `
@@ -431,7 +431,7 @@ function addUpgBought2(upg, type) {
     }
 }
 
-function selgeSide2(onOpen = false) {
+function selgeSide(onOpen = false) {
     if (cssLines >= 50 || onOpen == true) {
         const dollaridoosHtml = document.getElementById("dollaridoos");
         const rightOrNot = document.getElementById("rightOrNot");
@@ -497,13 +497,13 @@ function selgeSide2(onOpen = false) {
     }
 }
 
-function reincarnation2() {
+function reincarnation() {
     if (cssLinesTotalTotal >= 10000) {
         const cssShopText = document.getElementById("shopCssText");
         const dollarShopText = document.getElementById("shopDollarText");
         const dollaridoosUnlockedHtml = document.getElementsByClassName("dollaridoos");
 
-        selgeSide2();
+        selgeSide();
         dollaridoos = 0;
         cssLinesTotalTotal = 0;
         totalMultiplier = 1;

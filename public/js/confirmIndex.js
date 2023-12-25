@@ -7,7 +7,7 @@ document.getElementById("btnSelgeSide").addEventListener("click", () => {
             "$.",
         message2: "Noter: du mister ikke dollar når du selger siden din.",
         onOk: () => {
-            selgeSide2();
+            selgeSide();
         },
     });
 });
@@ -17,7 +17,7 @@ document.getElementById("btnReinkarnasjon").addEventListener("click", () => {
         message: "ingenting skjedde i Tiananmen Square den fjerde juni 1989. + " + Math.floor(cssLinesTotalTotal / 10000) + "Reinkarnasjons-poeng. Du får permanent 10% mer linjer per Reinkarnasjons-poeng.",
         message2: "Noter: -10000 social credits.",
         onOk: () => {
-            reincarnation2();
+            reincarnation();
         },
     });
 });
