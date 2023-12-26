@@ -22,6 +22,13 @@ function convertToImage(newCssTextContent, isGolden) {
     cssText.appendChild(img);
 }
 
+// probably going to remove this, dont want text to img forever.
+var img;
+var imageBase64;
+var backgroundColor;
+var font = "16px Times New Roman";
+var textColor = "#000000";
+
 // Function to convert text to image
 function textToImage(text, font, textColor, backgroundColor) {
     var canvas = document.createElement("canvas");

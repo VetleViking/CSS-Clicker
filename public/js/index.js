@@ -18,13 +18,6 @@ let upgrades;
 const shopDollarDiv = document.getElementById("shopDollarDiv");
 const shopCssDiv = document.getElementById("shopCssDiv");
 
-// probably going to remove this, dont want text to img forever.
-var img;
-var imageBase64;
-var backgroundColor;
-var font = "16px Times New Roman";
-var textColor = "#000000";
-
 async function fetchUpgrades() {
     //const response = await fetch("../upgrades.json")
     const response = await fetch("../upgrades2.json");
