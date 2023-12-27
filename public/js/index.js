@@ -398,6 +398,11 @@ function addUpgBought(upg, type) {
             let upgHtml = document.getElementsByTagName("body")[0];
             upgHtml.classList.remove(nameToRemove);
         }
+
+        if (upg.name.replace(/\d+/g, "") == "border-radius") {
+            let allBorderRadius = ["cssTyper", "shop", "upgradesBought", "selgeSide", "reinkarnasjon"];
+            //fortsett her
+        }
     }
 
     type.appendChild(html);

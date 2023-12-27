@@ -121,6 +121,15 @@
             "amount": 5,
             "isIncremental": true,
             "upgradeIncrement": 2
+        },
+        "border-radius": {
+            "name": "border-radius",
+            "title": "Border-radius",
+            "toolTip": "Adder border-radius til bokser og sånt.",
+            "price": 0,
+            "amount": 20,
+            "isIncremental": true,
+            "upgradeIncrement": 2
         }
     }, 
     "upgLevelDollarUpgrades": {
