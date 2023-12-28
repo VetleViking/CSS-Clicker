@@ -37,7 +37,7 @@
         background-color: #b9b9b9;
     }
 
-    .selgSide,
+    .selgeSide,
     .reinkarnasjon {
         background-color: #b9b9b9;
     }
@@ -52,7 +52,7 @@
     grid-template-areas:
         "header header header"
         "shop cssTyper upgradesBought"
-        ". selgSide .";
+        ". selgeSide .";
     column-gap: 40px;
     row-gap: 20px;
     justify-items: center;
@@ -223,15 +223,15 @@
         justify-content: center;
     }
 
-    .selgSide {
-        grid-area: selgSide;
+    .selgeSide {
+        grid-area: selgeSide;
     }
 }
 
 /* Padding-oppgradering */
 
 .padding {
-    .selgSide,
+    .selgeSide,
     .reinkarnasjon {
         padding: 10px;
     }
@@ -248,7 +248,7 @@
     .upgradesBoughtCssText,
     .dollarUpgradesBoughtBox,
     .upgradesBoughtDollarText,
-    .cssTextBox2, 
+    .cssTextBox2,
     .shopLevelCssDiv,
     .shopLevelCssText {
         padding: 5px;
@@ -266,7 +266,7 @@
     .shopText,
     .upgradesBoughtTextP {
         padding-bottom: 5px;
-    }  
+    }
 
     .dollarUnlocked {
         .shopDollarDiv,
@@ -323,7 +323,7 @@
     .cssTyper,
     .shop,
     .upgradesBought,
-    .selgSide {
+    .selgeSide {
         margin-top: 15px;
     }
 }
@@ -335,15 +335,13 @@
     .shopDollarDiv,
     .upgradesBought,
     .upgradesBoughtBox,
-    .selgSide,
+    .selgeSide,
     .reinkarnasjon {
         margin-top: 0;
     }
 
     .gridBox {
         margin: 0;
-
-
     }
 }
 
@@ -374,7 +372,7 @@
         border-bottom: 1px solid #000;
     }
 
-    .shopDollarText, 
+    .shopDollarText,
     .shopLevelCssText,
     .shopLevelDollarText {
         border-top: 1px solid #000;
@@ -395,7 +393,7 @@
         border-bottom: 1px solid #000;
     }
 
-    .selgSide,
+    .selgeSide,
     .reinkarnasjon {
         border: 1px solid #000;
     }
@@ -420,5 +418,3 @@
         min-width: 207px;
     }
 }
-
-/* Fiks paddinger på kjøpte oppgraderinger */

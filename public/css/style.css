@@ -18,14 +18,14 @@
 .upgradesBought,
 .shopItem,
 .upgradesBoughtItem,
-.selgSide,
+.selgeSide,
 .reinkarnasjon {
     width: fit-content;
 }
 
 .shopItem,
 .shopDollarItem,
-.selgSide,
+.selgeSide,
 .reinkarnasjon {
     cursor: pointer;
 }
@@ -40,8 +40,8 @@
 .shopDollarText,
 .shopLevelDollarText,
 .dollaridoosBox,
-.timer, 
-.selgSide,
+.timer,
+.selgeSide,
 .reinkarnasjon {
     display: none;
 }
@@ -58,15 +58,11 @@
     text-decoration: none;
 }
 
-html {
-    overflow: hidden;
-}
-
-.infoBox span{
+.infoBox span {
     display: none;
 }
 
-.infoBox:hover span{
+.infoBox:hover span {
     display: block;
     position: absolute;
     top: 1.5rem;
@@ -75,7 +71,6 @@ html {
     z-index: 1;
     background-color: #fff;
     border: 1px solid rgb(0, 0, 0);
-    
 }
 
 /* confirmation vindu */
