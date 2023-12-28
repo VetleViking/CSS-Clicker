@@ -401,7 +401,11 @@ function addUpgBought(upg, type) {
 
         if (upg.name.replace(/\d+/g, "") == "border-radius") {
             let allBorderRadius = ["cssTyper", "shop", "upgradesBought", "selgeSide", "reinkarnasjon"];
-            //fortsett her
+            allBorderRadius.forEach(element => {
+                let currentElement = document.getElementById(element);
+
+                currentElement.style.borderRadius = 
+            });
         }
     }
 
