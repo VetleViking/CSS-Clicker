@@ -118,16 +118,16 @@
             "title": "Border-radius 1",
             "toolTip": "Adder border-radius til bokser og sånt.",
             "price": 0,
-            "amount": 20,
+            "amount": 5,
             "isIncremental": true,
-            "upgradeIncrement": 2
+            "upgradeIncrement": 1.2
         }, 
         "testTikkel": {
             "name": "testTikkel1",
             "title": "Test Tikkel 1",
             "toolTip": "TestTikkel",
             "price": 0,
-            "amount": 5,
+            "amount": 10,
             "isIncremental": true,
             "upgradeIncrement": 2
         }

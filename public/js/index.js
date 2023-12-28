@@ -19,8 +19,8 @@ const shopDollarDiv = document.getElementById("shopDollarDiv");
 const shopCssDiv = document.getElementById("shopCssDiv");
 
 async function fetchUpgrades() {
-    //const response = await fetch("../upgrades.json")
-    const response = await fetch("../upgrades2.json");
+    const response = await fetch("../upgrades.json");
+    //const response = await fetch("../upgrades2.json");
     upgrades = await response.json();
 }
 
@@ -158,7 +158,7 @@ function addCssUpgrade(upg) {
     html.innerHTML = `
     <div class="shopItem infoBox" id="${upg.name}Shop">
         <p>
-            ${upg.title}: ${upg.price} linjer <span class="tooltip"
+            ${upg.title}: ${Math.ceil(upg.price)} linjer <span class="tooltip"
                 >${upg.toolTip}</br>Gir ${upg.amount} ekstra linje(r) hver gang du skriver.</span>
         </p>
     </div>`;
