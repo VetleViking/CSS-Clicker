@@ -112,6 +112,15 @@
             "amount": 1,
             "isIncremental": true,
             "upgradeIncrement": 2
+        },
+        "border-radius": {
+            "name": "border-radius1",
+            "title": "Border-radius 1",
+            "toolTip": "Adder border-radius til bokser og sånt.",
+            "price": 0,
+            "amount": 20,
+            "isIncremental": true,
+            "upgradeIncrement": 2
         }, 
         "testTikkel": {
             "name": "testTikkel1",
@@ -119,15 +128,6 @@
             "toolTip": "TestTikkel",
             "price": 0,
             "amount": 5,
-            "isIncremental": true,
-            "upgradeIncrement": 2
-        },
-        "border-radius": {
-            "name": "border-radius",
-            "title": "Border-radius",
-            "toolTip": "Adder border-radius til bokser og sånt.",
-            "price": 0,
-            "amount": 20,
             "isIncremental": true,
             "upgradeIncrement": 2
         }

@@ -47,7 +47,7 @@ function onOpen() {
     let allCssUpgradesBoughtCurrent = localStorage.getItem("allCssUpgradesBoughtCurrent") == null ? [] : localStorage.getItem("allCssUpgradesBoughtCurrent").split(",");
     let allDollaridoosUpgradesBoughtCurrent = localStorage.getItem("allDollaridoosUpgradesBoughtCurrent") == null ? [] : localStorage.getItem("allDollaridoosUpgradesBoughtCurrent").split(",");
     const dollaridoosHtml = document.getElementById("dollaridoos");
-     
+
     if (localStorage.getItem("dollarUnlocked") == "true") {
         selgeSide(true);
         dollaridoos = parseInt(localStorage.getItem("dollaridoos"));
@@ -83,8 +83,18 @@ function onOpen() {
     if (localStorage.getItem("chosenUpg") != null && !allCssUpgradesBought.includes(localStorage.getItem("chosenUpg"))) {
         buyCssUpg(upgrades.cssUpgrades[localStorage.getItem("chosenUpg")]);
     }
-}
 
+    if (localStorage.getItem("borderRadiusValue") != null && document.getElementById("borderRadiusSlider") != null) {
+        let borderRadius = document.getElementById("borderRadiusSlider");
+        borderRadius.value = localStorage.getItem("borderRadiusValue");
+
+        let allBorderRadius = ["cssTyper", "shop", "upgradesBought", "selgeSide", "reinkarnasjon"];
+        allBorderRadius.forEach((element) => {
+            let currentElement = document.getElementById(element);
+            currentElement.style.borderRadius = localStorage.getItem("borderRadiusValue") + "px";
+        });
+    }
+}
 
 function setupLevelCssUpgrades() {
     const shopLevelCssDiv = document.getElementById("shopLevelCssDiv");
@@ -211,7 +221,7 @@ function eventListener(upg) {
 function buyCssUpg(upg, alreadyBought = false) {
     if ((cssLines < upg.price || allCssUpgradesBought.includes(upg.name)) && !alreadyBought) {
         return;
-    }    
+    }
 
     const cssUpgradesBoughtBox = document.getElementById("cssUpgradesBoughtBox");
 
@@ -231,9 +241,10 @@ function buyCssUpg(upg, alreadyBought = false) {
 
     let isAllCSSBought = localStorage.getItem("allCssUpgradesBought") == null;
 
-    if ((isAllCSSBought || !localStorage.getItem("allCssUpgradesBought").includes(upg.name))) {
+    if (isAllCSSBought || !localStorage.getItem("allCssUpgradesBought").includes(upg.name)) {
         localStorage.setItem("allCssUpgradesBought", allCssUpgradesBought);
-    } if (upg.isIncremental == true) {
+    }
+    if (upg.isIncremental == true) {
         boughtCssIncrementals.push(upg.name);
     }
 
@@ -244,7 +255,7 @@ function buyCssUpg(upg, alreadyBought = false) {
 
     addUpgBought(upg, cssUpgradesBoughtBox);
     addNextShopItem(upgrades.cssUpgrades, shopCssDiv);
-    linesPerLineWritten();   
+    linesPerLineWritten();
     if (!alreadyBought) {
         saveGame();
     }
@@ -302,7 +313,6 @@ function buyDollarUpg(upg, alreadyBought = false) {
 
 function checkCssLines() {
     const numHtml = document.getElementById("number");
-    const selgeSideBtn = document.getElementById("btnSelgeSide");
     if (cssLines == 1) {
         numHtml.innerHTML = cssLines + " linje";
     } else {
@@ -310,10 +320,12 @@ function checkCssLines() {
     }
 
     if (cssLinesTotal >= 30) {
+        const selgeSideBtn = document.getElementById("selgeSide");
+
         selgeSideBtn.style.display = "block";
     }
     if (cssLinesTotalTotal >= 10000) {
-        const reincarnationBtn = document.getElementById("btnReinkarnasjon");
+        const reincarnationBtn = document.getElementById("reinkarnasjon");
 
         reincarnationBtn.style.display = "block";
     }
@@ -325,7 +337,7 @@ function addNextShopItem(upgObjects, shopDiv) {
     boughtDollarIncrementals.forEach((element) => {
         if (allDollaridoosUpgradesBought[allDollaridoosUpgradesBought.length - 1] == element && shopDiv == shopDollarDiv) {
             let upg = upgrades.upgLevelDollarUpgrades[element.replace(/\d+/g, "")];
-            
+
             upg.price *= upg.upgradeIncrement;
             upg.name = upg.name.replace(/\d+/g, "") + (parseInt(upg.name.match(/\d+/g)) + 1);
             upg.title = upg.title.replace(/\d+/g, "") + (parseInt(upg.title.match(/\d+/g)) + 1);
@@ -376,10 +388,14 @@ function addNextShopItem(upgObjects, shopDiv) {
 
 function addUpgBought(upg, type) {
     let html = document.createElement("div");
+    let borderRadiusValue = upg.name.match(/\d+/g);
 
     html.innerHTML = `
-        <div class="upgradesBoughtItem infoBox" id="${upg.name}UpgradesBought"><p>${upg.title}<span class="tooltip">${upg.toolTip}<br /></span></p></div>
+        <div class="upgradesBoughtItem infoBox"><p>${upg.title}<span class="tooltip">${upg.toolTip}<br /></span></p></div>
     `;
+
+    html.id = `${upg.name}UpgradesBought`;
+
     if (upg.type == "multiplier") {
         html.querySelector(".tooltip").innerHTML += `Legger til ${upg.amount} i multiplier til mengden linjer du får når du skriver`;
     } else if (upg.type == "auto") {
@@ -392,24 +408,41 @@ function addUpgBought(upg, type) {
     }
 
     if (upg.isIncremental == true) {
+        if (upg.name.replace(/\d+/g, "") == "border-radius") {
+            let html2 = `
+                <div class="slidecontainer">
+                    <input type="range" min="0" max="${upg.name.match(/\d+/g)}" value="${upg.name.match(/\d+/g)}" class="slider" id="borderRadiusSlider">
+                </div>
+            `;
+
+            html.innerHTML += html2;
+            let allBorderRadius = ["cssTyper", "shop", "upgradesBought", "selgeSide", "reinkarnasjon"];
+            allBorderRadius.forEach((element) => {
+                let currentElement = document.getElementById(element);
+                let borderRadius = upg.name.match(/\d+/g);
+                currentElement.style.borderRadius = borderRadius + "px";
+            });
+
+            if (document.getElementById("borderRadiusSlider") != null) {
+                let borderRadius = document.getElementById("borderRadiusSlider");
+
+                borderRadiusValue = borderRadius.value;
+            }
+        }
+
         let nameToRemove = upg.name.replace(/\d+/g, "") + (parseInt(upg.name.match(/\d+/g)) - 1);
         if (document.getElementById(`${nameToRemove}UpgradesBought`) != null) {
             document.getElementById(`${nameToRemove}UpgradesBought`).remove();
             let upgHtml = document.getElementsByTagName("body")[0];
             upgHtml.classList.remove(nameToRemove);
         }
-
-        if (upg.name.replace(/\d+/g, "") == "border-radius") {
-            let allBorderRadius = ["cssTyper", "shop", "upgradesBought", "selgeSide", "reinkarnasjon"];
-            allBorderRadius.forEach(element => {
-                let currentElement = document.getElementById(element);
-
-                currentElement.style.borderRadius = 
-            });
-        }
     }
 
     type.appendChild(html);
+
+    if (upg.name.replace(/\d+/g, "") == "border-radius") {
+        borderRadius(borderRadiusValue);
+    }
 
     if (allCssUpgradesBought.length <= 1 && allDollaridoosUpgradesBought.length <= 1) {
         const upgradesBoughtBox = document.getElementById("upgradesBought");
@@ -433,11 +466,25 @@ function addUpgBought(upg, type) {
     }
 }
 
+function borderRadius() {
+    const borderRadiusSlider = document.getElementById("borderRadiusSlider");
+
+    borderRadiusSlider.oninput = function () {
+        let allBorderRadius = ["cssTyper", "shop", "upgradesBought", "selgeSide", "reinkarnasjon"];
+        localStorage.setItem("borderRadiusValue", this.value);
+        allBorderRadius.forEach((element) => {
+            let currentElement = document.getElementById(element);
+            let borderRadius = this.value;
+            currentElement.style.borderRadius = borderRadius + "px";
+        });
+    };
+}
+
 function selgeSide(onOpen = false) {
     if (cssLines >= 50 || onOpen == true) {
         const dollaridoosHtml = document.getElementById("dollaridoos");
         const rightOrNot = document.getElementById("rightOrNot");
-        const selgeSideBtn = document.getElementById("btnSelgeSide");
+        const selgeSideBtn = document.getElementById("selgeSide");
         const cssShopText = document.getElementById("shopCssText");
         const dollarShopText = document.getElementById("shopDollarText");
         const upgradesBoughtCssText = document.getElementById("upgradesBoughtCssText");
@@ -526,7 +573,7 @@ function reincarnation() {
         localStorage.setItem("reincarnationPointsTotal", parseInt(localStorage.getItem("reincarnationPointsTotal")) + Math.floor(cssLinesTotalTotal / 10000));
 
         saveGame();
-        localStorage.setItem("dollarUnlocked", false)
+        localStorage.setItem("dollarUnlocked", false);
 
         window.location.replace("reinkarnasjon.html");
     }

@@ -1,4 +1,4 @@
-document.getElementById("btnSelgeSide").addEventListener("click", () => {
+document.getElementById("selgeSide").addEventListener("click", () => {
     open({
         title: "Selge siden?",
         message:
@@ -14,7 +14,10 @@ document.getElementById("btnSelgeSide").addEventListener("click", () => {
 document.getElementById("btnReinkarnasjon").addEventListener("click", () => {
     open({
         title: "Reinkarnere?",
-        message: "ingenting skjedde i Tiananmen Square den fjerde juni 1989. + " + Math.floor(cssLinesTotalTotal / 10000) + "Reinkarnasjons-poeng. Du får permanent 10% mer linjer per Reinkarnasjons-poeng.",
+        message:
+            "ingenting skjedde i Tiananmen Square den fjerde juni 1989. + " +
+            Math.floor(cssLinesTotalTotal / 10000) +
+            " Reinkarnasjons-poeng. Du får permanent 10% mer linjer per Reinkarnasjons-poeng.",
         message2: "Noter: -10000 social credits.",
         onOk: () => {
             reincarnation();
