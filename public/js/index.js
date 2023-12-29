@@ -489,48 +489,46 @@ function settings() {
     chosenUpg = "";
 
     let html = `
-    <div class="choose">
-        <div class="chooseWindow">
-            <div class="chooseTitlebar">
-                <p class="chooseTitle">settings</p>
-                <div class="chooseClose"><p>&times;</p></div>
+    <div class="settingsDiv">
+        <div class="settingsWindow">
+            <div class="settingsTitlebar">
+                <p class="settingsTitle">settings</p>
+                <div class="settingsClose"><p>&times;</p></div>
             </div>
-            <div class="chooseContent"></div>
-            <div class="chooseButtons">
-                <div class="chooseButton chooseButtonYe"><p>Ok</p></div>
-                <div class="chooseButton chooseButtonNo"><p>Avbryt</p></div>
+            <div class="settingsContent"></div>
+            <div class="settingsButtons">
+                <div class="settingsButton settingsButtonYe"><p>Ok</p></div>
+                <div class="settingsButton settingsButtonNo"><p>Avbryt</p></div>
             </div>
         </div>
     </div>`;
 
     settingsItems.forEach((element) => {
-        let indexPos = html.search(`<div class="chooseContent">`);
-        html = html.substring(0, indexPos) + `<div class="${element}">${element}</div>` + html.substring(indexPos, html.length);
+        let indexPos = html.search(`<div class="settingsContent">`);
+        html = html.substring(0, indexPos + 29) + `<div class="${element}" id="${element}setting">${element}</div>` + html.substring(indexPos + 29, html.length);
     });
 
     let template = document.createElement("template");
     template.innerHTML = html;
 
-    document.body.appendChild(template);
+    document.body.appendChild(template.content);
 
-    const confirmEl = document.querySelector(".choose");
-    const btnClose = document.querySelector(".chooseClose");
-    const btnOk = document.querySelector(".chooseButtonYe");
-    const btnCancel = document.querySelector(".chooseButtonNo");
-
-    console.log(confirmEl);
+    const confirmEl = document.querySelector(".settingsDiv");
+    const btnClose = document.querySelector(".settingsClose");
+    const btnOk = document.querySelector(".settingsButtonYe");
+    const btnCancel = document.querySelector(".settingsButtonNo");
 
     confirmEl.addEventListener("click", (e) => {
         if (e.target === confirmEl) {
-            if (chosenUpg == "Reset spillet") {
-                localStorage.clear();
-                location.reload();
-            }
             close(confirmEl);
         }
     });
 
     btnOk.addEventListener("click", () => {
+        if (chosenUpg == "Reset spillet") {
+            localStorage.clear();
+            location.reload();
+        }
         close(confirmEl);
     });
 
@@ -541,13 +539,14 @@ function settings() {
     });
 
     document.addEventListener("click", (e) => {
-        if (e.target.id.includes("upgBought")) {
+        if (e.target.id.includes("setting")) { 
             settingsItems.forEach((element) => {
                 if (e.target.id.includes(element)) {
-                    document.getElementById("upgBought" + element).style.backgroundColor = "gray";
+                    document.getElementById(element + "setting").style.backgroundColor = "gray";
                     chosenUpg = element;
+                    console.log(chosenUpg == "Reset spillet");
                 } else {
-                    document.getElementById(element).style.backgroundColor = "white";
+                    document.getElementById(element + "setting").style.backgroundColor = "white";
                 }
             });
         }
