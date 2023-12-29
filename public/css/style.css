@@ -26,8 +26,22 @@
 .shopItem,
 .shopDollarItem,
 .selgeSide,
-.reinkarnasjon {
+.reinkarnasjon,
+.settings {
     cursor: pointer;
+}
+
+.settings {
+    position: absolute;
+    top: 20px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+}
+
+.settingsImg {
+    height: 40px;
 }
 
 /* Skru av display på ting som ikke er unlocka */
@@ -40,9 +54,9 @@
 .shopDollarText,
 .shopLevelDollarText,
 .dollaridoosBox,
-.timer,
-.selgeSide,
-.reinkarnasjon {
+.timer
+/*, .selgeSide,
+.reinkarnasjon  */ {
     display: none;
 }
 

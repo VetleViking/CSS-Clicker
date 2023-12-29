@@ -101,6 +101,13 @@
             "toolTip": "Adder et grid-system.",
             "price": 0,
             "amount": 10
+        },
+        "hover-effects": {
+            "name": "hover-effects",
+            "title": "Hoover-effekter",
+            "toolTip": "Legger til hover-effekter på knapper og sånt.",
+            "price": 0,
+            "amount": 15
         }
     }, 
     "upgLevelCssUpgrades": {

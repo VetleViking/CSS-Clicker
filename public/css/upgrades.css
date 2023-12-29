@@ -38,7 +38,8 @@
     }
 
     .selgeSide,
-    .reinkarnasjon {
+    .reinkarnasjon,
+    .settings {
         background-color: #b9b9b9;
     }
 }
@@ -416,5 +417,20 @@
     }
     .cssTyper {
         min-width: 207px;
+    }
+}
+
+.hover-effects {
+    .settingsImg {
+        transition: 0.25s;
+    }
+    .settingsImg:hover {
+        transform: rotate(360deg);
+    }
+    .settings:hover,
+    .selgeSide:hover,
+    .reinkarnasjon:hover {
+        transition: 0.25s;
+        background-color: #8a8a8a;
     }
 }

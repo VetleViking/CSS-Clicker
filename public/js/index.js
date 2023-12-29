@@ -19,8 +19,8 @@ const shopDollarDiv = document.getElementById("shopDollarDiv");
 const shopCssDiv = document.getElementById("shopCssDiv");
 
 async function fetchUpgrades() {
-    const response = await fetch("../upgrades.json");
-    //const response = await fetch("../upgrades2.json");
+    //const response = await fetch("../upgrades.json");
+    const response = await fetch("../upgrades2.json");
     upgrades = await response.json();
 }
 
@@ -94,6 +94,10 @@ function onOpen() {
             currentElement.style.borderRadius = localStorage.getItem("borderRadiusValue") + "px";
         });
     }
+
+    document.getElementById("settings").addEventListener("click", () => {
+        settings();
+    });
 }
 
 function setupLevelCssUpgrades() {
@@ -480,8 +484,83 @@ function borderRadius() {
     };
 }
 
+function settings() {
+    settingsItems = ["Reset spillet"];
+    chosenUpg = "";
+
+    let html = `
+    <div class="choose">
+        <div class="chooseWindow">
+            <div class="chooseTitlebar">
+                <p class="chooseTitle">settings</p>
+                <div class="chooseClose"><p>&times;</p></div>
+            </div>
+            <div class="chooseContent"></div>
+            <div class="chooseButtons">
+                <div class="chooseButton chooseButtonYe"><p>Ok</p></div>
+                <div class="chooseButton chooseButtonNo"><p>Avbryt</p></div>
+            </div>
+        </div>
+    </div>`;
+
+    settingsItems.forEach((element) => {
+        let indexPos = html.search(`<div class="chooseContent">`);
+        html = html.substring(0, indexPos) + `<div class="${element}">${element}</div>` + html.substring(indexPos, html.length);
+    });
+
+    let template = document.createElement("template");
+    template.innerHTML = html;
+
+    document.body.appendChild(template);
+
+    const confirmEl = document.querySelector(".choose");
+    const btnClose = document.querySelector(".chooseClose");
+    const btnOk = document.querySelector(".chooseButtonYe");
+    const btnCancel = document.querySelector(".chooseButtonNo");
+
+    console.log(confirmEl);
+
+    confirmEl.addEventListener("click", (e) => {
+        if (e.target === confirmEl) {
+            if (chosenUpg == "Reset spillet") {
+                localStorage.clear();
+                location.reload();
+            }
+            close(confirmEl);
+        }
+    });
+
+    btnOk.addEventListener("click", () => {
+        close(confirmEl);
+    });
+
+    [btnCancel, btnClose].forEach((el) => {
+        el.addEventListener("click", () => {
+            close(confirmEl);
+        });
+    });
+
+    document.addEventListener("click", (e) => {
+        if (e.target.id.includes("upgBought")) {
+            settingsItems.forEach((element) => {
+                if (e.target.id.includes(element)) {
+                    document.getElementById("upgBought" + element).style.backgroundColor = "gray";
+                    chosenUpg = element;
+                } else {
+                    document.getElementById(element).style.backgroundColor = "white";
+                }
+            });
+        }
+    });
+
+    function close(confirmEl) {
+        confirmEl.classList.add("confirm--close");
+        document.body.removeChild(confirmEl);
+    }
+}
+
 function selgeSide(onOpen = false) {
-    if (cssLines >= 50 || onOpen == true) {
+    if (cssLines >= 0 || onOpen == true) {
         const dollaridoosHtml = document.getElementById("dollaridoos");
         const rightOrNot = document.getElementById("rightOrNot");
         const selgeSideBtn = document.getElementById("selgeSide");
@@ -542,19 +621,19 @@ function selgeSide(onOpen = false) {
             saveGame();
         }
 
-        selgeSideBtn.style.display = "none";
+        //selgeSideBtn.style.display = "none";
     }
 }
 
 function reincarnation() {
-    if (cssLinesTotalTotal >= 10000) {
+    if (cssLinesTotalTotal >= 0) {
         const cssShopText = document.getElementById("shopCssText");
         const dollarShopText = document.getElementById("shopDollarText");
         const dollaridoosUnlockedHtml = document.getElementsByClassName("dollaridoos");
 
         selgeSide();
         dollaridoos = 0;
-        cssLinesTotalTotal = 0;
+
         totalMultiplier = 1;
 
         allDollaridoosUpgradesBought = [];
@@ -571,10 +650,12 @@ function reincarnation() {
         }
         localStorage.setItem("reincarnationPoints", parseInt(localStorage.getItem("reincarnationPoints")) + Math.floor(cssLinesTotalTotal / 10000));
         localStorage.setItem("reincarnationPointsTotal", parseInt(localStorage.getItem("reincarnationPointsTotal")) + Math.floor(cssLinesTotalTotal / 10000));
+        cssLinesTotalTotal = 0;
 
-        saveGame();
         localStorage.setItem("dollarUnlocked", false);
 
+        saveGame();
+        console.log("reincarnation");
         window.location.replace("reinkarnasjon.html");
     }
 }
