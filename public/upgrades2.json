@@ -108,6 +108,13 @@
             "toolTip": "Legger til hover-effekter på knapper og sånt.",
             "price": 0,
             "amount": 15
+        }, 
+        "box-shadow": {
+            "name": "box-shadow",
+            "title": "Box-shadow",
+            "toolTip": "Legger til skygge bak bokser og knapper.",
+            "price": 0,
+            "amount": 20
         }
     }, 
     "upgLevelCssUpgrades": {

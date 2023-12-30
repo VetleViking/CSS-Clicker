@@ -26,29 +26,36 @@
             "name": "color",
             "title": "Farger",
             "toolTip": "Adder noen basic farger til knapper og bokser og sånne greier.",
-            "price": 50,
+            "price": 100,
             "amount": 2
         },
         "border": {
             "name": "border",
             "title": "Border",
             "toolTip": "Adder bordere til elementene så det er tydeligere skiller på ting.",
-            "price": 100,
+            "price": 250,
             "amount": 5
         },
         "grid": {
             "name": "grid",
             "title": "Grid",
             "toolTip": "Adder et grid-system.",
-            "price": 200,
+            "price": 500,
             "amount": 10
         },
         "hover-effects": {
             "name": "hover-effects",
             "title": "Hoover-effekter",
             "toolTip": "Legger til hover-effekter på knapper og sånt.",
-            "price": 500,
+            "price": 1000,
             "amount": 15
+        }, 
+        "box-shadow": {
+            "name": "box-shadow",
+            "title": "Box-shadow",
+            "toolTip": "Legger til skygge bak bokser og knapper.",
+            "price": 2000,
+            "amount": 20
         }
     }, 
     "dollarUpgrades":
