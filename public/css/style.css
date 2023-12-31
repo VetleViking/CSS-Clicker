@@ -87,6 +87,10 @@
     border: 1px solid rgb(0, 0, 0);
 }
 
+.infoBox2:hover span {
+    left: -5rem;
+}
+
 /* confirmation vindu */
 
 .confirm {

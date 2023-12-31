@@ -395,7 +395,7 @@ function addUpgBought(upg, type) {
     let borderRadiusValue = upg.name.match(/\d+/g);
 
     html.innerHTML = `
-        <div class="upgradesBoughtItem infoBox"><p>${upg.title}<span class="tooltip">${upg.toolTip}<br /></span></p></div>
+        <div class="upgradesBoughtItem infoBox infoBox2"><p>${upg.title}<span class="tooltip">${upg.toolTip}<br /></span></p></div>
     `;
 
     html.id = `${upg.name}UpgradesBought`;
