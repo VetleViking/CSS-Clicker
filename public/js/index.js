@@ -615,8 +615,15 @@ function selgeSide(onOpen = false) {
         setupCssUpgrades();
         setupLevelCssUpgrades();
         linesPerLineWritten();
+        
 
         if (onOpen == false) {
+            let allBorderRadius = ["cssTyper", "shop", "upgradesBought", "selgeSide", "reinkarnasjon"];
+            allBorderRadius.forEach((element) => {
+                let currentElement = document.getElementById(element);
+                currentElement.style.borderRadius = "0px";
+            });
+
             saveGame();
         }
 

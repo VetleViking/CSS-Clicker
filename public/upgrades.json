@@ -56,6 +56,13 @@
             "toolTip": "Legger til skygge bak bokser og knapper.",
             "price": 2000,
             "amount": 20
+        },
+        "fonts": {
+            "name": "fonts",
+            "title": "Fonts",
+            "toolTip": "Legger til noen fancy fonts.",
+            "price": 5000,
+            "amount": 25
         }
     }, 
     "dollarUpgrades":
