@@ -20,22 +20,38 @@ async function fetchUpgrades() {
     upgrades = await response.json();
 }
 
-//Example upgrade tree item
+//Upgrade tree items
 setupUpgTree({
     title: "testUpg0",
     name: "testUpg0",
-    direction: "Y",
-    infoBoxContent: "Dette er en test.",
+    direction: "-Y",
+    infoBoxContent: "Dette er en test 0.",
     previousUpg: "firstUpg",
 });
 
-//example upgrade object
+setupUpgTree({
+    title: "Permanent oppgradering",
+    name: "permUpg1",
+    direction: "Y",
+    infoBoxContent: "Du kan velge en oppgradering å ha permanent.",
+    previousUpg: "firstUpg",
+});
+
+setupUpgTree({
+    title: "Linje-oppgradring 2",
+    name: "lijeOpg2",
+    direction: "X",
+    infoBoxContent: "Gir deg 30% mer linjer.",
+    previousUpg: "firstUpg",
+});
+
+//Upgrade objects
 
 upgObjects["testUpg0"] = {
     name: "testUpg0",
     previousUpg: "firstUpg",
-    price: 5,
-    function: permUpg,
+    price: 0,
+    function: test,
 };
 
 upgObjects["firstUpg"] = {
@@ -44,6 +60,22 @@ upgObjects["firstUpg"] = {
     price: 1,
     function: firstUpg,
 };
+
+upgObjects["permUpg1"] = {
+    name: "permUpg1",
+    previousUpg: "firstUpg",
+    price: 5,
+    function: permUpg,
+};
+
+upgObjects["lijeOpg2"] = {
+    name: "lijeOpg2",
+    previousUpg: "firstUpg",
+    price: 5,
+    function: cssLinesMultiplier,
+};
+
+//TODO: fix different amounts of multiplier things
 
 //Unit tests
 
@@ -250,7 +282,7 @@ function test(upg) {
     kjøpeReincarnationUpg2(upg.name);
 }
 
-function firstUpg(upg) {
+function cssLinesMultiplier (upg) {
     if (localStorage.getItem(upg.name) == "bought") {
         return;
     }

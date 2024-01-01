@@ -95,6 +95,8 @@ function onOpen() {
         });
     }
 
+    linesPerLineWritten();
+
     document.getElementById("settings").addEventListener("click", () => {
         settings();
     });
@@ -337,30 +339,28 @@ function checkCssLines() {
 
 function addNextShopItem(upgObjects, shopDiv) {
     let shouldReturn = false;
+    const combinedBoughtArray = [...boughtDollarIncrementals, ...boughtCssIncrementals];
+    
+    combinedBoughtArray.forEach((element) => {
+        if ((allDollaridoosUpgradesBought[allDollaridoosUpgradesBought.length - 1] == element && shopDiv == shopDollarDiv) || (allCssUpgradesBought[allCssUpgradesBought.length - 1] == element && shopDiv == shopCssDiv)) {
+            let upg;
 
-    boughtDollarIncrementals.forEach((element) => {
-        if (allDollaridoosUpgradesBought[allDollaridoosUpgradesBought.length - 1] == element && shopDiv == shopDollarDiv) {
-            let upg = upgrades.upgLevelDollarUpgrades[element.replace(/\d+/g, "")];
-
-            upg.price *= upg.upgradeIncrement;
-            upg.name = upg.name.replace(/\d+/g, "") + (parseInt(upg.name.match(/\d+/g)) + 1);
-            upg.title = upg.title.replace(/\d+/g, "") + (parseInt(upg.title.match(/\d+/g)) + 1);
-
-            addDollarUpgrade(upg);
-            shouldReturn = true;
-            return;
-        }
-    });
-
-    boughtCssIncrementals.forEach((element) => {
-        if (allCssUpgradesBought[allCssUpgradesBought.length - 1] == element && shopDiv == shopCssDiv) {
-            let upg = upgrades.upgLevelCssUpgrades[element.replace(/\d+/g, "")];
+            if (shopDiv == shopDollarDiv) {
+                upg = upgrades.upgLevelDollarUpgrades[element.replace(/\d+/g, "")];
+            } else if (shopDiv == shopCssDiv) {
+                upg = upgrades.upgLevelCssUpgrades[element.replace(/\d+/g, "")];
+            }
 
             upg.price *= upg.upgradeIncrement;
             upg.name = upg.name.replace(/\d+/g, "") + (parseInt(upg.name.match(/\d+/g)) + 1);
             upg.title = upg.title.replace(/\d+/g, "") + (parseInt(upg.title.match(/\d+/g)) + 1);
 
-            addCssUpgrade(upg);
+            if (shopDiv == shopDollarDiv) {
+                addDollarUpgrade(upg);
+            } else if (shopDiv == shopCssDiv) {
+                addCssUpgrade(upg);
+            }
+
             shouldReturn = true;
             return;
         }
@@ -627,6 +627,7 @@ function selgeSide(onOpen = false) {
             saveGame();
         }
 
+        console.log("selgeSide");
         //selgeSideBtn.style.display = "none";
     }
 }
@@ -658,10 +659,10 @@ function reincarnation() {
         localStorage.setItem("reincarnationPointsTotal", parseInt(localStorage.getItem("reincarnationPointsTotal")) + Math.floor(cssLinesTotalTotal / 10000));
         cssLinesTotalTotal = 0;
 
-        localStorage.setItem("dollarUnlocked", false);
+        dollarUnlocked = false;
 
         saveGame();
-        console.log("reincarnation");
+
         window.location.replace("reinkarnasjon.html");
     }
 }
