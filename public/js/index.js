@@ -248,7 +248,7 @@ function buyCssUpg(upg, alreadyBought = false) {
     let isAllCSSBought = localStorage.getItem("allCssUpgradesBought") == null;
 
     if (isAllCSSBought || !localStorage.getItem("allCssUpgradesBought").includes(upg.name)) {
-        localStorage.setItem("allCssUpgradesBought", allCssUpgradesBought);
+        localStorage.setItem("allCssUpgradesBought", (localStorage.getItem("allCssUpgradesBought") == null ? "" : (localStorage.getItem("allCssUpgradesBought") + ",")) + upg.name);
     }
     if (upg.isIncremental == true) {
         boughtCssIncrementals.push(upg.name);
