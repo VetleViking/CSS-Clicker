@@ -101,6 +101,27 @@
             "toolTip": "Adder et grid-system.",
             "price": 0,
             "amount": 10
+        },
+        "hover-effects": {
+            "name": "hover-effects",
+            "title": "Hoover-effekter",
+            "toolTip": "Legger til hover-effekter på knapper og sånt.",
+            "price": 0,
+            "amount": 15
+        }, 
+        "box-shadow": {
+            "name": "box-shadow",
+            "title": "Box-shadow",
+            "toolTip": "Legger til skygge bak bokser og knapper.",
+            "price": 0,
+            "amount": 20
+        },
+        "fonts": {
+            "name": "fonts",
+            "title": "Fonts",
+            "toolTip": "Legger til noen fancy fonts.",
+            "price": 0,
+            "amount": 25
         }
     }, 
     "upgLevelCssUpgrades": {

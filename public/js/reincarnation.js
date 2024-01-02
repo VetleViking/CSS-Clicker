@@ -1,14 +1,14 @@
 let reincarnationPointsDiv = document.getElementById("reincarnationPoints");
 let occupiedUpgCoords = [[6, 6]];
 let allDirections = ["Y", "X", "-Y", "-X"];
-let allUpgradesPlaced = ["firstUpg"];
+let allUpgradesPlaced = ["linjeUpg1"];
 let gridColumn = 0;
 let gridRow = 0;
 let direction;
 let checkedDirections = [];
 let placements = {};
-placements["firstUpgX"] = "6";
-placements["firstUpgY"] = "6";
+placements["linjeUpg1X"] = "6";
+placements["linjeUpg1Y"] = "6";
 let upgObjects = {};
 let chosenUpg = "";
 
@@ -20,30 +20,66 @@ async function fetchUpgrades() {
     upgrades = await response.json();
 }
 
-//Example upgrade tree item
-setupUpgTree({
-    title: "testUpg0",
-    name: "testUpg0",
-    direction: "Y",
-    infoBoxContent: "Dette er en test.",
-    previousUpg: "firstUpg",
-});
 
-//example upgrade object
+
+//Upgrade objects
 
 upgObjects["testUpg0"] = {
     name: "testUpg0",
-    previousUpg: "firstUpg",
+    previousUpg: "linjeUpg1",
+    price: 0,
+    function: test,
+};
+
+upgObjects["linjeUpg1"] = {
+    name: "linjeUpg1",
+    previousUpg: "none",
+    price: 1,
+    amount: 0.5,
+    function: cssLinesMultiplier,
+};
+
+upgObjects["permUpg1"] = {
+    name: "permUpg1",
+    previousUpg: "linjeUpg1",
     price: 5,
     function: permUpg,
 };
 
-upgObjects["firstUpg"] = {
-    name: "firstUpg",
-    previousUpg: "none",
-    price: 1,
-    function: firstUpg,
+upgObjects["linjeUpg2"] = {
+    name: "linjeUpg2",
+    previousUpg: "linjeUpg1",
+    price: 10,
+    amount: 0.3,
+    function: cssLinesMultiplier,
 };
+
+console.log(upgObjects);
+
+//Upgrade tree items
+setupUpgTree({
+    title: "testUpg0",
+    name: "testUpg0",
+    direction: "-Y",
+    infoBoxContent: "Dette er en test 0.",
+    previousUpg: "linjeUpg1",
+});
+
+setupUpgTree({
+    title: "Permanent oppgradering",
+    name: "permUpg1",
+    direction: "Y",
+    infoBoxContent: "Du kan velge en oppgradering å ha permanent.",
+    previousUpg: "linjeUpg1",
+});
+
+setupUpgTree({
+    title: "Linje-oppgradring 2",
+    name: "linjeUpg2",
+    direction: "X",
+    infoBoxContent: "Gir deg 30% mer linjer.",
+    previousUpg: "linjeUpg1",
+});
 
 //Unit tests
 
@@ -53,6 +89,13 @@ unitTestSnake();
 function unitTestBranches() {
     for (let i = 1; i <= 100; i++) {
         let previousUpg = allUpgradesPlaced[Math.floor(Math.random() * allUpgradesPlaced.length)];
+        upgObjects["testUpg" + i] = {
+            name: "testUpg" + i,
+            previousUpg: previousUpg,
+            price: 0,
+            function: test,
+        };
+
         setupUpgTree({
             title: `testUpg${i}`,
             name: `testUpg${i}`,
@@ -60,17 +103,17 @@ function unitTestBranches() {
             infoBoxContent: `Dette er en test ${i}.`,
             previousUpg: previousUpg,
         });
-
-        upgObjects["testUpg" + i] = {
-            name: "testUpg" + i,
-            previousUpg: previousUpg,
-            price: 0,
-            function: test,
-        };
     }
 }
 function unitTestSnake() {
-    for (let i = 1; i <= 23; i++) {
+    for (let i = 1; i <= 23; i++) {        
+        upgObjects["testUpg" + i] = {
+            name: "testUpg" + i,
+            previousUpg: "testUpg" + (i - 1),
+            price: 0,
+            function: test,
+        };
+
         setupUpgTree({
             title: `testUpg${i}`,
             name: `testUpg${i}`,
@@ -79,13 +122,6 @@ function unitTestSnake() {
             infoBoxContent: `Dette er en test ${i}.`,
             previousUpg: "testUpg" + (i - 1),
         });
-
-        upgObjects["testUpg" + i] = {
-            name: "testUpg" + i,
-            previousUpg: "testUpg" + (i - 1),
-            price: 0,
-            function: test,
-        };
     }
 }
 //End unit tests
@@ -121,11 +157,16 @@ function setupUpgTree(options) {
 
     let upgPlacement = "grid-column: " + gridColumn + "; grid-row: " + gridRow + ";";
 
+    let upg = upgObjects[options.name];
+
+    console.log(upgObjects)
+    console.log(upg)
+
     let upgTree = document.getElementById("upgTree");
     let upgTreeHTML = `
         <div class="upgTreeBox infoBox" Id="${options.name}" onclick="kjøpeReincarnationUpg('${options.name}')" style="${upgPlacement}">           
             <p>
-                ${options.title}<span class="tooltip">${options.infoBoxContent}</span>
+                ${options.title}<span class="tooltip">${options.infoBoxContent}</br>${upg.price} reinkarnasjons-poeng.</span>
             </p>     
         </div>  
     `;
@@ -247,10 +288,14 @@ function kjøpeReincarnationUpg2(upg) {
 }
 
 function test(upg) {
+    if (localStorage.getItem(upg.name) == "bought") {
+        return;
+    }
+
     kjøpeReincarnationUpg2(upg.name);
 }
 
-function firstUpg(upg) {
+function cssLinesMultiplier (upg) {
     if (localStorage.getItem(upg.name) == "bought") {
         return;
     }
@@ -258,13 +303,18 @@ function firstUpg(upg) {
     if (localStorage.getItem("totalReincarnationMultiplier") == undefined) {
         localStorage.setItem("totalReincarnationMultiplier", 0);
     }
-    localStorage.setItem("totalReincarnationMultiplier", parseFloat(localStorage.getItem("totalReincarnationMultiplier")) + 0.5);
+    localStorage.setItem("totalReincarnationMultiplier", parseFloat(localStorage.getItem("totalReincarnationMultiplier")) + upg.amount);
     kjøpeReincarnationUpg2(upg.name);
 }
 
 function permUpg(upg) {
     let cssUpgradesBought = localStorage.getItem("allCssUpgradesBought");
-    cssUpgradesBought = cssUpgradesBought.split(",");
+    try {
+        cssUpgradesBought = cssUpgradesBought.split(",");
+    } catch (error) {
+        console.log("Burde ikke skje uten juksing eller bruk av dev-branchen, slutt å jukse / snoke rundt.");
+        return;
+    }
 
     let cssUpgradesBoughtOld = cssUpgradesBought;
 

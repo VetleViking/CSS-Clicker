@@ -94,6 +94,12 @@ function onOpen() {
             currentElement.style.borderRadius = localStorage.getItem("borderRadiusValue") + "px";
         });
     }
+
+    linesPerLineWritten();
+
+    document.getElementById("settings").addEventListener("click", () => {
+        settings();
+    });
 }
 
 function setupLevelCssUpgrades() {
@@ -242,7 +248,7 @@ function buyCssUpg(upg, alreadyBought = false) {
     let isAllCSSBought = localStorage.getItem("allCssUpgradesBought") == null;
 
     if (isAllCSSBought || !localStorage.getItem("allCssUpgradesBought").includes(upg.name)) {
-        localStorage.setItem("allCssUpgradesBought", allCssUpgradesBought);
+        localStorage.setItem("allCssUpgradesBought", (localStorage.getItem("allCssUpgradesBought") == null ? "" : (localStorage.getItem("allCssUpgradesBought") + ",")) + upg.name);
     }
     if (upg.isIncremental == true) {
         boughtCssIncrementals.push(upg.name);
@@ -333,30 +339,28 @@ function checkCssLines() {
 
 function addNextShopItem(upgObjects, shopDiv) {
     let shouldReturn = false;
+    const combinedBoughtArray = [...boughtDollarIncrementals, ...boughtCssIncrementals];
+    
+    combinedBoughtArray.forEach((element) => {
+        if ((allDollaridoosUpgradesBought[allDollaridoosUpgradesBought.length - 1] == element && shopDiv == shopDollarDiv) || (allCssUpgradesBought[allCssUpgradesBought.length - 1] == element && shopDiv == shopCssDiv)) {
+            let upg;
 
-    boughtDollarIncrementals.forEach((element) => {
-        if (allDollaridoosUpgradesBought[allDollaridoosUpgradesBought.length - 1] == element && shopDiv == shopDollarDiv) {
-            let upg = upgrades.upgLevelDollarUpgrades[element.replace(/\d+/g, "")];
-
-            upg.price *= upg.upgradeIncrement;
-            upg.name = upg.name.replace(/\d+/g, "") + (parseInt(upg.name.match(/\d+/g)) + 1);
-            upg.title = upg.title.replace(/\d+/g, "") + (parseInt(upg.title.match(/\d+/g)) + 1);
-
-            addDollarUpgrade(upg);
-            shouldReturn = true;
-            return;
-        }
-    });
-
-    boughtCssIncrementals.forEach((element) => {
-        if (allCssUpgradesBought[allCssUpgradesBought.length - 1] == element && shopDiv == shopCssDiv) {
-            let upg = upgrades.upgLevelCssUpgrades[element.replace(/\d+/g, "")];
+            if (shopDiv == shopDollarDiv) {
+                upg = upgrades.upgLevelDollarUpgrades[element.replace(/\d+/g, "")];
+            } else if (shopDiv == shopCssDiv) {
+                upg = upgrades.upgLevelCssUpgrades[element.replace(/\d+/g, "")];
+            }
 
             upg.price *= upg.upgradeIncrement;
             upg.name = upg.name.replace(/\d+/g, "") + (parseInt(upg.name.match(/\d+/g)) + 1);
             upg.title = upg.title.replace(/\d+/g, "") + (parseInt(upg.title.match(/\d+/g)) + 1);
 
-            addCssUpgrade(upg);
+            if (shopDiv == shopDollarDiv) {
+                addDollarUpgrade(upg);
+            } else if (shopDiv == shopCssDiv) {
+                addCssUpgrade(upg);
+            }
+
             shouldReturn = true;
             return;
         }
@@ -391,7 +395,7 @@ function addUpgBought(upg, type) {
     let borderRadiusValue = upg.name.match(/\d+/g);
 
     html.innerHTML = `
-        <div class="upgradesBoughtItem infoBox"><p>${upg.title}<span class="tooltip">${upg.toolTip}<br /></span></p></div>
+        <div class="upgradesBoughtItem infoBox infoBox2"><p>${upg.title}<span class="tooltip">${upg.toolTip}<br /></span></p></div>
     `;
 
     html.id = `${upg.name}UpgradesBought`;
@@ -480,6 +484,80 @@ function borderRadius() {
     };
 }
 
+function settings() {
+    settingsItems = ["Reset spillet"];
+    chosenUpg = "";
+
+    let html = `
+    <div class="settingsDiv">
+        <div class="settingsWindow">
+            <div class="settingsTitlebar">
+                <p class="settingsTitle">settings</p>
+                <div class="settingsClose"><p>&times;</p></div>
+            </div>
+            <div class="settingsContent"></div>
+            <div class="settingsButtons">
+                <div class="settingsButton settingsButtonYe"><p>Ok</p></div>
+                <div class="settingsButton settingsButtonNo"><p>Avbryt</p></div>
+            </div>
+        </div>
+    </div>`;
+
+    settingsItems.forEach((element) => {
+        let indexPos = html.search(`<div class="settingsContent">`);
+        html = html.substring(0, indexPos + 29) + `<div class="${element}" id="${element}setting">${element}</div>` + html.substring(indexPos + 29, html.length);
+    });
+
+    let template = document.createElement("template");
+    template.innerHTML = html;
+
+    document.body.appendChild(template.content);
+
+    const confirmEl = document.querySelector(".settingsDiv");
+    const btnClose = document.querySelector(".settingsClose");
+    const btnOk = document.querySelector(".settingsButtonYe");
+    const btnCancel = document.querySelector(".settingsButtonNo");
+
+    confirmEl.addEventListener("click", (e) => {
+        if (e.target === confirmEl) {
+            close(confirmEl);
+        }
+    });
+
+    btnOk.addEventListener("click", () => {
+        if (chosenUpg == "Reset spillet") {
+            localStorage.clear();
+            location.reload();
+        }
+        close(confirmEl);
+    });
+
+    [btnCancel, btnClose].forEach((el) => {
+        el.addEventListener("click", () => {
+            close(confirmEl);
+        });
+    });
+
+    document.addEventListener("click", (e) => {
+        if (e.target.id.includes("setting")) { 
+            settingsItems.forEach((element) => {
+                if (e.target.id.includes(element)) {
+                    document.getElementById(element + "setting").style.backgroundColor = "gray";
+                    chosenUpg = element;
+                    console.log(chosenUpg == "Reset spillet");
+                } else {
+                    document.getElementById(element + "setting").style.backgroundColor = "white";
+                }
+            });
+        }
+    });
+
+    function close(confirmEl) {
+        confirmEl.classList.add("confirm--close");
+        document.body.removeChild(confirmEl);
+    }
+}
+
 function selgeSide(onOpen = false) {
     if (cssLines >= 50 || onOpen == true) {
         const dollaridoosHtml = document.getElementById("dollaridoos");
@@ -537,11 +615,19 @@ function selgeSide(onOpen = false) {
         setupCssUpgrades();
         setupLevelCssUpgrades();
         linesPerLineWritten();
+        
 
         if (onOpen == false) {
+            let allBorderRadius = ["cssTyper", "shop", "upgradesBought", "selgeSide", "reinkarnasjon"];
+            allBorderRadius.forEach((element) => {
+                let currentElement = document.getElementById(element);
+                currentElement.style.borderRadius = "0px";
+            });
+
             saveGame();
         }
 
+        console.log("selgeSide");
         selgeSideBtn.style.display = "none";
     }
 }
@@ -554,7 +640,7 @@ function reincarnation() {
 
         selgeSide();
         dollaridoos = 0;
-        cssLinesTotalTotal = 0;
+
         totalMultiplier = 1;
 
         allDollaridoosUpgradesBought = [];
@@ -571,9 +657,11 @@ function reincarnation() {
         }
         localStorage.setItem("reincarnationPoints", parseInt(localStorage.getItem("reincarnationPoints")) + Math.floor(cssLinesTotalTotal / 10000));
         localStorage.setItem("reincarnationPointsTotal", parseInt(localStorage.getItem("reincarnationPointsTotal")) + Math.floor(cssLinesTotalTotal / 10000));
+        cssLinesTotalTotal = 0;
+
+        dollarUnlocked = false;
 
         saveGame();
-        localStorage.setItem("dollarUnlocked", false);
 
         window.location.replace("reinkarnasjon.html");
     }
