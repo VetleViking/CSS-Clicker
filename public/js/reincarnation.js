@@ -49,7 +49,7 @@ upgObjects["permUpg1"] = {
 upgObjects["linjeUpg2"] = {
     name: "linjeUpg2",
     previousUpg: "linjeUpg1",
-    price: 20,
+    price: 10,
     amount: 0.3,
     function: cssLinesMultiplier,
 };
