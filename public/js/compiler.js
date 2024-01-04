@@ -4,7 +4,6 @@ const js_code = document.querySelector('.js-code textarea');
 const result = document.querySelector('#result');
 
 function run() {
-
     result.contentDocument.body.innerHTML = `<style>${css_code.value}</style>` + html_code.value;
     result.contentWindow.eval(js_code.value);
 }
