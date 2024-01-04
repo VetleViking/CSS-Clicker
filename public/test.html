@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/test.css">
+</head>
+<body>
+    <section class="task">
+        <div>
+
+        </div>
+        <div class="timerTask">
+            <p>Tid igjen:</p>
+            <p id="timerTask">0</p>
+        </div>
+    </section>
+
+
+    <section class="code-section">
+        <div class="code-editor">
+            <div class="code">
+                <div class="html-code" >
+                    <textarea id="text-html"></textarea>
+                </div>
+                <div class="css-code">
+                    <textarea id="css-text"></textarea>
+                </div>
+                <div class="js-code">
+                    <textarea spellcheck="false" id="js-text"></textarea>
+                </div>
+            </div>
+            <iframe id="result"></iframe>
+        </div>
+    </section>
+    <script type="text/javascript" src="js/confirmWindow.js"></script>
+    <script type="text/javascript" src="js/confirmTest.js"></script>
+    <script type="text/javascript" src="js/test.js"></script>
+    <script type="text/javascript" src="js/compiler.js"></script>
+</body>
+</html>
