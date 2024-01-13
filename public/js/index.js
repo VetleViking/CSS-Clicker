@@ -19,8 +19,8 @@ const shopDollarDiv = document.getElementById("shopDollarDiv");
 const shopCssDiv = document.getElementById("shopCssDiv");
 
 async function fetchUpgrades() {
-    //const response = await fetch("../upgrades.json");
-    const response = await fetch("../upgrades2.json");
+    const response = await fetch("../upgrades.json");
+    //const response = await fetch("../upgrades2.json");
     upgrades = await response.json();
 }
 
@@ -564,7 +564,7 @@ function settings() {
 }
 
 function selgeSide(onOpen = false) {
-    if (cssLines >= 0 || onOpen == true) {
+    if (cssLines >= 50 || onOpen == true) {
         const dollaridoosHtml = document.getElementById("dollaridoos");
         const rightOrNot = document.getElementById("rightOrNot");
         const selgeSideBtn = document.getElementById("selgeSide");
@@ -640,7 +640,7 @@ function selgeSide(onOpen = false) {
 }
 
 function reincarnation() {
-    if (cssLinesTotalTotal >= 0) {
+    if (cssLinesTotalTotal >= 10000) {
         const cssShopText = document.getElementById("shopCssText");
         const dollarShopText = document.getElementById("shopDollarText");
         const dollaridoosUnlockedHtml = document.getElementsByClassName("dollaridoos");
