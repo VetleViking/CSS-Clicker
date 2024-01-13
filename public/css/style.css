@@ -56,7 +56,7 @@
 .dollaridoosBox,
 .timer, 
 .selgeSide,
-.reinkarnasjon {
+.reinkarnasjon { 
     display: none;
 }
 
@@ -149,6 +149,8 @@
     text-align: center;
     margin: 1px;
 }
+
+/* settings vindu */
 
 .settingsDiv {
     position: fixed;
