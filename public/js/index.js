@@ -80,9 +80,7 @@ function onOpen() {
         checkCssLines();
     }
 
-    if (localStorage.getItem("chosenUpg") != null && !allCssUpgradesBought.includes(localStorage.getItem("chosenUpg"))) {
-        buyCssUpg(upgrades.cssUpgrades[localStorage.getItem("chosenUpg")]);
-    }
+    chosenUpg();
 
     if (localStorage.getItem("borderRadiusValue") != null && document.getElementById("borderRadiusSlider") != null) {
         let borderRadius = document.getElementById("borderRadiusSlider");
@@ -100,6 +98,12 @@ function onOpen() {
     document.getElementById("settings").addEventListener("click", () => {
         settings();
     });
+}
+
+function chosenUpg() {
+    if (localStorage.getItem("chosenUpg") != null && !allCssUpgradesBought.includes(localStorage.getItem("chosenUpg"))) {
+        buyCssUpg(upgrades.cssUpgrades[localStorage.getItem("chosenUpg")], true);
+    }
 }
 
 function setupLevelCssUpgrades() {
@@ -320,9 +324,9 @@ function buyDollarUpg(upg, alreadyBought = false) {
 function checkCssLines() {
     const numHtml = document.getElementById("number");
     if (cssLines == 1) {
-        numHtml.innerHTML = cssLines + " linje";
+        numHtml.innerHTML = Math.floor(cssLines) + " linje";
     } else {
-        numHtml.innerHTML = cssLines + " linjer";
+        numHtml.innerHTML = Math.floor(cssLines) + " linjer";
     }
 
     if (cssLinesTotal >= 30) {
@@ -413,6 +417,7 @@ function addUpgBought(upg, type) {
 
     if (upg.isIncremental == true) {
         if (upg.name.replace(/\d+/g, "") == "border-radius") {
+            
             let html2 = `
                 <div class="slidecontainer">
                     <input type="range" min="0" max="${upg.name.match(/\d+/g)}" value="${upg.name.match(/\d+/g)}" class="slider" id="borderRadiusSlider">
@@ -425,6 +430,7 @@ function addUpgBought(upg, type) {
                 let currentElement = document.getElementById(element);
                 let borderRadius = upg.name.match(/\d+/g);
                 currentElement.style.borderRadius = borderRadius + "px";
+
             });
 
             if (document.getElementById("borderRadiusSlider") != null) {
@@ -544,7 +550,6 @@ function settings() {
                 if (e.target.id.includes(element)) {
                     document.getElementById(element + "setting").style.backgroundColor = "gray";
                     chosenUpg = element;
-                    console.log(chosenUpg == "Reset spillet");
                 } else {
                     document.getElementById(element + "setting").style.backgroundColor = "white";
                 }
@@ -625,10 +630,12 @@ function selgeSide(onOpen = false) {
             });
 
             saveGame();
+            chosenUpg();
         }
 
-        console.log("selgeSide");
         selgeSideBtn.style.display = "none";
+
+        
     }
 }
 
@@ -638,7 +645,7 @@ function reincarnation() {
         const dollarShopText = document.getElementById("shopDollarText");
         const dollaridoosUnlockedHtml = document.getElementsByClassName("dollaridoos");
 
-        selgeSide();
+        selgeSide(true);
         dollaridoos = 0;
 
         totalMultiplier = 1;

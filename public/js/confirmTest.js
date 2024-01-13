@@ -6,7 +6,7 @@ window.addEventListener("load", () => { open({
             startGame();
         },
         onCancel: () => {
-            window.location.replace("index.html");
+            startGame();
         },
     });
 });
