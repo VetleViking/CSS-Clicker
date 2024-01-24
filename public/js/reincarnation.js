@@ -15,12 +15,10 @@ let chosenUpg = "";
 window.addEventListener("load", () => reincarnateOpen());
 
 async function fetchUpgrades() {
-    //const response = await fetch("../upgrades.json")
-    const response = await fetch("../upgrades2.json");
+    const response = await fetch("../upgrades.json");
+    //const response = await fetch("../upgrades2.json");
     upgrades = await response.json();
 }
-
-
 
 //Upgrade objects
 
@@ -54,6 +52,13 @@ upgObjects["linjeUpg2"] = {
     function: cssLinesMultiplier,
 };
 
+upgObjects["minigame"] = {
+    name: "minigame",
+    previousUpg: "permUpg1",
+    price: 40,
+    function: game,
+};
+
 console.log(upgObjects);
 
 //Upgrade tree items
@@ -81,6 +86,14 @@ setupUpgTree({
     previousUpg: "linjeUpg1",
 });
 
+setupUpgTree({
+    title: "Minigame",
+    name: "minigame",
+    direction: "X",
+    infoBoxContent: "Gir deg tilgang til et minigame.",
+    previousUpg: "permUpg1",
+});
+
 //Unit tests
 
 //unitTestBranches();
@@ -106,7 +119,7 @@ function unitTestBranches() {
     }
 }
 function unitTestSnake() {
-    for (let i = 1; i <= 23; i++) {        
+    for (let i = 1; i <= 23; i++) {
         upgObjects["testUpg" + i] = {
             name: "testUpg" + i,
             previousUpg: "testUpg" + (i - 1),
@@ -159,8 +172,8 @@ function setupUpgTree(options) {
 
     let upg = upgObjects[options.name];
 
-    console.log(upgObjects)
-    console.log(upg)
+    console.log(upgObjects);
+    console.log(upg);
 
     let upgTree = document.getElementById("upgTree");
     let upgTreeHTML = `
@@ -295,7 +308,7 @@ function test(upg) {
     kjøpeReincarnationUpg2(upg.name);
 }
 
-function cssLinesMultiplier (upg) {
+function cssLinesMultiplier(upg) {
     if (localStorage.getItem(upg.name) == "bought") {
         return;
     }
@@ -417,6 +430,16 @@ function permUpg(upg) {
         confirmEl.classList.add("confirm--close");
         document.body.removeChild(confirmEl);
     }
+}
+
+function game(upg) {
+    if (localStorage.getItem("minigame") == "bought") {
+        return;
+    }
+
+    localStorage.setItem("minigame", "bought");
+
+    kjøpeReincarnationUpg2(upg.name);
 }
 
 fetchUpgrades();

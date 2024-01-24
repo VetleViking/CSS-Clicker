@@ -93,6 +93,16 @@ function onOpen() {
         });
     }
 
+    if (localStorage.getItem("minigame") == "bought") {
+        const minigame = document.getElementById("minigame");
+
+        minigame.style.display = "block";
+
+        minigame.addEventListener("click", () => {
+            window.location.replace("test.html");
+        });
+    }
+
     linesPerLineWritten();
 
     document.getElementById("settings").addEventListener("click", () => {
