@@ -15,8 +15,8 @@ let chosenUpg = "";
 window.addEventListener("load", () => reincarnateOpen());
 
 async function fetchUpgrades() {
-    //const response = await fetch("../upgrades.json")
-    const response = await fetch("../upgrades2.json");
+    const response = await fetch("../upgrades.json")
+    //const response = await fetch("../upgrades2.json");
     upgrades = await response.json();
 }
 
