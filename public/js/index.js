@@ -19,8 +19,8 @@ const shopDollarDiv = document.getElementById("shopDollarDiv");
 const shopCssDiv = document.getElementById("shopCssDiv");
 
 async function fetchUpgrades() {
-    const response = await fetch("../upgrades.json");
-    //const response = await fetch("../upgrades2.json");
+    //const response = await fetch("../upgrades.json");
+    const response = await fetch("../upgrades2.json");
     upgrades = await response.json();
 }
 
@@ -252,7 +252,7 @@ function buyCssUpg(upg, alreadyBought = false) {
     let isAllCSSBought = localStorage.getItem("allCssUpgradesBought") == null;
 
     if (isAllCSSBought || !localStorage.getItem("allCssUpgradesBought").includes(upg.name)) {
-        localStorage.setItem("allCssUpgradesBought", (localStorage.getItem("allCssUpgradesBought") == null ? "" : (localStorage.getItem("allCssUpgradesBought") + ",")) + upg.name);
+        localStorage.setItem("allCssUpgradesBought", (localStorage.getItem("allCssUpgradesBought") == null ? "" : localStorage.getItem("allCssUpgradesBought") + ",") + upg.name);
     }
     if (upg.isIncremental == true) {
         boughtCssIncrementals.push(upg.name);
@@ -344,9 +344,12 @@ function checkCssLines() {
 function addNextShopItem(upgObjects, shopDiv) {
     let shouldReturn = false;
     const combinedBoughtArray = [...boughtDollarIncrementals, ...boughtCssIncrementals];
-    
+
     combinedBoughtArray.forEach((element) => {
-        if ((allDollaridoosUpgradesBought[allDollaridoosUpgradesBought.length - 1] == element && shopDiv == shopDollarDiv) || (allCssUpgradesBought[allCssUpgradesBought.length - 1] == element && shopDiv == shopCssDiv)) {
+        if (
+            (allDollaridoosUpgradesBought[allDollaridoosUpgradesBought.length - 1] == element && shopDiv == shopDollarDiv) ||
+            (allCssUpgradesBought[allCssUpgradesBought.length - 1] == element && shopDiv == shopCssDiv)
+        ) {
             let upg;
 
             if (shopDiv == shopDollarDiv) {
@@ -417,7 +420,6 @@ function addUpgBought(upg, type) {
 
     if (upg.isIncremental == true) {
         if (upg.name.replace(/\d+/g, "") == "border-radius") {
-            
             let html2 = `
                 <div class="slidecontainer">
                     <input type="range" min="0" max="${upg.name.match(/\d+/g)}" value="${upg.name.match(/\d+/g)}" class="slider" id="borderRadiusSlider">
@@ -430,7 +432,6 @@ function addUpgBought(upg, type) {
                 let currentElement = document.getElementById(element);
                 let borderRadius = upg.name.match(/\d+/g);
                 currentElement.style.borderRadius = borderRadius + "px";
-
             });
 
             if (document.getElementById("borderRadiusSlider") != null) {
@@ -545,7 +546,7 @@ function settings() {
     });
 
     document.addEventListener("click", (e) => {
-        if (e.target.id.includes("setting")) { 
+        if (e.target.id.includes("setting")) {
             settingsItems.forEach((element) => {
                 if (e.target.id.includes(element)) {
                     document.getElementById(element + "setting").style.backgroundColor = "gray";
@@ -564,7 +565,7 @@ function settings() {
 }
 
 function selgeSide(onOpen = false) {
-    if (cssLines >= 50 || onOpen == true) {
+    if (cssLines >= 0 || onOpen == true) {
         const dollaridoosHtml = document.getElementById("dollaridoos");
         const rightOrNot = document.getElementById("rightOrNot");
         const selgeSideBtn = document.getElementById("selgeSide");
@@ -620,7 +621,6 @@ function selgeSide(onOpen = false) {
         setupCssUpgrades();
         setupLevelCssUpgrades();
         linesPerLineWritten();
-        
 
         if (onOpen == false) {
             let allBorderRadius = ["cssTyper", "shop", "upgradesBought", "selgeSide", "reinkarnasjon"];
@@ -633,14 +633,12 @@ function selgeSide(onOpen = false) {
             chosenUpg();
         }
 
-        selgeSideBtn.style.display = "none";
-
-        
+        //selgeSideBtn.style.display = "none";
     }
 }
 
 function reincarnation() {
-    if (cssLinesTotalTotal >= 10000) {
+    if (cssLinesTotalTotal >= 0) {
         const cssShopText = document.getElementById("shopCssText");
         const dollarShopText = document.getElementById("shopDollarText");
         const dollaridoosUnlockedHtml = document.getElementsByClassName("dollaridoos");
